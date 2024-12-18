@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
 author 'rainbow'
-description '...'
+description 'insurance cars'
 version '0.0.1'
 
 shared_scripts {
