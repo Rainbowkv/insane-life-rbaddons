@@ -1,0 +1,70 @@
+function QBCore.Functions.CreateUseableItem(item, data)
+注册可用物品
+
+DisableControlAction()  关闭玩家某个行为
+
+NetworkGetEntityOwner(targetPed) 会返回控制该 Ped（即玩家角色）的 网络ID（network ID）。
+GetPlayerServerId 函数将根据该网络ID返回对应玩家的 server ID。
+local target_id = GetPlayerServerId(NetworkGetEntityOwner(entity))   通过该玩家entity~ped拿到server_id（先拿到网络id
+
+local playerId = GetPlayerServerId(player)客户端拿到其他玩家的ped后，通过这个接口拿到对应服务器的id，
+服务端再通过GetPlayerPed(playerId)拿到服务端记录的该名玩家的ped
+
+TriggerClientEvent(eventName, source, args) source = -1 所有客户端接受消息
+source就是流动编号，客户端函数GetServerId()就是拿的这个编号，服务端直接用即可
+
+之前客户端设置载具位置不成功，是因为通过车牌拿到的是服务端对该车辆的编号，对客户端来说这个ped大概率不对应相关车辆，因为没有设置到该车辆的坐标。yes
+
+1.客户端和服务端对同一个实体的编号不一样，各自有自己的一套编号；
+2.函数操作可以是ped或entity，没有区别；
+3.在同一个端上时，entity的编号=ped的编号，仅父类和子类的关系，总之他们是同一个对象被不同的类型指向罢了。
+
+state=0代表外面，state = 1代表已存放
+
+设置坐标不立即生效是gta游戏玩家视野外的资源不会立即刷新的问题
+
+qb代码中简写的veh就是entity，entity是vehicle和ped的父类，同一物体的这些都是一样的
+
+AddEventHandler('onResourceStart', function
+是服务端和客户端都可用的，onResourceStart是fivem内置的事件
+
+RegisterKeyMapping(客户端接口
+
+QBCore.Commands.Add(和RegisterCommand(
+1.都是服务端API，前者是qb-core提供，后者是fivem原生
+
+ExecuteCommand('job')
+2.客户端的API，用以执行服务端注册好的命令，无论是服务端哪个API注册的
+
+1. 查询玩家所有载具
+事件
+QBCore.Functions.TriggerCallback(qb-garages:server:GetPlayerVehicles, cb)  -- 注意，其为异步调用
+实现原理
+MySQL.rawExecute('SELECT * FROM player_vehicles WHERE citizenid = ?', ...省略
+
+AddEventHandler('onResourceStart', function(resourceName)
+end)  监听资源加载/重载，比监听玩家加载进服务器更方便热更新
+
+修车工的工具包依赖于
+qb-mechanicjob/client/drivingdistance:2 vehicleComponents[plate] = {}，
+作用是完成车牌对状态的映射，每个人需驾车行驶一段距离，该车牌和状态的对应关系才能被注入进内存。
+
+设置车牌需要用
+SetVehicleNumberPlateText(veh, "TOWR"..tostring(math.random(1000, 9999)))
+
+TriggerEvent('QBCore:Client:EnteredVehicle')  -- 触发此事件
+RegisterNetEvent('QBCore:Client:EnteredVehicle', function()
+end
+print("EnteredVehicle")  -- 定义了此事件和其被触发时的行为
+
+ped，vehicle密度在qb-smallresources中
+
+同时思考CreateThread是否会让不是相关job的玩家增加性能负担？
+会，因此通过wait()降低检测频率，同时showMarker离近了才会置为true，才会一直绘制玩家所看到的红色倒三角。这就是为什么qb-target性能更友好。
+
+子线程循环检测必须wait(0)  -- 让出cpu，否则主线程没有执行的机会，游戏会崩溃（windows检测到这个情况后会强行终止程序
+
+wait(0)保证每帧都绘制，但让出CPU
+
+游戏原本有的多层对象 -- Base game MLO interiors
+qb-core/shared/locations.lua

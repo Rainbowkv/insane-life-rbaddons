@@ -1,0 +1,192 @@
+12/6 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+qb/qb_hud/client.lua
+qb/qb_hud/html/style.css
+1. mph->km/h。
+
+12/10-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+qb-core/shared/vehicles.lua
+1. 注册自定义车辆。
+qb-vehicleshop/config.lua
+1. 暂时更改luxury为free-use(无需玩家管理)；
+2. 上架车辆到车店。
+
+！从github找到了qb-customs
+目前两个控制改车坊的位置
+1. qb-customs/config.lua(改车选项) + qb-customs/shared/locations.lua ；
+2. qb-mechanicjob/config/config.lua
+
+减少停车场
+qb-garages/config.lua
+
+
+危险改动！！
+1. qb-garages/html/script.js 135行被注释。此改动目前修复了depot状态不能支付的bug。
+已经改回来了
+
+~g~E~w~这起什么作用
+
+server.cfg配置为cn也只会识别qbcore的cn.lua
+因此其他目录将en.lua内容替换掉
+
+！！！true if linux
+qb-phone/config.lua
+
+12/11-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+武器修理的位置，可以配置
+修复汉字显示方框问题 -> function DrawText3Ds(x, y, z, text)->SetTextFont(0)
+qb-weapon/client/main.lua
+qb-doorlock/client/main.lua
+
+
+F1的径向菜单汉化
+1. qb-radialmenu/config.lua （补充：这里还有一项是设置摩托车后备箱，现在为false
+2. qb-radialmenu/client/main.lua 这里汉化动态生成的部分，因为这个径向菜单是动态生成的work和vehicle。翻转载具的功能在这里面实现的。
+
+手机优化+汉化
+样式
+
+qb-phone/html/index.html （静态内容汉化
+js（动态内容汉化
+config.lua（光标提示汉化
+css（样式优化
+
+暂时禁用开发者选项
+qb-adminmenu/client/client/lua :79
+
+qb-core/shared/items.lua 汉化
+
+控制台无用输出关闭
+“Setting inventory for id”
+qb-inventory/server/functions.lua
+
+汉化
+qb-shops/config.lua shops理解为一切可以打开一个物品库的地方（警械库、黑市）不仅仅是商店，控制这个地方的一切，不仅是标签
+qb-garages/config.lua 载具库，不仅为车库，还控制停放的类型
+qb-vehicleshop/config.lua
+
+管理员传送功能移除
+qb-core/server/commands.lua
+
+管理员削弱
+qb-adminmenu/client/client.lua 
+1. menu1:AddButton 载具移除
+2. menu2:AddCheckbox noclip包括其它admin noclip地方都需修改
+3. menu2:AddButton 生成武器移除
+
+街道显示
+qb-hud/html/index.html showStreets  'I'键界面汉化
+
+cityhall汉化完毕；武器执照和职业等级弄清楚
+1. qb-cityhall/html/index.html
+2. qb-cityhall/config.lua
+3. qb-cityhall/client/main.lua
+
+qb-phone/client/main.lua 2100+行的汉化工作
+
+修复不填购买数量就默认买最大值的问题，现在默认为1
+仅修改
+qb-inventory/html/app.js:505
+购买逻辑主要在qb-inventory/server/main.lua->attemptPurchase，但这里拿到的是被js处理过的值，因此必须js中修复
+
+jobs汉化
+qb-core/shared/jobs.lua
+
+shops汉化
+qb-shops/config.lua
+qb-shops/local/en.lua
+
+clothing汉化
+qb-shops/html/index.html+script.js
+
+潜水卡无限氧气修复
+qb-diving/client/main.lua 增加未站立时不能脱下潜水装备
+
+无限租车bug修复
+qb-taxijob/client/main.lua
+
+更新服务器名称和描述
+
+翻转车辆用了更强硬的逻辑，阻止某些情况下的不能正确翻转车辆
+qb-radialmenu/client/main.lua:381
+SetEntityRotation(vehicle, 0.0, 0.0, 0.0, 0, true) instead of SetVehicleOnGroundProperly(vehicle)
+
+qb-core/config.lua中配置
+金钱种类、初始金额、工资发放时间间隔、玩家饥饿和口渴速率、血型
+end)
+
+服务器不会热加载fxmanifest.lua，对它的修改重启后才生效
+
+无限拖车bug修复
+
+修复了手机追不到，车库能追到的bug
+qb-phone/client/main.lua 现在依赖了qb-garages
+
+修车距离从1.5调到了3.0，解决有些车不能车外修的bug
+qb-mechanicjob/client/main.lua:41
+
+载具赔付功能开发一半，待界面
+
+robplayer都是写在qb-policejob的，大部分交互都在这里
+
+保险功能上线（autoSpawn影响数据库，但现在也会被正确处理
+qb-phone也声明依赖qb-garages
+
+jobs汉化2；薪资调整
+
+手铐限制最高移动速度
+
+自助改车坊汉化（完全搞定
+qb-customs/config.lua
+qb-customs/client/cl_ui.lua: 
+createMenu()（设置了包含汉字的菜单名，完成汉化
+populateMenu()
+updateItem2Text()
+
+氙气灯和霓虹灯一碰颜色就卡死界面，暂时关闭这两项改装
+
+qb-hub可以单独关闭指定车辆带来的压力
+
+qb-spawn的config.lua可以配置玩家出身点
+生成点已汉化
+
+聊天框样式优化
+
+home出的信息UI及流动编号显示优化
+
+chat格式修改（非常重要的更新）
+
+超市削弱酒；衣服图标，酒铺图标，保险公司图标更改
+
+载具汉化同步
+
+qb-shops/json/shops-inventory.json这个文件是干嘛的？
+
+qb-inventory/server/functions.lua
+消除debug信息
+后续考虑补充具体的原因通知玩家
+
+个人和新手公寓的存储容量合理化  （待修复：drop还是能丢1000，捡回是200
+qb-inventory/config.lua
+
+新手公寓汉化+免费公寓数缩减到1+城市服务移到市政厅
+qb-apartments/config.lua
+qb-cityhall/config.lua
+
+豪华载具定价，压力暂时关闭
+vehicel.lua
+
+车辆经销商默认展出载具更改
+
+交互优化
+qb-target/
+
+exports['qb-input']:ShowInput(弹出输入框，好用
+------------------------------------------------------------------------------------------------------------------------------------------------------备份同步位置
+------------------------------------------------------------------------------------------------------------------------------------------------------最新同步位置
+
+更改安排员工新职级为降序排序
+qb-management/client/cl_boss.lua
+config.lua配置摩托帮管理位置
+
+家具汉化+不同等级房产存储容量设置
+qb-houses/config.lua

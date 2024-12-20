@@ -1,0 +1,9 @@
+！！！
+服务器升级时，qb-core/config.lua这一项配置要同步
+QBConfig.MaxPlayers = GetConvarInt('sv_maxclients', 48) -- Gets max players from config file, default 48
+
+chat-theme-gtao/是没有git保存的
+
+相机是否需要重新配置webHook
+
+qb-target/init.lua有相当多函数重写的接口
