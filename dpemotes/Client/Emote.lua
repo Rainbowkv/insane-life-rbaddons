@@ -341,6 +341,7 @@ function OnEmotePlay(EmoteName)
     return end 
   end
 
+  EmoteCancel()  -- rb_code
   LoadAnim(ChosenDict)
 
   if EmoteName.AnimationOptions then
