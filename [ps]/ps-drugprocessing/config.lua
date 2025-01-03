@@ -58,7 +58,7 @@ Info.Interval = {  -- min
 	Sodium = 2, Chemicals = 1, CocaLeaves = 1, Heroin = 1, HydrochloricAcid = 2, Sulfuric = 1, Weed = 1
 }
 
-Config.KeyRequired = false  -- 是否校验钥匙
+Config.KeyRequired = true  -- 是否校验钥匙
 
 Config.Delays = {
 	WeedProcessing = 1000 * 10,
