@@ -127,16 +127,17 @@ Config.ped = {
     buyAccount = 'money',
     sellAccount = 'money',
     blip = {
-        name = '海洋贸易公司',
-        sprite = 356,
-        color = 74,
-        scale = 0.75
+        name = '渔业商人',
+        sprite = 754,
+        color = 32,
+        scale = 0.6
     },
 
     ---@type vector4[]
     locations = {
         vector4(-2081.3831, 2614.3223, 3.0840, 112.7910),
-        vector4(-1492.3639, -939.2579, 10.2140, 144.0305)
+        vector4(-1796.09, -856.06, 9.2, 112.24)  
+        -- vector4(-1492.3639, -939.2579, 10.2140, 144.0305)
     }
 }
 
@@ -149,9 +150,9 @@ Config.renting = {
         { model = `tug`, price = 1250, image = 'https://i.postimg.cc/jq7vpKHG/164px-Tug.webp' }
     },
     blip = {
-        name = '租用船只',
+        name = '租船',
         sprite = 410,
-        color = 74,
+        color = 32,
         scale = 0.75
     },
     returnDivider = 5, -- Players can return it and get some cash back
