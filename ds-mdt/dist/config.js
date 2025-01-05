@@ -1,0 +1,802 @@
+
+var licensesData = [ //add new license here use same id as your license name in database.
+    {
+        id: 'weapon',
+        color : 'red',
+        description: "武器执照"
+    },
+    {
+        id: 'driver',
+        color : 'green',
+        description: "驾照"
+    },
+
+    {
+        id: 'business',
+        color : 'red',
+        description: "商业执照"
+    },
+]
+
+
+var Language = {
+    dashboard: "仪表板",
+    incidents: "事件",
+    profiles: "档案",
+    vehicles: "车辆",
+    reports: "报告",
+    evidence: "证据",
+    warrants: "逮捕令",
+    charges: "指控",
+    config: "设置",
+    welcome: "欢迎",
+    badge: "徽章: ",
+    duty: "值勤",
+    editprofile: "编辑档案",
+    submitevi: "提交证据",
+    createreport: "创建报告",
+    editreport: "编辑报告",
+    editvehicle: "编辑车辆",
+    bolo: "通缉",
+    invreport: "调查报告",
+    civreport: "民用报告",
+    reporttype: "报告类型",
+    search: "搜索",
+    approved: "已批准",
+    papproval: "等待批准",
+    rapproval: "批准被拒绝",
+    expirein: "将在...到期",
+    ago: "之前",
+    officerin: "相关警员",
+    personin: "相关人员",
+    criminalsc: "添加犯罪分子",
+    vehiclein: "相关车辆",
+    documenthere: "文档内容在此",
+    warrsec: "逮捕令已成功执行",
+    maintitle: "标题",
+    imgurl: "头像 URL",
+    profileloaded: "档案已加载，公民身份证号",
+    profilesaved: "档案已保存，公民身份证号",
+    licenseRemoved: "许可证已移除",
+    evidencealready: '证据已添加!',
+    evidencenot: "未找到证据",
+    evidenceid: "证据 ID",
+    evidenceass: '证据分配 ID',
+    assievi: "分配证据",
+    assign: "分配",
+    createevi: "创建证据",
+    type: "类型",
+    imgurl2: "图片 URL",
+    description: "描述",
+    evicreated: "由 ID 创建的证据",
+    create: "创建",
+    close: "关闭",
+    name: "名称",
+    stateid: "身份证",
+    alreadyin: "已添加",
+    add: "添加",
+    editcharges: "编辑指控",
+    arrwarr: "逮捕令",
+    reductions: "减刑",
+    inprg: "进行中",
+    expired: "已过期",
+    expires: "将过期",
+    guilty: "认罪",
+    processed: "已处理",
+    month: "月",
+    final: "最终",
+    incsaved: "事件已保存，ID",
+    incloaded: '事件已加载，ID',
+    reportloaded: "报告已加载，ID",
+    reportsaved: "报告已保存，ID",
+    photo: "照片",
+    bullets: "子弹",
+    blood: "血液",
+    vehicle: "车辆",
+    other: "其他",
+    evidencesaved: "证据已创建，ID",
+    extendedsidebar: "扩展侧边栏",
+    dtheme: "黑暗主题",
+    save: "保存",
+    mrights: "你有保持沉默的权利。你说的每句话都可以在法庭上作为证据对你不利。你有权利拥有一名律师。如果无法提供律师，我们将为你提供一名律师。你明白吗？你是否愿意在理解这些权利的基础上继续交谈？",
+    configsaved: "设置已成功保存",
+    success: "成功",
+    error: "错误",
+    empty: "空白字段",
+    assperson: "分配人员",
+    citizenid: '公民身份证号',
+    incident: "事件",
+    report: "报告",
+    incin: "相关事件",
+    reportinv: "相关报告",
+    fine: "罚款",
+    seized: "扣押",
+    vsaved: "车辆已保存，车牌 ID",
+    vloaded: "车辆已加载，车牌 ID",
+    vimage: "车辆图片 URL",
+    vowner: "所有者",
+    vmodel: "车型"
+}
+
+var mdtLogo = "https://cdn.discordapp.com/attachments/804364568511512626/851695091877150740/CityofLosSantos.png"
+
+
+var mdtCharges = [{
+    name: "简单攻击",
+    fine: 500,
+    time: 5,
+    color: "green",
+    description: "企图对他人造成伤害但未使用武器。"
+}, {
+    name: "攻击",
+    fine: 700,
+    time: 10,
+    color: "green",
+    description: "对他人造成身体伤害，威胁他人即将受到身体伤害，或者进行应合理视为冒犯或挑衅的身体接触。"
+}, {
+    name: "共犯",
+    fine: 1e3,
+    time: 10,
+    color: "green",
+    description: "帮助他人实施犯罪的人。"
+}, {
+    name: "加重攻击",
+    fine: 3e3,
+    time: 15,
+    color: "green",
+    description: "企图对某人使用武器造成严重或重大身体伤害。"
+}, {
+    name: "性侵",
+    fine: 2e4,
+    time: 20,
+    color: "red",
+    description: "故意在未经对方同意的情况下对另一人进行性接触，或强迫或物理迫使一个人违背其意愿参与性行为。"
+}, {
+    name: "过失杀人",
+    fine: 2e3,
+    time: 20,
+    color: "green",
+    description: "因疏忽或意外导致他人死亡。"
+}, {
+    name: "交通过失致死",
+    fine: 3e3,
+    time: 30,
+    color: "green",
+    description: "驾驶机动车时因疏忽或意外导致他人死亡。"
+}, {
+    name: "自愿过失杀人",
+    fine: 5e3,
+    time: 35,
+    color: "red",
+    description: "意图伤害他人并最终导致其死亡。"
+}, {
+    name: "二级谋杀",
+    fine: 1e4,
+    time: 40,
+    color: "red",
+    description: "具有杀人意图而杀死他人。"
+}, {
+    name: "一级谋杀",
+    fine: 15e3,
+    time: 50,
+    color: "red",
+    description: "经过预谋和深思熟虑后，具有杀人意图而杀死他人。"
+}, {
+    name: "非法监禁",
+    fine: 2e3,
+    time: 10,
+    color: "green",
+    description: "在没有任何正当理由或同意的情况下限制一个人在一个区域内的行动自由。"
+}, {
+    name: "绑架",
+    fine: 2500,
+    time: 20,
+    color: "green",
+    description: "掳走他人并在一段时间内使其处于非自愿状态。"
+}, {
+    name: "绑架公务员",
+    fine: 3500,
+    time: 25,
+    color: "green",
+    description: "掳走公务员并在一段时间内使其处于非自愿状态。"
+}, {
+    name: "劫持人质",
+    fine: 1250,
+    time: 10,
+    color: "green",
+    description: "以威胁生命或健康的方式扣押一个人，并意图或声明以此作为逃脱或个人利益的杠杆。"
+}, {
+    name: "刑事恐吓",
+    fine: 1e3,
+    time: 5,
+    color: "green",
+    description: "任何人故意说出将要犯下可能导致他人死亡或身体伤害的罪行的威胁。"
+}, {
+    name: "鲁莽危害",
+    fine: 2e3,
+    time: 10,
+    color: "green",
+    description: "对自己或他人的生命表现出漠视。"
+}, {
+    name: "骚扰",
+    fine: 3e3,
+    time: 15,
+    color: "green",
+    description: "用不受欢迎的话语、行为、动作或手势对他人进行咄咄逼人的恐吓或施压。持续的骚扰将加重指控，每次发生将被追加10,000美元的罚款。"
+}, {
+    name: "性骚扰",
+    fine: 5e3,
+    time: 10,
+    color: "red",
+    description: "包括明确或隐含的性暗示，以及提供性恩惠以换取奖励的不当或不受欢迎的提议。"
+}, {
+    name: "小偷小摸",
+    fine: 800,
+    time: 0,
+    color: "green",
+    description: "从他人处窃取价值低于1,000美元的财产。"
+}, {
+    name: "大额盗窃",
+    fine: 2500,
+    time: 10,
+    color: "green",
+    description: "从他人处窃取价值超过1,000美元的财产。"
+}, {
+    name: "偷车兜风",
+    fine: 1e3,
+    time: 10,
+    color: "green",
+    description: "驾驶偷来的汽车进行高速且危险的驾驶以寻求刺激。"
+}, {
+    name: "盗车罪 (A)",
+    fine: 2000,
+    time: 15,
+    color: "green",
+    description: "未经允许非法获取他人车辆，或在没有车主同意的情况下驾驶该车辆，意图永久或暂时剥夺车主对该车辆的所有权。"
+}, {
+    name: "盗车罪 (B)",
+    fine: 3000,
+    time: 15,
+    color: "green",
+    description: "政府车辆：如果涉及P.C. 1205，则罚款加倍。"
+}, {
+    name: "入室盗窃",
+    fine: 1750,
+    time: 15,
+    color: "green",
+    description: "明知故犯地进入建筑物或非法滞留在建筑物内，意图犯罪。"
+}, {
+    name: "抢劫",
+    fine: 2500,
+    time: 10,
+    color: "green",
+    description: "从个人或企业处窃取钱财或财产。"
+}, {
+    name: "银行抢劫",
+    fine: 3500,
+    time: 15,
+    color: "green",
+    description: "抢劫或试图抢劫银行、珠宝店或金融机构。"
+}, {
+    name: "联邦银行抢劫",
+    fine: 5000,
+    time: 20,
+    color: "green",
+    description: "抢劫由FDIC保险的机构（如Pac Standard和Vangelico's）。"
+}, {
+    name: "勒索",
+    fine: 2000,
+    time: 10,
+    color: "green",
+    description: "使用威胁或暴力手段以获得金钱或物质利益。"
+}, {
+    name: "欺诈",
+    fine: 5000,
+    time: 15,
+    color: "green",
+    description: "通过错误陈述意图获取经济或个人利益。"
+}, {
+    name: "冒充",
+    fine: 2000,
+    time: 15,
+    color: "green",
+    description: "冒充他人身份，可能使其承担民事或刑事责任，包括签署虚假姓名或提供他人的文件。"
+}, {
+    name: "冒充政府雇员",
+    fine: 4000,
+    time: 30,
+    color: "green",
+    description: "冒充政府雇员身份，可能使其承担民事或刑事责任，包括签署其姓名或提供文件，并行使权力。"
+}, {
+    name: "冒充法官",
+    fine: 10000,
+    time: 35,
+    color: "red",
+    description: "冒充法官。"
+}, {
+    name: "伪造",
+    fine: 2500,
+    time: 15,
+    color: "red",
+    description: "持有或制造任何虚假的政府文件，包括但不限于身份证件和车牌。"
+}, {
+    name: "反垄断法",
+    fine: 5000,
+    time: 30,
+    color: "red",
+    description: "从事创建垄断的行为被视为犯罪。这包括为获得或保持垄断力量而进行的掠夺性行为，价格固定限制市场（汽车销售、商店和机械中心）或恶意破坏竞争对手的库存。所有管理、工作于或拥有公司股份（多数或少数）的个人，以及参与这些策略的个人，若未举报这些行为即使他们知道这些行为正在发生，也将承担责任。"
+}, {
+    name: "非法侵入",
+    fine: 800,
+    time: 5,
+    color: "green",
+    description: "明知故犯地进入或滞留于政府场所或私人财产上。（警察局、军事设施、Braddock农场等）"
+}, {
+    name: "持有用于犯罪的物品",
+    fine: 1000,
+    time: 10,
+    color: "green",
+    description: "持有任何用于实施重罪、轻罪或违警罪的物品。这包括高级开锁工具、普通开锁工具、调谐器、热剂、VPN。"
+}, {
+    name: "纵火",
+    fine: 3000,
+    time: 15,
+    color: "green",
+    description: "故意并恶意焚烧财产或人员。"
+}, {
+    name: "破坏财物",
+    fine: 1500,
+    time: 0,
+    color: "green",
+    description: "故意损坏不属于自己的财产。"
+}, {
+    name: "破坏政府财产",
+    fine: 3000,
+    time: 15,
+    color: "green",
+    description: "故意损坏政府财产"
+}, {
+    name: "贿赂",
+    fine: 3000,
+    time: 10,
+    color: "green",
+    description: "向公职人员提供或同意提供任何好处，以换取该公职人员在投票、意见、判决、行动、决定或行使裁量权上的影响。"
+}, {
+    name: "藐视法庭",
+    fine: 5000,
+    time: 50,
+    color: "red",
+    description: "不服从或对法庭及其官员不敬的行为，形式上反对或蔑视法庭的权威、公正和尊严。时间和罚款由法官裁定。"
+}, {
+    name: "持有赃物",
+    fine: 1000,
+    time: 5,
+    color: "green",
+    description: "持有任何已报告失窃的实物财产。"
+},{
+    name: "逃脱",
+    fine: 3e3,
+    time: 15,
+    color: "green",
+    description: "自愿逃离政府的监管。"
+}, {
+    name: "越狱",
+    fine: 8e3,
+    time: 40,
+    color: "green",
+    description: "意图营救囚犯而闯入政府指定的拘留或监禁建筑物。"
+}, {
+    name: "扰乱秩序",
+    fine: 1e3,
+    time: 5,
+    color: "green",
+    description: "从事旨在造成公共不便的行为。"
+}, {
+    name: "伪证罪",
+    fine: 7e3,
+    time: 20,
+    color: "red",
+    description: "在司法程序中，明知故犯地作虚假陈述，无论是口头还是书面，在宣誓下。"
+}, {
+    name: "违反法庭命令",
+    fine: 5e3,
+    time: 20,
+    color: "red",
+    description: "故意不服从法院命令中的条款。"
+}, {
+    name: "未出庭",
+    fine: 1e4,
+    time: 20,
+    color: "red",
+    description: "被传唤时未能出庭"
+}, {
+    name: "非法执业",
+    fine: 1e4,
+    time: 15,
+    color: "red",
+    description: "无合法州级许可的情况下执业法律或医学。"
+}, {
+    name: "挪用公款",
+    fine: 1e4,
+    time: 20,
+    color: "red",
+    description: "盗窃或不当使用用于特定目的的资金。"
+}, {
+    name: "共谋 - 轻罪",
+    fine: 2e3,
+    time: 0,
+    color: "green",
+    description: "任何共谋（见顶部定义）实施轻罪的行为。这也被称为[摇摆罪]。"
+}, {
+    name: "共谋欺诈",
+    fine: 3e3,
+    time: 15,
+    color: "green",
+    description: "任何共谋（见顶部定义）欺骗他人钱财或财产的行为。根据案件事实和犯罪历史，这可以作为轻罪或重罪提出。"
+}, {
+    name: "违反限制令",
+    fine: 3500,
+    time: 20,
+    color: "green",
+    description: "违反合法的限制令。"
+}, {
+    name: "反蒙面法",
+    fine: 500,
+    time: 0,
+    color: "green",
+    description: "在公共机构（警察局、医院、法院）或妨碍执法职责时故意佩戴口罩并拒绝摘除。"
+}, {
+    name: "无证经营",
+    fine: 1e4,
+    time: 10,
+    color: "red",
+    description: "在需要有效许可证的活动中的非法行为。罚款不得超过许可证价格的110%。"
+}, {
+    name: "不服从和平官员",
+    fine: 800,
+    time: 0,
+    color: "green",
+    description: "故意不服从任何和平官员的合法命令、信号或指示。"
+}, {
+    name: "扰乱治安",
+    fine: 1500,
+    time: 0,
+    color: "green",
+    description: "在公共场所非法斗殴，或向他人挑战斗殴。通过不合理的大声喧哗打扰他人；如果是出于故意和恶意。在公共场所使用可能立即引发暴力反应的侮辱性言语。"
+}, {
+    name: "虚假报案",
+    fine: 1e3,
+    time: 5,
+    color: "green",
+    description: "报告虚假或不存在的犯罪。"
+}, {
+    name: "妨害司法",
+    fine: 8e3,
+    time: 15,
+    color: "green",
+    description: "故意在犯罪发生或被指控后，干扰犯罪的发现、逮捕、定罪或惩罚。"
+}, {
+    name: "煽动暴乱",
+    fine: 1e4,
+    time: 30,
+    color: "green",
+    description: "组织至少四人参与的事件/集会，导致暴力行为或造成公共危害的风险。"
+}, {
+    name: "游荡",
+    fine: 2e3,
+    time: 0,
+    color: "green",
+    description: "有意地无所事事地站立或等待，没有明显的目的。"
+}, {
+    name: "破坏",
+    fine: 750,
+    time: 5,
+    color: "green",
+    description: "出于引起重大不便或非法获取金钱利益的目的，故意破坏他人的财产。必须在现场被抓现行，并持有P.C. 1204物品。"
+}, {
+    name: "篡改证据",
+    fine: 1e4,
+    time: 25,
+    color: "red",
+    description: "出于对正在进行的法庭审理结果产生重大影响的目的，故意篡改犯罪现场获得的证据。"
+}, {
+    name: "动物虐待",
+    fine: 2000,
+    time: 10,
+    color: "green",
+    description: "恶意且故意伤害或杀害动物。"
+}, {
+    name: "鲁莽驾驶",
+    fine: 1500,
+    time: 10,
+    color: "green",
+    description: "以明知的或故意忽视他人安全的方式驾驶，或故意忽视行为可能带来的后果。"
+}, {
+    name: "政府腐败",
+    fine: 20000,
+    time: 20,
+    color: "red",
+    description: "政府官员或其网络联系人利用职权为个人/私人不正当利益谋取私利。"
+}, {
+    name: "私人执法",
+    fine: 1000,
+    time: 15,
+    color: "green",
+    description: "未经法律授权，由自任者或团体进行的执法行为。"
+}, {
+    name: "政府重大盗窃",
+    fine: 3000,
+    time: 10,
+    color: "red",
+    description: "非法窃取价值超过2000.00美元的政府财产。参见《刑法》第2203(B)条（车辆类）。"
+}, {
+    name: "非法集会",
+    fine: 5000,
+    time: 5,
+    color: "green",
+    description: "参与一个导致暴力行为或可能对公众安全构成风险的集会，且参与者不少于四人。"
+}, {
+    name: "持有A级管制物质",
+    fine: 2500,
+    time: 10,
+    color: "green",
+    description: "持有冰毒。"
+}, {
+    name: "持有并意图分销A级管制物质",
+    fine: 4500,
+    time: 15,
+    color: "green",
+    description: "销售或交易冰毒。"
+}, {
+    name: "持有B级管制物质",
+    fine: 1000,
+    time: 10,
+    color: "green",
+    description: "持有可卡因和羟考酮。"
+}, {
+    name: "持有并意图分销B级管制物质",
+    fine: 4500,
+    time: 5,
+    color: "green",
+    description: "销售或交易可卡因和羟考酮。"
+}, {
+    name: "持有C级管制物质",
+    fine: 1500,
+    time: 5,
+    color: "green",
+    description: "持有未经许可的大麻。"
+}, {
+    name: "持有并意图分销C级管制物质",
+    fine: 2000,
+    time: 10,
+    color: "green",
+    description: "无销售许可证出售、交易或提供大麻，换取金钱、物品或社会利益。"
+}, {
+    name: "持有并意图分销管制物质",
+    fine: 3000,
+    time: 10,
+    color: "green",
+    description: "销售管制物质。"
+}, {
+    name: "持有非法工具",
+    fine: 2000,
+    time: 10,
+    color: "green",
+    description: "持有非法工具或材料。参见《刑法》第1204b条。"
+}, {
+    name: "卖淫",
+    fine: 500,
+    time: 0,
+    color: "green",
+    description: "提供卖淫服务或支付费用获取卖淫服务。"
+}, {
+    name: "非法持有枪支第一类",
+    fine: 2000,
+    time: 5,
+    color: "green",
+    description: "持有非法第一类枪支；瓦尔特P99手枪。"
+}, {
+    name: "非法持有枪支第二类",
+    fine: 4000,
+    time: 15,
+    color: "green",
+    description: "持有第二类枪支；参见《刑法》第1202条。"
+}, {
+    name: "非法持有枪支第三类",
+    fine: 5000,
+    time: 15,
+    color: "green",
+    description: "持有第三类枪支；参见《刑法》第1203条。"
+}, {
+    name: "非法销售枪支[第一类]",
+    fine: 5000,
+    time: 15,
+    color: "red",
+    description: "将第一类枪支出售给没有持枪许可证的人，或出售Pistol MK2。"
+}, {
+    name: "非法销售枪支[第二类]",
+    fine: 7000,
+    time: 20,
+    color: "red",
+    description: "销售第二类枪支。"
+}, {
+    name: "非法销售枪支[第三类]",
+    fine: 10000,
+    time: 25,
+    color: "red",
+    description: "销售第三类枪支。"
+}, {
+    name: "非法使用枪支",
+    fine: 2000,
+    time: 15,
+    color: "green",
+    description: "无合法理由开枪。"
+}, {
+    name: "威胁展示武器",
+    fine: 1500,
+    time: 20,
+    color: "green",
+    description: "在没有自卫或保护他人的情况下，以粗鲁、愤怒或威胁的方式在他人面前展示致命武器。"
+}, {
+    name: "非法停车高速公路或快速路",
+    fine: 1500,
+    time: 10,
+    color: "green",
+    description: "在没有自卫或保护他人的情况下，以粗鲁、愤怒或威胁的方式在他人面前展示致命武器。"
+}, {
+    name: "抗拒逮捕",
+    fine: 1000,
+    time: 5,
+    color: "green",
+    description: "为了避免被抓捕、拘留或逮捕，在步行中逃跑。"
+}, {
+    name: "乱穿马路",
+    fine: 500,
+    time: 0,
+    color: "green",
+    description: "没有使用人行道横穿马路。"
+}, {
+    name: "恐怖主义",
+    fine: 40000,
+    time: 100,
+    color: "red",
+    description: "使用爆炸物、疾病或极端暴力造成大规模破坏。"
+}, {
+    name: "醉驾",
+    fine: 750,
+    time: 5,
+    color: "green",
+    description: "酒精或毒品影响下开车。"
+}, {
+    name: "逃避",
+    fine: 1250,
+    time: 5,
+    color: "green",
+    description: "驾驶车辆逃避警察，以避免被抓捕、拘留或逮捕。"
+}, {
+    name: "鲁莽逃避",
+    fine: 1500,
+    time: 10,
+    color: "green",
+    description: "以明显蔑视公民生命的方式危险地逃避警察的追捕。这项指控已包括逃避和鲁莽驾驶/危害，不能叠加。"
+}, {
+    name: "未让紧急车辆通过",
+    fine: 1000,
+    time: 0,
+    color: "green",
+    description: "在紧急车辆开启警笛时未靠边停车让行。"
+}, {
+    name: "不服从交通控制标志",
+    fine: 750,
+    time: 0,
+    color: "green",
+    description: "未遵守被定义为强制性的交通标志或信号。"
+}, {
+    name: "非功能性车辆",
+    fine: 1000,
+    time: 0,
+    color: "green",
+    description: "驾驶不具备功能的车辆，例如车窗破损、非法窗膜（完全黑化窗户）、门等问题。"
+}, {
+    name: "疏忽驾驶",
+    fine: 800,
+    time: 0,
+    color: "green",
+    description: "以疏忽大意的方式驾驶，表现出对安全的缺乏关注或重视。"
+}, {
+    name: "鲁莽驾驶",
+    fine: 1000,
+    time: 10,
+    color: "green",
+    description: "以不顾人命的方式驾驶，明显缺乏对他人生命安全的尊重。"
+}, {
+    name: "三级超速",
+    fine: 500,
+    time: 0,
+    color: "green",
+    description: "超速0到35英里每小时。"
+}, {
+    name: "二级超速",
+    fine: 800,
+    time: 0,
+    color: "green",
+    description: "超速36到55英里每小时。"
+}, {
+    name: "一级超速",
+    fine: 1000,
+    time: 0,
+    color: "green",
+    description: "超速超过55英里每小时。驾驶执照可能会被吊销。"
+}, {
+    name: "无照驾驶",
+    fine: 1000,
+    time: 0,
+    color: "green",
+    description: "无有效驾驶执照驾驶汽车。"
+}, {
+    name: "非法掉头",
+    fine: 750,
+    time: 0,
+    color: "green",
+    description: "在市区范围内或越过车道掉头。"
+}, {
+    name: "非法超车",
+    fine: 800,
+    time: 0,
+    color: "green",
+    description: "在路肩、中间隔离带或实线区域超车。超车时不得妨碍任何接近的车辆安全行驶。"
+}, {
+    name: "未保持车道",
+    fine: 500,
+    time: 0,
+    color: "green",
+    description: "未能在适当的车道内控制车辆行驶。"
+}, {
+    name: "非法转弯",
+    fine: 600,
+    time: 0,
+    color: "green",
+    description: "在停车标志或红灯处没有完全停止就转弯，或未向交通和行人让行。在禁止左转的标志下进行左转。"
+}, {
+    name: "未停车",
+    fine: 500,
+    time: 0,
+    color: "green",
+    description: "在有停车标志或红灯的地方没有完全停下。在完成全停并礼让交通和行人后允许右转红灯。"
+}, {
+    name: "未经授权的停车",
+    fine: 1e3,
+    time: 0,
+    color: "green",
+    description: "在非指定区域停车。"
+}, {
+    name: "肇事逃逸",
+    fine: 2e3,
+    time: 10,
+    color: "green",
+    description: "造成交通事故后未能停下来并识别自己。"
+}, {
+    name: "空域违规",
+    fine: 3500,
+    time: 25,
+    color: "green",
+    description: "在未经授权的区域飞行，无证飞行或在非直升机坪和机场外降落飞机，除非是响应紧急呼叫。"
+}, {
+    name: "未使用大灯或信号灯驾驶",
+    fine: 750,
+    time: 0,
+    color: "green",
+    description: "在黄昏后、黎明前或其他能见度差的情况下不使用大灯驾驶，或在没有刹车灯或其他信号的车辆中驾驶。"
+}, {
+    name: "车辆噪音过大",
+    fine: 500,
+    time: 0,
+    color: "green",
+    description: "制造扰乱性的车辆噪音，如过度鸣笛、大声播放音乐、轮胎空转、损坏的消音器等。"
+}, {
+    name: "街头赛车",
+    fine: 3e3,
+    time: 10,
+    color: "green",
+    description: "在公共街道上用机动车辆参加比赛。"
+}, ];
