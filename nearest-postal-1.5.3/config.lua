@@ -1,6 +1,6 @@
 config = {
     -- enables version checking (if this is enabled and there is no new version it won't display a message anyways)
-    versionCheck = true,
+    versionCheck = false,
 
     text = {
         -- The text to display on-screen for the nearest postal. 
@@ -12,8 +12,8 @@ config = {
         --posY = 0.963,
 
         -- vMenu PLD Position
-        posX = 0.013,
-        posY = 0.73
+        posX = 0.90,
+        posY = 0.95
     },
 
     blip = {

@@ -15,6 +15,7 @@ local AddTextComponentSubstringPlayerName = AddTextComponentSubstringPlayerName
 -- end optimizations
 
 local nearestPostalText = ""
+local in_veh = false  -- rb_code
 
 -- recalculate current postal
 Citizen.CreateThread(function()
@@ -32,6 +33,9 @@ Citizen.CreateThread(function()
     local _total = #postals
 
     while true do
+        while in_veh do -- rb_code
+            Wait(200)
+        end
         local coords = GetEntityCoords(PlayerPedId())
         local _nearestIndex, _nearestD
         coords = vec(coords[1], coords[2])
@@ -72,6 +76,9 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
         local _scale = 0.3
         local _font = 0
         while true do
+            while in_veh do -- rb_code
+                Wait(200)
+            end
             if nearest and not IsHudHidden() then
                 SetTextScale(_scale, _scale)
                 SetTextFont(_font)
@@ -85,3 +92,12 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     end)
 end)
 
+-- rb_code
+AddEventHandler('QBCore:Client:EnteredVehicle', function(resourceName)
+    in_veh = true
+end)
+
+AddEventHandler('QBCore:Client:LeftVehicle', function(resourceName)
+    in_veh = false
+end)
+--
