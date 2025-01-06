@@ -11,7 +11,7 @@ open_menu_key = 'O'
 
 
 ---------------LOCKOUT FUNCTIONALITY---------------
-lockout_default_hotkey = 'L'
+lockout_default_hotkey = ''
 --	Sets default key for RegisterKeyMapping. Examples: 'l','F5', etc. DEFAULT: NONE, users may set one in their GTA V > Settings > Hotkeys > FiveM settings. 
 --		More info: https://cookbook.fivem.net/2020/01/06/using-the-new-console-key-bindings/
 --		List of Keys: https://pastebin.com/u9ewvWWZ
@@ -21,7 +21,7 @@ reminder_rate = 10
 --	How often, in luxart key presses, to remind you that your siren controller is locked.
 
 -----------------HUD FUNCTIONALITY-----------------
-hud_first_default = true
+hud_first_default = false
 --	First state of HUD, otherwise it uses the players KVP setting (previous state). 
 
 ---------------MAIN SIREN SETTINGS-----------------
