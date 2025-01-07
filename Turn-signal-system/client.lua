@@ -2,6 +2,20 @@ local isLeftTurnSignalOn = false
 local isRightTurnSignalOn = false
 local isHazardLightsOn = false
 
+-- rb_code
+local function playSound()
+    -- while true do
+    --     Wait(200)
+        -- if isHazardLightsOn or isLeftTurnSignalOn or isRightTurnSignalOn then
+            TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 5, 'turn-signal', 0.3)
+            -- while isHazardLightsOn or isLeftTurnSignalOn or isRightTurnSignalOn do
+                -- wait(100)
+            -- end
+        -- end
+    -- end
+end
+--
+
 function IsPlayerDriver()
     local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
     return (vehicle ~= 0 and GetPedInVehicleSeat(vehicle, -1) == PlayerPedId())
@@ -23,6 +37,7 @@ function ToggleLeftTurnSignal()
         isLeftTurnSignalOn = not isLeftTurnSignalOn
         SetVehicleIndicatorLights(vehicle, 1, isLeftTurnSignalOn)
         TriggerServerEvent('syncTurnSignal', isLeftTurnSignalOn, 'left', VehToNet(vehicle))
+        if isLeftTurnSignalOn then playSound() end
     end
 end
 
@@ -42,6 +57,7 @@ function ToggleRightTurnSignal()
         isRightTurnSignalOn = not isRightTurnSignalOn
         SetVehicleIndicatorLights(vehicle, 0, isRightTurnSignalOn)
         TriggerServerEvent('syncTurnSignal', isRightTurnSignalOn, 'right', VehToNet(vehicle))
+        if isRightTurnSignalOn then playSound() end
     end
 end
 
@@ -64,6 +80,7 @@ function ToggleHazardLights()
         SetVehicleIndicatorLights(vehicle, 1, isHazardLightsOn)
         TriggerServerEvent('syncTurnSignal', isHazardLightsOn, 'left', VehToNet(vehicle))
         TriggerServerEvent('syncTurnSignal', isHazardLightsOn, 'right', VehToNet(vehicle))
+        if isHazardLightsOn then playSound() end
     end
 end
 
@@ -80,10 +97,12 @@ AddEventHandler('updateTurnSignal', function(state, signalType, vehicleNetId)
 end)
 
 RegisterCommand('leftSignal', function()
+    if isHazardLightsOn then return end
     ToggleLeftTurnSignal()
 end, false)
 
 RegisterCommand('rightSignal', function()
+    if isHazardLightsOn then return end
     ToggleRightTurnSignal()
 end, false)
 
@@ -94,3 +113,4 @@ end, false)
 RegisterKeyMapping('leftSignal', 'Left turn signal', 'keyboard', 'LEFT')
 RegisterKeyMapping('rightSignal', 'Right turn signal ', 'keyboard', 'RIGHT')
 RegisterKeyMapping('hazardLights', 'Emergency alarm', 'keyboard', 'DOWN')
+
