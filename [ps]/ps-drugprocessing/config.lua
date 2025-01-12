@@ -55,10 +55,10 @@ Info.ItemLocation = {  -- 这是不可配置的，静态资源。
 }
 
 Info.Interval = {  -- min
-	Sodium = 2, Chemicals = 1, CocaLeaves = 1, Heroin = 1, HydrochloricAcid = 2, Sulfuric = 1, Weed = 1
+	Sodium = 30, Chemicals = 30, CocaLeaves = 30, Heroin = 30, HydrochloricAcid = 30, Sulfuric = 30, Weed = 30
 }
 
-Config.KeyRequired = true  -- 是否校验钥匙
+Config.KeyRequired = false  -- 是否校验钥匙
 
 Config.Delays = {
 	WeedProcessing = 1000 * 10,
