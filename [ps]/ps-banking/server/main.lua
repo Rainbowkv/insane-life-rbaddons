@@ -134,7 +134,6 @@ RegisterNetEvent("ps-banking:server:logBankClient", function(amount, op)
     local src = source
     local xPlayer = getPlayerFromId(src)
     local identifier = getPlayerIdentifier(xPlayer)
-    print(#identifier)
     local moneyType = "bank"
     if op == 'add' then
         local description = "存入"

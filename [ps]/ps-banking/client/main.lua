@@ -60,27 +60,28 @@ Citizen.CreateThread(function()
                 },
             })
         else
-        exports["qb-target"]:AddBoxZone(zoneName, vector3(location.x, location.y, location.z), 1.5, 1.6, {
-            name = zoneName,
-            heading = 0.0,
-            debugPoly = false,
-            minZ = location.z - 1,
-            maxZ = location.z + 1,
-        }, {
-            options = {
-                {
-                    icon = "fas fa-credit-card",
-                    label = locale("openBank"),
-                    action = function()
-                        SendNUIMessage({
-                            action = "openBank",
-                        })
-                        SetNuiFocus(true, true)
-                    end,
+            exports["qb-target"]:AddBoxZone(zoneName, vector3(location.x, location.y, location.z), 1.5, 1.6, {
+                name = zoneName,
+                heading = 0.0,
+                debugPoly = false,
+                minZ = location.z - 1,
+                maxZ = location.z + 1,
+            }, {
+                options = {
+                    {
+                        icon = "fas fa-credit-card",
+                        label = locale("openBank"),
+                        action = function()
+                            SendNUIMessage({
+                                action = "openBank",
+                            })
+                            SetNuiFocus(true, true)
+                        end,
+                    },
                 },
-            },
-            distance = 2.5,
-        })
+                distance = 2.5,
+            })
+        end
         zoneId = zoneId + 1
     end
 
@@ -95,7 +96,6 @@ Citizen.CreateThread(function()
         BeginTextCommandSetBlipName("STRING")
         AddTextComponentSubstringPlayerName(Config.BankLocations.Blips.name)
         EndTextCommandSetBlipName(blip)
-        end
     end
 end)
 
