@@ -40,7 +40,6 @@ RegisterNUICallback("clickButton", function(data)
 	local key = data.data
 	local data = CheckDataFromKey(key)
 	if not data or not CheckPerms(data.perms) then return end
-
 	if data.type == "client" then
 		TriggerEvent(data.event, key, selectedData)
 	elseif data.type == "server" then
@@ -49,11 +48,11 @@ RegisterNUICallback("clickButton", function(data)
 		ExecuteCommand(data.event)
 	end
 
-	Log("Action Used: " .. key,
-            PlayerData.name ..
-            " (" ..
-            PlayerData.citizenid ..
-            ") - Used: " .. key .. (selectedData and (" with args: " .. json.encode(selectedData)) or ""))
+	-- Log("Action Used: " .. key,  -- 可记录日志
+    --         PlayerData.name ..
+    --         " (" ..
+    --         PlayerData.citizenid ..
+    --         ") - Used: " .. key .. (selectedData and (" with args: " .. json.encode(selectedData)) or ""))
 end)
 
 -- Open UI Event

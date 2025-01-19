@@ -1,15 +1,16 @@
 local spectating = {}
 
 RegisterNetEvent('ps-adminmenu:server:SpectateTarget', function(data, selectedData)
+    local src = source
     local data = CheckDataFromKey(data)
-    if not data or not CheckPerms(source, data.perms) then return end
+    if not data or not CheckPerms(src, data.perms) then return end
     local player = selectedData["Player"].value
 
     local type = "1"
-    if player == source then return QBCore.Functions.Notify(source, locale("cant_spectate_yourself"), 'error', 7500) end
-    if spectating[source] then type = "0" end
-    TriggerEvent('ps-adminmenu:spectate', player, type == "1", source, data.perms)
-    CheckRoutingbucket(source, player)
+    if player == src then return QBCore.Functions.Notify(src, locale("cant_spectate_yourself"), 'error', 7500) end
+    if spectating[src] then type = "0" end
+    TriggerEvent('ps-adminmenu:spectate', player, type == "1", src, data.perms)
+    CheckRoutingbucket(src, player)
 end)
 
 AddEventHandler('ps-adminmenu:spectate', function(target, on, source, perms)
@@ -32,11 +33,11 @@ AddEventHandler('ps-adminmenu:spectate', function(target, on, source, perms)
 end)
 
 RegisterNetEvent('ps-adminmenu:spectate:teleport', function(target)
-    local source = source
+    local src = source
     local ped = GetPlayerPed(target)
     if DoesEntityExist(ped) then
         local targetCoords = GetEntityCoords(ped)
-        SetEntityCoords(GetPlayerPed(source), targetCoords.x, targetCoords.y, targetCoords.z - 10)
-        FreezeEntityPosition(GetPlayerPed(source), true)
+        SetEntityCoords(GetPlayerPed(src), targetCoords.x, targetCoords.y, targetCoords.z - 10)
+        FreezeEntityPosition(GetPlayerPed(src), true)
     end
 end)

@@ -69,7 +69,6 @@ end)
 function CheckRoutingbucket(source, target)
     local sourceBucket = GetPlayerRoutingBucket(source)
     local targetBucket = GetPlayerRoutingBucket(target)
-
     if sourceBucket == targetBucket then return end
 
     SetPlayerRoutingBucket(source, targetBucket)

@@ -13,7 +13,7 @@ end)
 RegisterNetEvent('ps-adminmenu:client:ChangeWeather', function(data, selectedData)
     local data = CheckDataFromKey(data)
     if not data or not CheckPerms(data.perms) then return end
-    local weather = selectedData["Weather"].value
+    local weather = selectedData["天气"].value
 
     TriggerServerEvent('qb-weathersync:server:setWeather', weather)
 end)

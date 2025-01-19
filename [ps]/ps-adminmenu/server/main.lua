@@ -5,9 +5,9 @@ function isAdmin(source)  -- 此资源全局函数
     return result[1]["COUNT(*)"] > 0
 end
 
-lib.addCommand('admin', {
+lib.addCommand('ad', {
     help = 'Open the admin menu',
-    restricted = 'qbcore.mod'
+    -- restricted = 'qbcore.mod'
 }, function(source)
     if not isAdmin(source) then TriggerClientEvent('QBCore:Notify', source, '您没有管理员权限', 'error') return end
     TriggerClientEvent('ps-adminmenu:client:OpenUI', source)
@@ -16,7 +16,7 @@ end)
 
 lib.addCommand('addAdmin', {
     help = 'Add a player as an admin',
-    restricted = 'qbcore.mod',
+    -- restricted = 'qbcore.mod',
     params = {{name = 'id', help = 'Player ID'}}
 }, function(source, args)
     if not isAdmin(source) then 
@@ -48,7 +48,7 @@ end)
 
 lib.addCommand('removeAdmin', {
     help = 'Remove a player from the admin list',
-    restricted = 'qbcore.mod',
+    -- restricted = 'qbcore.mod',
     params = {{name = 'id', help = 'Player ID'}}
 }, function(source, args)
     if not isAdmin(source) then 
