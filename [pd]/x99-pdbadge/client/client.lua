@@ -76,8 +76,8 @@ CreateThread(function()
             for k, v in pairs(config.authorizedJobs) do 
                 if PlayerData.job.name == v then 
                     TriggerEvent("x99_badge:create")
-                else 
-                    QBCore.Functions.Notify(config.Notifys.permissionerror, "error", 5000)
+                -- else 
+                --     QBCore.Functions.Notify(config.Notifys.permissionerror, "error", 5000)
                 end
             end
         end
