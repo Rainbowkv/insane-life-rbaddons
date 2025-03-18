@@ -29,3 +29,7 @@ server_scripts {
     'shared/secure_config.lua',
     '@oxmysql/lib/MySQL.lua'
 }
+
+dependencies {
+    'ox_lib'
+}
