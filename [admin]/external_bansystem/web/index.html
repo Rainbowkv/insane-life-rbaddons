@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ravens联邦封禁系统</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>Ravens联邦封禁系统</h1>
+            </div>
+            <div class="close-btn" id="closeButton"><i class="fas fa-times"></i></div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="ban">
+                <i class="fas fa-gavel"></i>
+                <span>封禁市民</span>
+            </div>
+            <div class="tab" data-tab="offline">
+                <i class="fas fa-user-slash"></i>
+                <span>离线封禁</span>
+            </div>
+            <div class="tab" data-tab="list">
+                <i class="fas fa-list"></i>
+                <span>封禁列表</span>
+            </div>
+            <div class="tab" data-tab="history">
+                <i class="fas fa-history"></i>
+                <span>历史封禁</span>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="tab-content active" id="banTab">
+                <div class="player-list-container">
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="playerSearch" placeholder="搜索市民">
+                        <div class="refresh-btn" id="refreshPlayerList"><i class="fas fa-sync-alt"></i></div>
+                    </div>
+                    <div class="player-list" id="playerList"></div>
+                </div>
+
+                <div class="ban-form">
+                    <div class="form-group">
+                        <label>选中的市民</label>
+                        <div class="selected-player-container">
+                            <div class="selected-player-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="selected-player-info">
+                                <div class="selected-player" id="selectedPlayerName">未选中市民</div>
+                                <div class="selected-player-id" id="selectedPlayerId"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="banReason">
+                            <i class="fas fa-comment-alt"></i>
+                            封禁原因
+                        </label>
+                        <textarea id="banReason" placeholder="输入封禁理由"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="banDuration">
+                            <i class="fas fa-clock"></i>
+                            封禁时长
+                        </label>
+                        <select id="banDuration">
+                            <option value="">永久</option>
+                            <option value="1h">1 小时</option>
+                            <option value="6h">6 小时</option>
+                            <option value="12h">12 小时</option>
+                            <option value="1d">1 天</option>
+                            <option value="3d">3 天</option>
+                            <option value="7d">7 天</option>
+                            <option value="14d">14 天</option>
+                            <option value="30d">30 天</option>
+                        </select>
+                    </div>
+
+                    <button class="submit-btn" id="submitBanBtn">
+                        <i class="fas fa-ban"></i>
+                        封禁市民
+                    </button>
+                </div>
+            </div>
+
+            <div class="tab-content" id="offlineTab">
+                <div class="offline-ban-form">
+                    <div class="offline-form-layout">
+                        <div class="offline-column">
+                            <div class="form-group">
+                                <label for="offlinePlayerName">
+                                    <i class="fas fa-user"></i>
+                                    市民姓名
+                                </label>
+                                <input type="text" id="offlinePlayerName" placeholder="输入市民姓名">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="offlineBanReason">
+                                    <i class="fas fa-comment-alt"></i>
+                                    封禁原因
+                                </label>
+                                <textarea id="offlineBanReason" placeholder="输入封禁原因"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="offlineBanDuration">
+                                    <i class="fas fa-clock"></i>
+                                    封禁时长
+                                </label>
+                                <select id="offlineBanDuration">
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="offline-column">
+                            <div class="identifiers-block">
+                                <label>
+                                    <i class="fas fa-fingerprint"></i>
+                                    玩家标识符
+                                </label>
+
+                                <div class="identifiers-grid">
+                                    <div class="id-input">
+                                        <span>许可证</span>
+                                        <input type="text" id="offlineLicense" placeholder="许可证 ID...">
+                                    </div>
+
+                                    <div class="id-input">
+                                        <span>许可证2</span>
+                                        <input type="text" id="offlineLicense2" placeholder="许可证2 ID...">
+                                    </div>
+
+                                    <div class="id-input">
+                                        <span>Steam</span>
+                                        <input type="text" id="offlineSteam" placeholder="Steam ID...">
+                                    </div>
+
+                                    <div class="id-input">
+                                        <span>Discord</span>
+                                        <input type="text" id="offlineDiscord" placeholder="Discord ID...">
+                                    </div>
+
+                                    <div class="id-input">
+                                        <span>IP</span>
+                                        <input type="text" id="offlineIP" placeholder="IP 地址...">
+                                    </div>
+
+                                    <div class="id-input">
+                                        <span>XBL</span>
+                                        <input type="text" id="offlineXBL" placeholder="XBL ID...">
+                                    </div>
+                                </div>
+
+                                <div class="id-info">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>请输入至少一个不带前缀的标识符（例如，仅输入数字）</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="submit-btn" id="submitOfflineBanBtn">
+                        <i class="fas fa-user-slash"></i>
+                        封禁国外市民
+                    </button>
+                </div>
+            </div>
+
+            <div class="tab-content" id="listTab">
+                <div class="ban-list-header">
+                    <div class="refresh-btn" id="refreshBanList"><i class="fas fa-sync-alt"></i></div>
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="banListSearch" placeholder="搜索封禁">
+                    </div>
+                </div>
+
+                <div class="ban-list-container">
+                    <table class="ban-list">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-hashtag"></i> 封禁ID</th>
+                                <th><i class="fas fa-user"></i> 市民</th>
+                                <th><i class="fas fa-comment"></i> 原因</th>
+                                <th><i class="fas fa-user-shield"></i> 管理</th>
+                                <th><i class="fas fa-calendar"></i> 日期</th>
+                                <th><i class="fas fa-hourglass-half"></i> 时长</th>
+                                <th><i class="fas fa-cogs"></i> 操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="banListBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tab-content" id="historyTab">
+                <div class="ban-list-header">
+                    <div class="refresh-btn" id="refreshInactiveBanList"><i class="fas fa-sync-alt"></i></div>
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="inactiveBanListSearch" placeholder="搜索历史封禁">
+                    </div>
+                </div>
+
+                <div class="ban-list-container">
+                    <table class="ban-list">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-hashtag"></i> 封禁ID</th>
+                                <th><i class="fas fa-user"></i> 市民</th>
+                                <th><i class="fas fa-ban"></i> 总共封禁次数</th>
+                                <th><i class="fas fa-calendar"></i> 上次封禁日期</th>
+                                <th><i class="fas fa-cogs"></i> 操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inactiveBanListBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="editBanModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-edit"></i> 编辑封禁</h2>
+                    <div class="close-modal" id="closeEditModal"><i class="fas fa-times"></i></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="editBanReason">
+                        <i class="fas fa-comment-alt"></i>
+                        封禁原因
+                    </label>
+                    <textarea id="editBanReason" placeholder="请输入新的封禁原因..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="editBanDuration">
+                        <i class="fas fa-clock"></i>
+                        封禁时长
+                    </label>
+                    <select id="editBanDuration">
+                        <option value="">永久</option>
+                        <option value="1h">1 小时</option>
+                        <option value="6h">6 小时</option>
+                        <option value="12h">12 小时</option>
+                        <option value="1d">1 天</option>
+                        <option value="3d">3 天</option>
+                        <option value="7d">7 天</option>
+                        <option value="14d">14 天</option>
+                        <option value="30d">30 天</option>
+                    </select>
+                </div>
+
+                <input type="hidden" id="editBanId">
+
+                <div class="modal-actions">
+                    <button class="submit-btn" id="submitEditBanBtn">
+                        <i class="fas fa-save"></i>
+                        保存更改
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="banHistoryModal">
+            <div class="modal-content ban-history-modal">
+                <div class="modal-header">
+                    <h2><i class="fas fa-history"></i> <span id="historyPlayerName"></span> 的封禁历史</h2>
+                    <div class="close-modal" id="closeBanHistoryModal"><i class="fas fa-times"></i></div>
+                </div>
+
+                <div class="ban-history-container">
+                    <table class="ban-history-table">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-hashtag"></i> 封禁ID</th>
+                                <th><i class="fas fa-comment"></i> 原因</th>
+                                <th><i class="fas fa-user-shield"></i> 管理员</th>
+                                <th><i class="fas fa-calendar"></i> 封禁日期</th>
+                                <th><i class="fas fa-hourglass-half"></i> 时长</th>
+                                <th><i class="fas fa-check-circle"></i> 状态</th>
+                            </tr>
+                        </thead>
+                        <tbody id="banHistoryBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="close-btn-secondary" id="closeBanHistoryBtn">
+                        <i class="fas fa-times"></i>
+                        关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="notification-container" id="notificationContainer"></div>
+    </div>
+
+    <script src="nui://game/ui/jquery.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
