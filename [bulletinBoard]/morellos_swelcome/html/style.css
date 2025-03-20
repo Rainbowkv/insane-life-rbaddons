@@ -1,0 +1,195 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Welcome Container */
+#welcome-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    transition: opacity 0.3s ease;
+}
+
+#welcome-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Welcome Content */
+#welcome-content {
+    width: 70%;
+    max-width: 900px;
+    max-height: 80vh;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    overflow-y: auto;
+    color: #ffffff;
+}
+
+/* Logo */
+/* #logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+} */
+#logo-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    pointer-events: none; /* 避免影响交互 */
+}
+
+#server-logo {
+    max-width: 120px;
+    max-height: 120px;
+}
+
+/* Title */
+#welcome-title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* Sections */
+#sections-container {
+    margin-bottom: 30px;
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.section-content {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.section-content p {
+    margin-bottom: 10px;
+}
+
+.section-content a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.section-content a:hover {
+    text-decoration: underline;
+}
+
+/* Buttons */
+#buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.welcome-button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome-button i {
+    margin-right: 8px;
+}
+
+#accept-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#accept-button:hover {
+    background-color: #3e8e41;
+}
+
+#decline-button {
+    background-color: #f44336;
+    color: white;
+}
+
+#decline-button:hover {
+    background-color: #d32f2f;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #welcome-content {
+        width: 90%;
+        padding: 20px;
+    }
+    
+    #welcome-title {
+        font-size: 24px;
+    }
+    
+    .section-title {
+        font-size: 18px;
+    }
+    
+    .section-content {
+        font-size: 14px;
+    }
+    
+    .welcome-button {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
