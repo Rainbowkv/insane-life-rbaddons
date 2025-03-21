@@ -16,7 +16,9 @@ files {
     'html/index.html',
     'html/style.css',
     'html/script.js',
-    'html/img/*.jpg'
+    'html/img/*.jpg',
+    'html/all.min.css',
+    'html/jquery-3.6.0.min.js',
 }
 
 lua54 'yes'
