@@ -9,7 +9,7 @@ Config.ShowOnlyOnce = false -- If true, will only show once per player (uses pla
 
 -- Content settings
 Config.Title = "欢迎参与Ravens内测" -- Title of the welcome screen
-Config.Logo = "./img/ravens_log.png" -- URL to your server logo (leave empty for no logo)
+Config.Logo = "" -- URL to your server logo (leave empty for no logo)
 Config.BackgroundImage = "https://wallpapercave.com/wp/wp4421387.jpg" -- URL to background image (leave empty for default background)
 Config.BackgroundColor = "#0f0f0f" -- Background color (only used if no background image)
 Config.TextColor = "#ffffff" -- Text color
@@ -23,13 +23,22 @@ Config.DeclineButtonColor = "#f44336" -- Color for the decline button
 -- Content sections (add as many as you want)
 Config.Sections = {
     {
-        title = "运营团队正在火速策划新人福利~",
+        title = "新玩家福利",
         content = [[
-            <p>1. ...</p>
-            <p>2. ...</p>
-            <p>3. ...</p>
-            <p>4. ...</p>
-            <p>5. ...</p>
+            <p>1. 内测新玩家注册奖励10万美金作为启动资金；</p>
+            <p>2. 公测新玩家注册7天累计在线市场达35小时后奖励4万美金；</p>
+            <p>3. 女性玩家认证注册奖励美金基础上额外奖励4万美金，给予2次捏脸机会；</p>
+            <p>4. 新玩家5人及以上组队注册可以奖励产业一个月经营权，启动资金300万（后续根据当月在线时长可追加美金奖励，在线时长当月少于120小时则收回产业）；</p>
+        ]]
+    },
+    {
+        title = "老带新奖励",
+        content = [[
+            <p>拉一个新人进服（过白名单），根据新人在线时长：</p>
+            <p>2. 新人在线时长>  2小时，奖励 1688美金；</p>
+            <p>3. 新人在线时长>  9小时，奖励 6888美金；</p>
+            <p>4. 新人在线时长> 35小时，奖励16888美金；</p>
+            <p>5. 新人在线时长>120小时，奖励56888美金。</p>
         ]]
     },
     {
