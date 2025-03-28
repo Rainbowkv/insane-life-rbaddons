@@ -453,3 +453,24 @@ exports("createBill", createBill)
         amount = 150.00,
     })
 ]]
+
+QBCore.Commands.Add('givecash', 'Give Cash', { { name = 'id', help = 'Player ID' }, { name = 'amount', help = 'Amount' } }, true, function(source, args)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return end
+    local playerPed = GetPlayerPed(src)
+    local playerCoords = GetEntityCoords(playerPed)
+    local target = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    if not target then return TriggerClientEvent('QBCore:Notify', src, "附近没有人", 'error') end
+    local targetPed = GetPlayerPed(tonumber(args[1]))
+    local targetCoords = GetEntityCoords(targetPed)
+    local amount = tonumber(args[2])
+    if not amount then return TriggerClientEvent('QBCore:Notify', src, "未输入金额", 'error') end
+    if amount <= 0 then return TriggerClientEvent('QBCore:Notify', src, "错误金额，请检查", 'error') end
+    if #(playerCoords - targetCoords) > 5 then return TriggerClientEvent('QBCore:Notify', src, "离得太远了", 'error') end
+    if Player.PlayerData.money.cash < amount then return TriggerClientEvent('QBCore:Notify', src, "无足够现金", 'error') end
+    Player.Functions.RemoveMoney('cash', amount, 'cash transfer')
+    target.Functions.AddMoney('cash', amount, 'cash transfer')
+    TriggerClientEvent('QBCore:Notify', src, "给予现金" .. amount .. "$", 'success')
+    TriggerClientEvent('QBCore:Notify', target.PlayerData.source, "收到现金" .. amount .. "$", 'success')
+end)
