@@ -64,13 +64,27 @@ end)
 
 CreateThread(function()
     while config.badgecommand == nil do
-        print("config loading...")
         Citizen.Wait(0)
     end
-    print("config loaded!")
+    exports['qb-target']:AddTargetModel("v_med_cor_photocopy", {
+        options = {
+            {
+                type = "client",
+                icon = "fas fa-radiation",
+                label = "花费1000打印一张警徽",
+                canInteract = function(entity)
+                    return true
+                end,
+                action = function(entity)
+                    TriggerServerEvent('x99_badge:checkAndCreate')
+                end
+            },
+        },
+        distance = 1.5
+    })
     local commandName = config.badgecommand
-    RegisterCommand(commandName, function()
-        if config.usecreatecommand then 
+    if config.usecreatecommand then 
+        RegisterCommand(commandName, function()
             PlayerData = QBCore.Functions.GetPlayerData()
             Citizen.Wait(150)
             for k, v in pairs(config.authorizedJobs) do 
@@ -80,11 +94,11 @@ CreateThread(function()
                 --     QBCore.Functions.Notify(config.Notifys.permissionerror, "error", 5000)
                 end
             end
-        end
-    end)   
+        end)
+    end
     local photocommand = config.photocommand
-    RegisterCommand(photocommand, function()
-        if config.usephotocommand then 
+    if config.usephotocommand then 
+        RegisterCommand(photocommand, function()
             PlayerData = QBCore.Functions.GetPlayerData()
             Citizen.Wait(150)
             for k, v in pairs(config.authorizedJobs) do 
@@ -94,8 +108,8 @@ CreateThread(function()
                     -- QBCore.Functions.Notify(config.Notifys.permissionerror, "error", 5000)
                 end
             end
-        end
-    end)   
+        end)   
+    end
     if config.reloadcmmnd then 
         local reloadDataCommandName = config.refreshcmnnd
         RegisterCommand(reloadDataCommandName, function()
@@ -110,10 +124,10 @@ RegisterNetEvent("x99_badge:create")
 AddEventHandler("x99_badge:create", function()
     PlayerData = QBCore.Functions.GetPlayerData()
     local name = PlayerData.charinfo.firstname.. " " ..PlayerData.charinfo.lastname
-    -- local callsign = PlayerData.metadata.callsign
-    local callsign = "001"
+    local callsign = PlayerData.metadata.callsign
     local rank = PlayerData.job.grade.name 
-    local photo = PlayerData.metadata.phone.profilepicture
+    -- local photo = PlayerData.metadata.phone.profilepicture
+    local photo = PlayerData.metadata.phonedata.profilepicture  -- rb_code
     local grade = PlayerData.job.grade.level
 
     local badgeType = 'police'
@@ -139,7 +153,6 @@ AddEventHandler("x99_badge:create", function()
     if callsign == nil then 
         QBCore.Functions.Notify(config.Notifys.nocallsign, "error", 5000)
     else 
-        print("entered create:else")
         TriggerServerEvent("x99-badge:item:create", name, callsign, rank, photo, type)
     end
 end)
@@ -280,15 +293,11 @@ end
 RegisterNetEvent("x99_badge:changeurl")
 AddEventHandler("x99_badge:changeurl", function()
     local myInputs = {}
-    table.insert(myInputs, {text = "url", name = "url1", type = "text", isRequired = false})
+    table.insert(myInputs, {text = "url", name = "url1", type = "text", isRequired = true})
     local dialog = exports['qb-input']:ShowInput({
-        header = "PD Badge",
-        submitText = "Change Photo",
+        header = "警徽",
+        submitText = "提交照片",
         inputs = myInputs
     })
-    PlayerData = QBCore.Functions.GetPlayerData()
-    -- print(json.encode(dialog["url1"]))
-    PlayerData.metadata.phonedata.profilepicture = dialog["url1"]
-    TriggerServerEvent("x99-badge:SaveMetaData", PlayerData.metadata.phonedata)
-    -- print(json.encode(PlayerData.metadata.phonedata, {indent = true}))
+    TriggerServerEvent("x99-badge:SaveMetaData", dialog["url1"])
 end)

@@ -1,4 +1,4 @@
-if GetResourceState('ps-inventory') ~= 'started' then return end
+if GetResourceState('qb-inventory') ~= 'started' then return end
 local QBCore = exports['qb-core']:GetCoreObject()
 
 function getItemInfo(item)

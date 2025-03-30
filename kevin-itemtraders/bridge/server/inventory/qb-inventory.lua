@@ -1,6 +1,6 @@
-if GetResourceState('ps-inventory') ~= 'started' then return end
+if GetResourceState('qb-inventory') ~= 'started' then return end
 
-local qbInventory = exports['ps-inventory']
+local qbInventory = exports['qb-inventory']
 
 function removeItem(source, item, amount, metadata)
     return qbInventory:RemoveItem(source, item, amount, metadata)
