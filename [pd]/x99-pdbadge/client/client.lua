@@ -96,6 +96,22 @@ CreateThread(function()
             end
         end)
     end
+    exports['qb-target']:AddTargetModel("prop_tv_cam_02", {
+        options = {
+            {
+                type = "client",
+                icon = "fas fa-radiation",
+                label = "花500拍一张证件照",
+                canInteract = function(entity)
+                    return math.floor(GetEntityCoords(entity).x) == -576
+                end,
+                action = function(entity)
+                    TriggerServerEvent('x99-badge:CheckAndChangeURL')
+                end
+            },
+        },
+        distance = 1.5
+    })
     local photocommand = config.photocommand
     if config.usephotocommand then 
         RegisterCommand(photocommand, function()
@@ -295,7 +311,7 @@ AddEventHandler("x99_badge:changeurl", function()
     local myInputs = {}
     table.insert(myInputs, {text = "url", name = "url1", type = "text", isRequired = true})
     local dialog = exports['qb-input']:ShowInput({
-        header = "警徽",
+        header = "证件照",
         submitText = "提交照片",
         inputs = myInputs
     })

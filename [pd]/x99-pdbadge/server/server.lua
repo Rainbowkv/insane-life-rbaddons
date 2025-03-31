@@ -74,3 +74,23 @@ AddEventHandler('x99_badge:checkAndCreate', function()
         TriggerClientEvent('QBCore:Notify', src, "您的现金不足以打印警徽", 'error')
     end
 end)
+
+RegisterNetEvent("x99-badge:CheckAndChangeURL", function()
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+
+    if Player then
+        local cash = Player.Functions.GetMoney("cash")
+
+        if cash >= 500 then
+            -- 扣除 500 现金
+            Player.Functions.RemoveMoney("cash", 500, "修改证件照 URL")
+
+            -- 继续执行原来的逻辑
+            TriggerClientEvent("QBCore:Notify", src, "已扣除 $500 现金", "success")
+            TriggerClientEvent("x99_badge:changeurl", src, url)
+        else
+            TriggerClientEvent("QBCore:Notify", src, "现金不足，无法修改证件照 URL", "error")
+        end
+    end
+end)

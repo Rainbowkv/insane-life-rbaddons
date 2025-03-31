@@ -118,7 +118,7 @@ Config.Companies.Enabled = true -- allow players to call companies?
 Config.Companies.MessageOffline = true -- if true, players can message companies even if no one in the company is online
 Config.Companies.DefaultCallsDisabled = false -- should receiving company calls be disabled by default?
 Config.Companies.AllowAnonymous = false -- allow players to call companies with "hide caller id" enabled?
-Config.Companies.SeeEmployees = "everyone" -- who should be able to see employees? they will see name, online status & phone number. options are: "everyone", "employees" or "none"
+Config.Companies.SeeEmployees = "employees" -- who should be able to see employees? they will see name, online status & phone number. options are: "everyone", "employees" or "none"
 Config.Companies.DeleteConversations = true -- allow employees to delete conversations?
 Config.Companies.Services = {
     {
