@@ -46,7 +46,7 @@ Config.Item.Require = true -- require a phone item to use the phone
 Config.Item.Name = "phone" -- name of the phone item
 
 Config.Item.Unique = false -- should each phone be unique? https://docs.lbscripts.com/phone/configuration/#unique-phones
-Config.Item.Inventory = "qb-inventory" --[[
+Config.Item.Inventory = "ox_inventory" --[[
     The inventory you use, IGNORE IF YOU HAVE Config.Item.Unique DISABLED.
     Supported:
         * auto: auto-detect inventory (ONLY WORKS WITH THE ONE LISTED BELOW)

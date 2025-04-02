@@ -156,7 +156,7 @@ AddEventHandler("x99_badge:create", function()
             -- print(typeNumber)
         end
     end
-    badgeType = config.grades[typeNumber][grade]
+    -- badgeType = config.grades[typeNumber][grade]
     -- print(json.encode(type))
     -- if grade >= 8 and grade <= 15 then 
     --     type = 'sheriff'
@@ -169,7 +169,7 @@ AddEventHandler("x99_badge:create", function()
     if callsign == nil then 
         QBCore.Functions.Notify(config.Notifys.nocallsign, "error", 5000)
     else 
-        TriggerServerEvent("x99-badge:item:create", name, callsign, rank, photo, type)
+        TriggerServerEvent("x99-badge:item:create", name, callsign, rank, photo, badgeType)
     end
 end)
 

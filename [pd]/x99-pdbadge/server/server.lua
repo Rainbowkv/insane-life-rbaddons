@@ -9,7 +9,7 @@ Citizen.CreateThread(function()
         local Player = QBCore.Functions.GetPlayer(source)
         local coords = GetEntityCoords(GetPlayerPed(source))
         if Player.Functions.GetItemBySlot(item.slot) ~= nil then
-            TriggerClientEvent("x99-pdbadge:open", -1, source, coords, item.info)
+            TriggerClientEvent("x99-pdbadge:open", -1, source, coords, item.metadata)
         end
     end)
 end)

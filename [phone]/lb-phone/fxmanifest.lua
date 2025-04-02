@@ -59,6 +59,6 @@ escrow_ignore {
 
 dependencies {
     'oxmysql',
-    'qb-inventory',
+    'ox_inventory',
     'qb-core'
 }
