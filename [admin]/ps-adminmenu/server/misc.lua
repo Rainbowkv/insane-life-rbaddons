@@ -77,8 +77,9 @@ RegisterNetEvent('ps-adminmenu:server:Revive', function(data, selectedData)
     local data = CheckDataFromKey(data)
     if not data or not CheckPerms(source, data.perms) then return end
     local player = selectedData["Player"].value
-
-    TriggerClientEvent('hospital:client:Revive', player)
+    local data = {}
+    data.revive = true
+    TriggerClientEvent('ars_ambulancejob:healPlayer', player, data)
 end)
 
 -- Revive All
