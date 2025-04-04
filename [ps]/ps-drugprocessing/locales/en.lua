@@ -78,9 +78,9 @@ local Translations = {
     },
     target = {
         process_thionyl_chloride = "处理亚硫酰氯",
-        talk_to_walter = "与Walter交谈",
-        talk_to_draco = "与Draco交谈",
-        talk_to_charlotte = "与Charlotte交谈",
+        talk_to_walter = "进入冰毒实验室",
+        talk_to_draco = "进入可卡因实验室",
+        talk_to_charlotte = "进入大麻实验室",
         chemmenu = "化学化合物",
         methprocess = "烹饪一些美妙的蓝色物质",
         methtempup = "提高温度",

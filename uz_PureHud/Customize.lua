@@ -2,7 +2,7 @@ Customize = {
     Framework = "QBCore", -- QBCore | ESX | NewESX | OldQBCore (Write the framework you used as in the example)    
     
     SpeedometerTypeKMH = true, -- kmh | mph
-    AlwaysOnMinimap = false, -- Specifies whether the minimap should be visible outside the vehicle
+    AlwaysOnMinimap = true, -- Specifies whether the minimap should be visible outside the vehicle
     StreetDisplay = true,
     ServerName = '瑞文斯',
     MoneyType = '$',

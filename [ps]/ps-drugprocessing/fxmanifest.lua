@@ -23,3 +23,5 @@ server_scripts {
 client_scripts {
 	'client/*.lua'
 }
+
+dependency 'ox_target'

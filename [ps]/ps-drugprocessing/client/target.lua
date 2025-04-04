@@ -1,62 +1,50 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 CreateThread(function()
-    exports['qb-target']:SpawnPed({
-        model = 'a_m_m_hillbilly_02',
-        coords = vector4(-1187.73, -445.27, 43.91, 289.45), 
-        minusOne = true, 
-        freeze = true, 
-        invincible = true, 
-        blockevents = true,
-        target = { 
-            options = {
-                {
-					type = "client",
-					event = "ps-drugprocessing:EnterLab",
-					icon = "fas fa-atom",
-					label = Lang:t("target.talk_to_walter"),
-                }
-            },
-          distance = 2.5,
-        },
+    exports.ox_target:addSphereZone({
+        coords = vec3(-1187.73, -445.27, 43.91),
+        radius = 2.5,  -- 与原 distance 保持一致
+        debug = false, -- 开发中可设为 true 看区域
+        drawSprite = false, -- 显示地面圆圈图标
+        options = {
+            {
+                name = 'talk_to_walter',
+                event = 'ps-drugprocessing:EnterLab',
+                icon = 'fas fa-key',
+                label = Lang:t("target.talk_to_walter"),
+                type = 'client'
+            }
+        }
     })
-    exports['qb-target']:SpawnPed({
-        model = 'a_m_m_mlcrisis_01',
-        coords = vector4(812.49, -2399.59, 23.66, 223.1), 
-        minusOne = true, 
-        freeze = true, 
-        invincible = true, 
-        blockevents = true,
-        target = { 
-            options = {
-                {
-					type = "client",
-					event = "ps-drugprocessing:EnterCWarehouse",
-					icon = "fas fa-key",
-					label = Lang:t("target.talk_to_draco"),
-                }
-            },
-          distance = 2.5,
-        },
+    exports.ox_target:addSphereZone({
+        coords = vec3(812.49, -2399.59, 23.66),
+        radius = 2.5,  -- 与原 distance 保持一致
+        debug = false, -- 开发中可设为 true 看区域
+        drawSprite = false, -- 显示地面圆圈图标
+        options = {
+            {
+                name = 'talk_to_draco',
+                event = 'ps-drugprocessing:EnterCWarehouse',
+                icon = 'fas fa-key',
+                label = Lang:t("target.talk_to_draco"),
+                type = 'client'
+            }
+        }
     })
-    exports['qb-target']:SpawnPed({
-        model = 'mp_f_weed_01',
-        coords = vector4(102.07, 175.08, 104.59, 159.91),
-        minusOne = true, 
-        freeze = true, 
-        invincible = true, 
-        blockevents = true,
-        target = { 
-            options = {
-                {
-					type = "client",
-					event = "ps-drugprocessing:EnterWWarehouse",
-					icon = "fas fa-key",
-					label = Lang:t("target.talk_to_charlotte"),
-                }
-            },
-          distance = 2.5,
-        },
+    exports.ox_target:addSphereZone({
+        coords = vec3(102.07, 176.08, 104.59),
+        radius = 2.5,  -- 与原 distance 保持一致
+        debug = false, -- 开发中可设为 true 看区域
+        drawSprite = false, -- 显示地面圆圈图标
+        options = {
+            {
+                name = 'talk_to_charlotte',
+                event = 'ps-drugprocessing:EnterWWarehouse',
+                icon = 'fas fa-key',
+                label = Lang:t("target.talk_to_charlotte"),
+                type = 'client'
+            }
+        }
     })
 end)
 
