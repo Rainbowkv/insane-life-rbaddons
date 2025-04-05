@@ -367,3 +367,45 @@ RegisterNUICallback("ps-banking:client:getAmountPresets", function(_, cb)
         grid = Config.PresetATM_Amounts.Grid,
     }))
 end)
+
+-- rb_code
+-- 前端事件，打开输入框让玩家输入金额
+RegisterNetEvent('ps-banking:client:openGiveCashInput', function(entity)
+    -- 弹出框让玩家输入现金数额
+    local dialog = exports['qb-input']:ShowInput({
+        header = "输入给予现金额度",
+        submitText = "确认",
+        inputs = {
+            {
+                text = "金额",
+                name = "amount",
+                type = "number",
+                isRequired = true
+            }
+        }
+    })
+	if dialog then
+		local target_id = GetPlayerServerId(NetworkGetEntityOwner(entity))
+		local amount = dialog.amount
+		ExecuteCommand('givecash ' .. target_id ..' '.. amount)
+	end
+end)
+-- --
+
+CreateThread(function()
+    exports.ox_target:addGlobalPlayer({
+        {
+            icon = 'fas fa-door-open',
+            label = '给予现金',
+            distance = 1.2,
+            canInteract = function(entity, distance, coords, name, bone)
+                -- 这里的 entity 是玩家Ped
+                return true -- 同样允许始终交互
+            end,
+            onSelect = function(data)
+                -- 触发事件，传目标ID
+                TriggerEvent('ps-banking:client:openGiveCashInput', data.entity)
+            end
+        }
+    })
+end)
