@@ -32,6 +32,7 @@ return {
             },
             items = {
                 ['meth'] = 230,
+                ['coke_brick'] = 330,
             }
         },
         -- {

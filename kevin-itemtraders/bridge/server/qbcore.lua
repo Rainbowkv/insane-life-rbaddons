@@ -19,5 +19,6 @@ function setPlayerReputation(player, reputation, amount)
 end
 
 function addMoney(player, type, amount, reason)
-    player.Functions.AddMoney(type, amount, reason)
+    -- player.Functions.AddMoney(type, amount, reason)
+    exports.ox_inventory:AddItem(source, 'black_money', amount)
 end

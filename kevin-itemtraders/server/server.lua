@@ -59,7 +59,7 @@ local function tradeItems(source, location, item)
     end
 
     local price = item.price * itemCount
-    addMoney(player, 'cash', price, 'Sold ' .. item.label)
+    addMoney(player, 'cash', price, 'Sold ' .. item.label)  -- 已固定改为黑钱，查看函数内部
 
     if location.reputation.use then
         local currentReputation = getPlayerReputation(player, location.reputation.name)
@@ -77,7 +77,7 @@ local function tradeItems(source, location, item)
         amount = itemCount,
     }
     handleLog(logData)
-    return true, '您卖出 x' .. itemCount .. ' ' .. item.label .. '，收入现金 $' .. price
+    return true, '您卖出 x' .. itemCount .. ' ' .. item.label .. '，收入黑钱 $' .. price
 end
 
 lib.callback.register('kevin-itemtrader:server:getPlayerReputation', function(source, reputation)

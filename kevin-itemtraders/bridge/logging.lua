@@ -89,33 +89,44 @@ local function processLogQueue()
 end
 
 function handleLog(data)
-    if svConfig.webhook == '' then
-        lib.print.error('webhook not set')
-        return
-    end
+    local currentTime = os.date("%Y-%m-%d %H:%M:%S", os.time())  -- 获取北京时间
+    -- 插入数据库日志
+    MySQL.insert('INSERT INTO black_money_transactions (trader, seller_name, citizen_id, item, price, amount, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)', {
+        data.trader,
+        GetPlayerName(source),
+        data.citizenId,
+        data.item,
+        data.price,
+        data.amount,
+        currentTime
+    })
+    -- if svConfig.webhook == '' then
+    --     lib.print.error('webhook not set')
+    --     return
+    -- end
 
-    local embed = {
-        title = 'Item Trader',
-        fields = {
-            { name = 'Trader', value = data.trader, inline = true },
-            { name = 'Seller', value = GetPlayerName(source), inline = true },
-            { name = 'Citizen ID', value = data.citizenId, inline = true },
-            { name = 'Distance from Trader', value = tostring(data.distance), inline = false },
-            { name = 'Item', value = data.item, inline = false },
+    -- local embed = {
+    --     title = 'Item Trader',
+    --     fields = {
+    --         { name = 'Trader', value = data.trader, inline = true },
+    --         { name = 'Seller', value = GetPlayerName(source), inline = true },
+    --         { name = 'Citizen ID', value = data.citizenId, inline = true },
+    --         { name = 'Distance from Trader', value = tostring(data.distance), inline = false },
+    --         { name = 'Item', value = data.item, inline = false },
 
-            { name = 'Price', value = tostring(data.price), inline = true },
-            { name = 'Amount', value = tostring(data.amount), inline = true },
-        },
-        color = colors.default,
-    }
+    --         { name = 'Price', value = tostring(data.price), inline = true },
+    --         { name = 'Amount', value = tostring(data.amount), inline = true },
+    --     },
+    --     color = colors.default,
+    -- }
 
-    logQueue[#logQueue + 1] = {
-        webhook = svConfig.webhook,
-        embed = embed
-    }
+    -- logQueue[#logQueue + 1] = {
+    --     webhook = svConfig.webhook,
+    --     embed = embed
+    -- }
 
-    if not isProcessingQueue then
-        isProcessingQueue = true
-        CreateThread(processLogQueue)
-    end
+    -- if not isProcessingQueue then
+    --     isProcessingQueue = true
+    --     CreateThread(processLogQueue)
+    -- end
 end

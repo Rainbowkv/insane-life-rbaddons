@@ -142,7 +142,7 @@ Config.CokeProcessing = {
 	BakingSoda = 5, -- Amount of Baking Soda Needed for Small Brick
 	SmallCokeBrick = math.random(2,7),
 	-- Process Small Bricks Into Large Brick --
-	SmallBrick = 4, -- Amount of Small Bricks Required
+	SmallBrick = 1, -- Amount of Small Bricks Required
 	LargeBrick = 1, -- Large Bricks Received
 }
 
