@@ -55,26 +55,26 @@ Config.Commands = {
     },
 
     -- Sirens
-    SirensKey = { -- key for activate sirens
-        cmd = 'sirens',
-        description = Config.Translations.SirensKey,
-        key = 'COMMA',
-    },
-    LightsSirens = { -- key for activate lights
-        cmd = 'lights',
-        description = Config.Translations.LightsSirens,
-        key = 'Q',
-    },
-    HornKey = {
-        key = 86, -- Key code for the horn: https://docs.fivem.net/docs/game-references/controls/
-        disabledKey = 86, -- If nil no key will be disabled, this is to avoid other game actions when the horn is performed: https://docs.fivem.net/docs/game-references/controls/
-    },
+    -- SirensKey = { -- key for activate sirens
+    --     cmd = 'sirens',
+    --     description = Config.Translations.SirensKey,
+    --     key = 'COMMA',
+    -- },
+    -- LightsSirens = { -- key for activate lights
+    --     cmd = 'lights',
+    --     description = Config.Translations.LightsSirens,
+    --     key = 'Q',
+    -- },
+    -- HornKey = {
+    --     key = 86, -- Key code for the horn: https://docs.fivem.net/docs/game-references/controls/
+    --     disabledKey = 86, -- If nil no key will be disabled, this is to avoid other game actions when the horn is performed: https://docs.fivem.net/docs/game-references/controls/
+    -- },
 
     -- Interactions
-    HandCuff = { -- key for handcuff
-        description = Config.Translations.HandCuff,
-        key = '',
-    },
+    -- HandCuff = { -- key for handcuff
+    --     description = Config.Translations.HandCuff,
+    --     key = '',
+    -- },
     QRR = { -- key for QRR
         description = Config.Translations.QRR,
         key = '',
