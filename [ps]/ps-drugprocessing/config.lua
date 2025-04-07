@@ -154,7 +154,7 @@ Config.MethProcessing = {
 	SulfAcid = 1, -- Amount of Sulfuric Acid Needed for Liquid Mix
 	HydAcid = 1, -- Amount of Hydrochloric Acid Needed for Liquid Mix
 	SodHyd = 1, -- Amount of Sodium Hydroxide Needed for Liquid Mix
-	Meth = math.random(5,12), -- Amount of Meth Recevied From 1 Tray
+	Meth = math.random(3,10), -- Amount of Meth Recevied From 1 Tray
 }
 
 --------------------------------

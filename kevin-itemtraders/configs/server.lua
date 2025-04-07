@@ -31,8 +31,9 @@ return {
                 label = '交易非法物品',
             },
             items = {
-                ['meth'] = 230,
-                ['coke_brick'] = 330,
+                ['meth'] = 350,
+                ['coke_brick'] = 400,
+                ['heroin'] = 400
             }
         },
         -- {

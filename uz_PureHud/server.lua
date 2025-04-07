@@ -1,5 +1,6 @@
 Framework = nil
 PlayerStress = json.decode(LoadResourceFile(GetCurrentResourceName(), "./Stress.json"))
+local QBCore = exports['qb-core']:GetCoreObject()
 
 Citizen.CreateThread(function()
     while Framework == nil do Citizen.Wait(750) end
@@ -79,3 +80,15 @@ function IsWhitelisted(Player, JobName)
     end
     return false
 end
+
+-- rb_code
+RegisterNetEvent('hud:server:UseJoint')
+AddEventHandler('hud:server:UseJoint', function(armour)
+    SetPedArmour(GetPlayerPed(source), armour)
+end)
+
+QBCore.Functions.CreateUseableItem('redwcig', function(source, item)
+    local Player = QBCore.Functions.GetPlayer(source)
+    if not exports['qb-inventory']:RemoveItem(source, item.name, 1, item.slot, 'qb-smallresources:joint') then return end
+    TriggerClientEvent('hud:client:usedRedwcig', source)
+end)

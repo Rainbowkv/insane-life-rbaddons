@@ -1,6 +1,8 @@
 Framework, PlayerLoaded, SpeedType, PlayerPed, stress, seatbeltOn = nil, false, nil, nil, 0, false
 Framework = GetFramework()
 Callback = (Customize.Framework == "ESX" or Customize.Framework == "NewESX") and Framework.TriggerServerCallback or Framework.Functions.TriggerCallback
+-- rb_code
+local QBCore = exports['qb-core']:GetCoreObject()
 
 -- Optimization
 Citizen.CreateThread(function()
@@ -564,4 +566,59 @@ end)
 RegisterNetEvent('hospital:client:Revive')
 AddEventHandler('hospital:client:Revive', function()
     TriggerServerEvent('SetStress', -100)
+end)
+
+-- rb_code 
+
+RegisterNetEvent('hud:client:usedJoint')
+AddEventHandler('hud:client:usedJoint', function()
+    TriggerServerEvent('SetStress', -40)
+    local playerPed = PlayerPedId()
+    local currentArmour = GetPedArmour(playerPed)
+    local newArmour = math.min(currentArmour + 20, 40) -- 大麻最多打到40
+    TriggerServerEvent('hud:server:UseJoint', math.max(newArmour, currentArmour)) 
+end)
+
+RegisterNetEvent('hud:client:usedRedwcig', function()
+    local ped = PlayerPedId()
+    local animDict = 'amb@world_human_aa_smoke@male@idle_a'
+    local animName = 'idle_c' -- 这个动画字典中包含多个 idle 动作，可以换成 idle_a/b/c 测试
+
+    -- 加载动画字典
+    RequestAnimDict(animDict)
+    while not HasAnimDictLoaded(animDict) do
+        Wait(10)
+    end
+    -- 香烟
+    local propModel = 'prop_cs_ciggy_01'
+    local bone = 28422 -- 右手
+    local pos = vec3(0.0, 0.0, 0.0)
+    local rot = vec3(0.0, 0.0, 0.0)
+    -- 加载香烟模型
+    RequestModel(propModel)
+    while not HasModelLoaded(propModel) do Wait(10) end
+
+    -- 创建香烟对象
+    local cig = CreateObject(GetHashKey(propModel), 0, 0, 0, true, true, false)
+
+    -- 附加香烟到手上
+    AttachEntityToEntity(cig, ped, GetPedBoneIndex(ped, bone),
+        pos.x, pos.y, pos.z,
+        rot.x, rot.y, rot.z,
+        true, true, false, true, 1, true)
+    -- 播放动画
+    TaskPlayAnim(ped, animDict, animName, 8.0, -8.0, 10000, 49, 0, false, false, false)
+    QBCore.Functions.Progressbar('smoke_joint', "吸食香烟", 10000, false, true, {
+        disableMovement = false,
+        disableCarMovement = false,
+        disableMouse = false,
+        disableCombat = true,
+    }, {}, {}, {}, function() -- Done
+        -- 降低压力
+        TriggerServerEvent('SetStress', -20)
+        ClearPedTasks(ped)
+        if DoesEntityExist(cig) then
+            DeleteEntity(cig)
+        end
+    end)
 end)
