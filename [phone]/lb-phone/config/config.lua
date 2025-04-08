@@ -210,7 +210,7 @@ Config.CustomApps = {} -- https://docs.lbscripts.com/phone/custom-apps/
 
 Config.Valet = {}
 Config.Valet.Enabled = true -- allow players to get their vehicles from the phone
-Config.Valet.Price = 100 -- price to get your vehicle
+Config.Valet.Price = 1000 -- price to get your vehicle
 Config.Valet.Model = `S_M_Y_XMech_01`
 Config.Valet.Drive = true -- should a ped bring the car, or should it just spawn in front of the player?
 Config.Valet.DisableDamages = false -- disable vehicle damages (engine & body health) on esx
@@ -396,11 +396,11 @@ Config.EnableMessagePay = true -- Allow players to pay other players via message
 Config.EnableVoiceMessages = true -- Allow players to send voice messages?
 Config.EnableGIFs = true
 
-Config.CityName = "Los Santos" -- The name that's being used in the weather app etc.
-Config.RealTime = true -- if true, the time will use real life time depending on where the user lives, if false, the time will be the ingame time.
+Config.CityName = "Ravens" -- The name that's being used in the weather app etc.
+Config.RealTime = false -- if true, the time will use real life time depending on where the user lives, if false, the time will be the ingame time.
 Config.CustomTime = false -- NOTE: disable Config.RealTime if using this. you can set this to a function that returns custom time, as a table: { hour = 0-24, minute = 0-60 }
 
-Config.EmailDomain = "lbscripts.com"
+Config.EmailDomain = "ravens.com"
 Config.AutoCreateEmail = false -- should the phone automatically create an email for the player when they set up the phone?
 Config.DeleteMail = true -- allow players to delete mails in the mail app?
 Config.ConvertMailToMarkdown = false -- convert mails from html to markdown?
