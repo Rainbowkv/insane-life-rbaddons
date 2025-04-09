@@ -45,8 +45,8 @@ Config.Locale = 'en'
     }
   },
   Epic = {
-    chance = 0,
-    message = '你大获全胜！+$750！',
+    chance = 10,
+    message = '你大获全胜！+$700！',
     price = {
       price_money = 700,
       item = {
@@ -58,7 +58,7 @@ Config.Locale = 'en'
     }
   },
   Legendary = {
-    chance = 13,
+    chance = 3,
     message = '传奇级大奖！你赢得了$1000！',
     price = {
       price_money = 1000,
