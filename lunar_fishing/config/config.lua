@@ -1,6 +1,7 @@
 Config = {}
 
 Config.progressPerCatch = 0.05 -- The progress per one fish caught
+Config.ShowRadius = false  -- 是否显示半径圆
 
 ---@class Fish
 ---@field price integer | { min: integer, max: integer }

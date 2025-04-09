@@ -30,8 +30,9 @@ local function updateBlips(level)
                     color = 0,
                     scale = zone.blip.scale
                 })
-                local radiusBlip = Utils.createRadiusBlip(coords, zone.radius, zone.blip.color)
-                
+                if Config.ShowRadius then
+                    local radiusBlip = Utils.createRadiusBlip(coords, zone.radius, zone.blip.color)
+                end
                 table.insert(blips, { normal = blip, radius = radiusBlip })
             end
         end
