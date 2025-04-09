@@ -8,9 +8,9 @@ local Locales = DreamLocales[DreamCore.Language]
 
 -- Thanks for Credits
 -- Disclaimer: I know it´s Open-Source but please don´t remove this and give us the credits. Thanks!
-if string.find(GetCurrentResourceName(), 'dream') then
-	print("^6[Dream-Services]^7 Thank you for not changing the resource name!")
-end
+-- if string.find(GetCurrentResourceName(), 'dream') then
+-- 	print("^6[Dream-Services]^7 Thank you for not changing the resource name!")
+-- end
 
 -- Global Variables
 local HasJob = false
@@ -203,7 +203,7 @@ function OnJobChange(job)
 end
 
 function InitPoliceImpound()
-	print("^6[Dream-Services]^7 Police Impound was initialized.")
+	-- print("^6[Dream-Services]^7 Police Impound was initialized.")
 
 	TargetGlobalVehicleSelect = function(entity)
 		if not entity or not DoesEntityExist(entity) then return end
@@ -217,7 +217,7 @@ function InitPoliceImpound()
 			{ type = 'input', icon = 'user-tie',       label = FormTranslation.Officer,  required = true, default = ImpoundFormData.officerName, disabled = DreamCore.ImpoundForm.DisableInput.officer },
 			{ type = 'input', icon = 'car',            label = FormTranslation.Model,    required = true, default = VehicleProps.label,          disabled = DreamCore.ImpoundForm.DisableInput.model },
 			{ type = 'input', icon = 'bars-staggered', label = FormTranslation.Plate,    required = true, default = VehicleProps.plate,          disabled = DreamCore.ImpoundForm.DisableInput.plate },
-			{ type = 'date',  icon = 'calendar',       label = FormTranslation.Duration, required = true, default = true,                        format = DreamCore.ImpoundForm.DateFormat },
+			{ type = 'date',  icon = 'calendar',       label = FormTranslation.Duration, required = true, default = true,                        format = DreamCore.ImpoundForm.DateFormat , disabled = true },-- rb_code，记录时间即可。
 		}
 
 		-- All Offence to select
@@ -271,7 +271,6 @@ function InitPoliceImpound()
 		local ImpoundmentForm = lib.inputDialog(FormTranslation.Title, ImpoundmentFormOptions)
 		ClearPedTasks(cache.ped)
 		local ImpoundData = {}
-		print(json.encode(ImpoundmentForm))
 
 		if ImpoundmentForm then
 			ImpoundData.officer = ImpoundmentForm[1]
@@ -338,7 +337,7 @@ function InitPoliceImpound()
 end
 
 function RemovePoliceImpound()
-	print("^6[Dream-Services]^7 Police Impound was removed.")
+	-- print("^6[Dream-Services]^7 Police Impound was removed.")
 
 	if DreamCore.Target() == 'ox' then
 		exports.ox_target:removeGlobalVehicle('police_impound_vehicle_impound')

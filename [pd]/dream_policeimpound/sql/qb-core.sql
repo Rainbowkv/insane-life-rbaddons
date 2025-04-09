@@ -28,9 +28,9 @@ CREATE TABLE police_impound_status (
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 INSERT INTO police_impound_status (`id`, `name`) VALUES
-(1, 'Released'),
-(2, 'Impounded'),
-(3, 'Need unlock through LSPD');
+(1, '已取出'),
+(2, '被扣押'),
+(3, '需解锁');
 
 CREATE TABLE police_impound (
     `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -29,7 +29,7 @@ DreamCore.ImpoundStations = {
         blip = {
             sprite = 67,
             color = 68,
-            label = 'Police Impound',
+            label = '被警察扣押的车辆',
         },
         parkout = {
             coords = vector3(405.2425, -1644.0477, 28.2919),
@@ -40,12 +40,12 @@ DreamCore.ImpoundStations = {
     -- Add more Impound Stations here
 }
 DreamCore.ImpoundForm = {
-    DateFormat = "DD.MM.YYYY",
+    DateFormat = "YYYY.MM.DD HH:mm",
     CustomFineAmount = true,
     DisableInput = {
         officer = true,
-        model = false,
-        plate = false,
+        model = true,
+        plate = true,
     }
 }
 

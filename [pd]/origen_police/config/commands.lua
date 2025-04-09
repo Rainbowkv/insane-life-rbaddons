@@ -65,10 +65,10 @@ Config.Commands = {
         description = Config.Translations.LightsSirens,
         key = '',
     },
-    -- HornKey = {
-    --     key = 86, -- Key code for the horn: https://docs.fivem.net/docs/game-references/controls/
-    --     disabledKey = 86, -- If nil no key will be disabled, this is to avoid other game actions when the horn is performed: https://docs.fivem.net/docs/game-references/controls/
-    -- },
+    HornKey = {
+        key = nil, -- Key code for the horn: https://docs.fivem.net/docs/game-references/controls/
+        disabledKey = nil, -- If nil no key will be disabled, this is to avoid other game actions when the horn is performed: https://docs.fivem.net/docs/game-references/controls/
+    },
 
     -- Interactions
     -- HandCuff = { -- key for handcuff

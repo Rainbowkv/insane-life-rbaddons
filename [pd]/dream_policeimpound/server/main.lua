@@ -28,7 +28,7 @@ end
 if DreamCore.GiveCredits then SetConvarServerInfo("Dream Services", "❤️") end
 
 -- Available Print
-print(('\27[1;46m[%s]\27[0m \27[1;37m The ^3%s^7\27[1;37m on version ^3%s^7\27[1;37m (^4Patch %s^7\27[1;37m) is now running ✅^7'):format(ScriptMetadata.name, ScriptMetadata.label, ScriptMetadata.version, ScriptMetadata.patch))
+-- print(('\27[1;46m[%s]\27[0m \27[1;37m The ^3%s^7\27[1;37m on version ^3%s^7\27[1;37m (^4Patch %s^7\27[1;37m) is now running ✅^7'):format(ScriptMetadata.name, ScriptMetadata.label, ScriptMetadata.version, ScriptMetadata.patch))
 
 -- Check for Updates
 Citizen.CreateThread(function()
@@ -109,7 +109,12 @@ lib.callback.register('dream_policeimpound:server:impoundVehicle', function(sour
             })
 
             -- Delete from owned vehicles db
-            DreamFramework.DeleteOwnedVehicle(VehicleProps.plate)
+            -- DreamFramework.DeleteOwnedVehicle(VehicleProps.plate)
+            MySQL.Sync.execute('UPDATE player_vehicles SET state = ?, garage = ? WHERE plate = ?', {  -- rb_code,不删除,设置为被扣押的状态
+                2,
+                '戴维斯警局扣押场',
+                VehicleProps.plate
+            })
 
             -- Try to notify the owner
             local xTarget = DreamFramework.getPlayerFromId(VehicleOwner)
@@ -230,7 +235,12 @@ lib.callback.register('dream_policeimpound:server:parkOutVehicle', function(sour
                 })
 
                 -- Insert in owned vehicles
-                DreamFramework.InsertOwnedVehicle(ImpoundVehicleData.vehicle_plate, Identifier, ImpoundVehicleData.vehicle)
+                -- DreamFramework.InsertOwnedVehicle(ImpoundVehicleData.vehicle_plate, Identifier, ImpoundVehicleData.vehicle)
+                MySQL.Sync.execute('UPDATE player_vehicles SET state = ?, garage = ? WHERE plate = ?', {  -- rb_code,状态设置为在外,停车场恢复为默认
+                    0,
+                    'pillboxgarage',
+                    ImpoundVehicleData.vehicle_plate
+                })
 
                 return { success = true, message = Locales['LocalEntity']['ImpoundStation']['Notify']['ImpoundVehicleParkOut'] }
             else

@@ -14,7 +14,7 @@ DreamLocales['en'] = {
                 ['Model'] = '型号',
                 ['Plate'] = '车牌',
                 ['Officer'] = '警官',
-                ['Duration'] = '扣押时长',
+                ['Duration'] = '扣押时间',
                 ['Offence'] = '违规行为',
                 ['OffencePlaceholder'] = '选择违规行为',
                 ['Fine'] = '罚款',
@@ -49,7 +49,7 @@ DreamLocales['en'] = {
                 ['Plate'] = '🔢 车牌',
                 ['Offence'] = '⚖️ 违规行为',
                 ['Fine'] = '💰 罚款',
-                ['Duration'] = '⏳ 扣押时长',
+                ['Duration'] = '⏳ 扣押时间',
                 ['Note'] = '📝 备注',
             },
             ['Notify'] = {

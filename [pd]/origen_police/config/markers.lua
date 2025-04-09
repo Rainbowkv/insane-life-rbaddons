@@ -171,13 +171,13 @@ Public = {
             name = "Police Station",
             size = 0.8
         },
-        {
-            coords = vector4(409.46, -1628.92, 29.29, 318.28),
-            sprite = 237,
-            color = 0,
-            name = "Impound",
-            size = 0.8
-        }
+        -- {
+        --     coords = vector4(409.46, -1628.92, 29.29, 318.28),
+        --     sprite = 237,
+        --     color = 0,
+        --     name = "Impound",
+        --     size = 0.8
+        -- }
     },
     TrafficZones = {}
 }
