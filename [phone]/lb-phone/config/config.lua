@@ -209,7 +209,7 @@ Config.Companies.Management = {
 Config.CustomApps = {} -- https://docs.lbscripts.com/phone/custom-apps/
 
 Config.Valet = {}
-Config.Valet.Enabled = true -- allow players to get their vehicles from the phone
+Config.Valet.Enabled = false -- allow players to get their vehicles from the phone
 Config.Valet.Price = 1000 -- price to get your vehicle
 Config.Valet.Model = `S_M_Y_XMech_01`
 Config.Valet.Drive = true -- should a ped bring the car, or should it just spawn in front of the player?
