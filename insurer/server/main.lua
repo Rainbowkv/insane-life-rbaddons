@@ -5,7 +5,7 @@ QBCore.Functions.CreateCallback('insurer:server:GetPlayerVehicles', function(sou
     local Player = QBCore.Functions.GetPlayer(source)
     local Vehicles = {}
 
-    oxmysql:query('SELECT * FROM player_vehicles WHERE citizenid = ?', {Player.PlayerData.citizenid}, function(result)
+    oxmysql:query('SELECT * FROM player_vehicles WHERE citizenid = ? AND state = 0', {Player.PlayerData.citizenid}, function(result)  -- 只保留在外面的车，停在车库的1和被扣押的2都过滤掉
         if result[1] then
             for _, v in pairs(result) do
                 local VehicleData = QBCore.Shared.Vehicles[v.vehicle]
@@ -36,16 +36,16 @@ QBCore.Functions.CreateCallback('insurer:server:GetPlayerVehicles', function(sou
                 end
     
                 Vehicles[#Vehicles + 1] = {
-                    name = v.vehicle,
-                    fullname = fullname,
-                    brand = VehicleData and VehicleData['brand'] or '',
-                    model = VehicleData and VehicleData['name'] or '',
+                    -- name = v.vehicle,
+                    -- fullname = fullname,
+                    -- brand = VehicleData and VehicleData['brand'] or '',
+                    -- model = VehicleData and VehicleData['name'] or '',
                     plate = v.plate,
-                    garage = VehicleGarage,
-                    state = stateTranslation,
-                    fuel = v.fuel,
-                    engine = v.engine,
-                    body = v.body
+                    -- garage = VehicleGarage,
+                    -- state = stateTranslation,
+                    -- fuel = v.fuel,
+                    -- engine = v.engine,
+                    -- body = v.body
                 }
             end
             cb(Vehicles)

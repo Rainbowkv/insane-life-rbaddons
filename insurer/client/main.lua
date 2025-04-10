@@ -168,6 +168,25 @@ end
 
 -- qb-menu
 function InsuranceMenu(vehicles)
+    -- 检查 vehicles 是否为 nil 或为空
+    if not vehicles or #vehicles == 0 then
+        local insuranceMenu = {
+            {
+                header = Lang:t('menu.insurance_menu_header'),
+                isMenuHeader = true
+            },
+            {
+                header = Lang:t('menu.close_menu'),
+                txt = '',
+                params = {
+                    event = 'qb-menu:client:closeMenu'
+                }
+            }
+        }
+        exports['qb-menu']:openMenu(insuranceMenu)
+        return
+    end
+
     local insuranceMenu = {
         {
             header = Lang:t('menu.insurance_menu_header'),
@@ -176,7 +195,8 @@ function InsuranceMenu(vehicles)
     }
     for _, v in pairs(vehicles) do
         insuranceMenu[#insuranceMenu + 1] = {
-            header = v.name.." "..v.plate,
+            -- header = v.name.." "..v.plate,
+            header = v.plate,
             params = {
                 event = 'qb-garages:client:compensateEntityFromPlate',
                 args = {
