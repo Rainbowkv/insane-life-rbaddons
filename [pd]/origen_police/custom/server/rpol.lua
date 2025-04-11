@@ -10,3 +10,29 @@ RegisterServerEvent("origen_police:server:rpol", function(job, message)
         TriggerClientEvent('chat:addMessage', v, { args = {message}})
     end
 end)
+
+-- rb_code
+local QBCore = exports['qb-core']:GetCoreObject()
+
+RegisterNetEvent('police:server:SetHandcuffStatus', function(isHandcuffed)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player then
+        Player.Functions.SetMetaData('ishandcuffed', isHandcuffed)
+    end
+end)
+
+RegisterNetEvent('police:server:CuffPlayer', function(playerId, isSoftcuff)
+    local src = source
+    local playerPed = GetPlayerPed(src)
+    local targetPed = GetPlayerPed(playerId)
+    local playerCoords = GetEntityCoords(playerPed)
+    local targetCoords = GetEntityCoords(targetPed)
+    if #(playerCoords - targetCoords) > 2.5 then return end
+
+    local Player = QBCore.Functions.GetPlayer(src)
+    local CuffedPlayer = QBCore.Functions.GetPlayer(playerId)
+    if not Player or not CuffedPlayer or Player.PlayerData.job.name ~= 'police' then return end
+
+    TriggerClientEvent('police:client:GetCuffed', CuffedPlayer.PlayerData.source, Player.PlayerData.source, isSoftcuff)
+end)
