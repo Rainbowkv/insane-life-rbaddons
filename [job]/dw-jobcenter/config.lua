@@ -19,10 +19,10 @@ Config.ReviewLocations = {
     --     pos = vector3(237.52, -413.1, 48.11),
     --     label = "Review Legal Applications"
     -- }
-    -- mechanic = {
-    --     pos = vector3(310.1, -599.43, 43.29),
-    --     label = "查看技工应聘信息"
-    -- },
+    mechanic = {
+        pos = vector3(-323.74, -129.47, 39.01),
+        label = "查看技工应聘信息"
+    },
 }
 
 -- Job Center Location
