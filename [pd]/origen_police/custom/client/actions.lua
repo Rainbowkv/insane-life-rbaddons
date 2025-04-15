@@ -69,6 +69,12 @@ function handCuff(cb) -- This is just a callback so you can do anything you want
 end
 
 -- rb_code
+local isHandcuffed = false
+
+exports('isHandcuffed', function()
+    return isHandcuffed
+end)
+
 local function HandCuffAnimation()
     local ped = PlayerPedId()
     if isHandcuffed == true then
@@ -158,6 +164,7 @@ local controlsToDisable = {  -- when isHandcuffed
     264, 257, 140, 141, 142, 143,  -- Disable melee
     75,   -- Disable exit vehicle
     38,  -- E
+    19,  -- lmenu
 }
 -- 保持被拷的线程
 CreateThread(function()

@@ -287,6 +287,7 @@ end
 -----------------------------------------------------------------------------------------------------
 
 function OnEmotePlay(EmoteName)
+  if exports['ars_ambulancejob']:isDead() or exports['origen_police']:isHandcuffed() or exports['ars_ambulancejob']:isEscorted() then return end  -- rb_code
 
   InVehicle = IsPedInAnyVehicle(PlayerPedId(), true)
   if not Config.AllowedInCars and InVehicle == 1 then
