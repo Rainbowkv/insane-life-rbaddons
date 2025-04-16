@@ -5,6 +5,9 @@ Config.Vehicles = {
             ["police2"] = {label = "Police Patrol 2", grade = 1},
             ["police3"] = {label = "Police Patrol 3", grade = 1},
             ["policeb"] = {label = "Police Patrol 4", grade = 2},
+            ['2vd_bstx'] = {label = "警用ctx", grade = 4},
+            ['2vd_vscout'] = {label = "警用探险者", grade = 4},
+            ['expolregent'] = {label = "警用布鲁特", grade = 4},
         },
         ["sheriff"] = {
             -- vehicle list of sheriff

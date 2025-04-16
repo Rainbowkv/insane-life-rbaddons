@@ -116,3 +116,43 @@ RegisterNetEvent('rs-policecars:openMenu', function(vehicles)
         TriggerEvent('QBCore:Notify', '您现在的职级没有可供购买的警车', 'error')
     end
 end)
+
+-- rb_code, dev for tuning
+RegisterCommand("gethandling", function()
+    local ped = PlayerPedId()
+    local veh = GetVehiclePedIsIn(ped, false)
+
+    if veh and veh ~= 0 then
+        local driveForce = GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveForce')
+        local maxFlatVel = GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveMaxFlatVel')
+
+        print("^2[HANDLING]^7 fInitialDriveForce: " .. driveForce)
+        print("^2[HANDLING]^7 fInitialDriveMaxFlatVel: " .. maxFlatVel)
+    else
+        print("^1[ERROR]^7 You're not in a vehicle.")
+    end
+end)
+
+-- 修改当前载具的某个 handling 字段
+-- RegisterCommand("sethandling", function(source, args)
+--     local ped = PlayerPedId()
+--     local veh = GetVehiclePedIsIn(ped, false)
+
+--     if veh == 0 then
+--         print("^1[ERROR]^7 You must be in a vehicle.")
+--         return
+--     end
+
+--     local field = args[1]
+--     local value = tonumber(args[2])
+
+--     if not field or not value then
+--         print("^1[USAGE]^7 /sethandling [fieldName] [value]")
+--         return
+--     end
+--     print(field)
+--     print(value)
+--     -- 设置 handling 值
+--     SetVehicleHandlingFloat(veh, 'CHandlingData', field, value)
+--     print("^2[SUCCESS]^7 Set " .. field .. " to " .. GetVehicleHandlingFloat(veh, 'CHandlingData', field))
+-- end, false)

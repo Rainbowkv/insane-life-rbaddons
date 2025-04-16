@@ -15,7 +15,7 @@ return {
             },
             ped = {
                 model = `s_m_m_autoshop_01`,
-                coords = vector4(38.37, -1455.9, 29.31, 58.13),
+                coords = vector4(1415.66, 6361.44, 24.04, 217.27),
                 nightOnly = false, -- the ped only spawns at night
                 scenario = 'WORLD_HUMAN_COP_IDLES',
                 target = {
