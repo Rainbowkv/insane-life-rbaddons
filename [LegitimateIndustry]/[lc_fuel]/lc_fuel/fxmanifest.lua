@@ -15,6 +15,8 @@ client_scripts {
 	"client/client.lua",
 	"client/client_gas.lua",
 	"client/client_electric.lua",
+	"client/client_refuel.lua",
+	"client/client_fuel_chart.lua",
 }
 
 server_scripts {
@@ -33,17 +35,10 @@ files {
 	"nui/lang/*",
 	"nui/ui.html",
 	"nui/panel.js",
+	"nui/scripts/*",
 	"nui/css/*",
 	"nui/images/*",
 	"nui/fonts/Technology.woff",
-}
-
-exports {
-	"GetFuel",
-	"SetFuel",
-	-- Just another way to call the exports in case someone does it like this...
-	"getFuel",
-	"setFuel",
 }
 
 dependency "lc_utils"

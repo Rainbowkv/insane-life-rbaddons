@@ -1,72 +1,24 @@
 Config.Multifrec = {
-    ["SOUTH UNITS"] = {
-        "ADAM-10",
-        "ADAM-20",
-        "ADAM-30",
-        "ADAM-40",
-        "ADAM-50",
-        "MARY-1",
-        "MARY-2",
-        "MARY-3",
-        "UNION-10",
-        "UNION-20",
-        "UNION-30",
-        "KING-10",
-        "KING-20",
-        "TOM-1",
-        "PEGASO-10",
+    ["特殊单位"] = {
+        "特殊频道1",
     },
-    ["NORTH UNITS"] = {
-        "ALPHA-10",
-        "ALPHA-20",
-        "ALPHA-30",
-        "ALPHA-40",
-        "ALPHA-50",
-        "MIKE-1",
-        "MIKE-2",
-        "MIKE-3",
-        "BRAVO-10",
-        "BRAVO-20",
-        "BRAVO-30",
-        "CHARLIE-10",
-        "CHARLIE-20",
-        "FOXTROT-10",
-        "AGUILA-10",
+    ["郡县警察"] = {
+        "LSSD频道1",
     },
-    ["SPECIAL UNITS"] = {
-        "Central",
-        "Comisaria",
-        "Esperando asignación",
-        "TAC-01",
-        "TAC-02",
-        "TAC-03",
-        "TAC-04",
-        "DAVID-10",
-        "DAVID-20",
-        "DAVID-50",
-        "UNIDAD-K9",
-        "Oficina IAA",
-        "Oficina Investigación",
+    ["市区警察"] = {
+        "LSPD频道1",
     },
-    ["EMS UNITS"] = {
-        "Mando SAFD",
-        "Unidad Bomberos 1",
-        "Unidad Bomberos 2",
-        "Unidad Bomberos 3",
-        "Unidad EMS 1",
-        "Unidad EMS 2",
-        "Unidad EMS 3",
-        "Hospital",
-        "Parque de Bomberos"
+    ["医护单位"] = {
+        "市区医护",
     },
 }
 
 Config.ButtonsMultiFreq = {
     ["BROADCAST SAFD"] = {
-        "EMS UNITS"
+        "医护单位"
     },
     ["BROADCAST SAPD"] = {
-        "SPECIAL UNITS", "NORTH UNITS", "SOUTH UNITS"
+        "特殊单位", "郡县警察", "市区警察"
     }
 }
 
