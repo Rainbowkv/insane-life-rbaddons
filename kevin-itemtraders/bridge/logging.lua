@@ -88,12 +88,15 @@ local function processLogQueue()
     end
 end
 
-function handleLog(data)
+local QBCore = exports['qb-core']:GetCoreObject()  -- rb_code
+
+function handleLog(data, source)
     local currentTime = os.date("%Y-%m-%d %H:%M:%S", os.time())  -- 获取北京时间
+    local Player = QBCore.Functions.GetPlayer(source)
     -- 插入数据库日志
     MySQL.insert('INSERT INTO black_money_transactions (trader, seller_name, citizen_id, item, price, amount, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)', {
         data.trader,
-        GetPlayerName(source),
+        Player.PlayerData.charinfo.firstname .. ' ' .. Player.PlayerData.charinfo.lastname,
         data.citizenId,
         data.item,
         data.price,
