@@ -33,7 +33,7 @@ Config.Servicing = {
   },
   tyres = {
     enableDamage = true,
-    lifespanInKm = 250,
+    lifespanInKm = 500,
     itemName = "tyre_replacement",
     itemQuantity = 4
   },
@@ -49,7 +49,7 @@ Config.Servicing = {
   --
   engineOil = {
     enableDamage = true,
-    lifespanInKm = 100,
+    lifespanInKm = 500,
     itemName = "engine_oil",
     itemQuantity = 1,
     restricted = "combustion",
@@ -63,14 +63,14 @@ Config.Servicing = {
   },
   airFilter = {
     enableDamage = true,
-    lifespanInKm = 250,
+    lifespanInKm = 500,
     itemName = "air_filter",
     itemQuantity = 1,
     restricted = "combustion",
   },
   sparkPlugs = {
     enableDamage = true,
-    lifespanInKm = 150,
+    lifespanInKm = 500,
     itemName = "spark_plug",
     itemQuantity = 4,
     restricted = "combustion",
