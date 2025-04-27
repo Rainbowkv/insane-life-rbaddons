@@ -76,7 +76,7 @@ local function tradeItems(source, location, item)
         distance = distance,
         amount = itemCount,
     }
-    handleLog(logData)
+    handleLog(logData, source)
     return true, '您卖出 x' .. itemCount .. ' ' .. item.label .. '，收入黑钱 $' .. price
 end
 
