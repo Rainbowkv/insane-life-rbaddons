@@ -109,12 +109,29 @@
 </head>
 <body>
   <div class="wrapper">
+    <div id="coins" style="color: #00BFFF; margin-bottom: 10px; font-size: 16px;">
+      ⚡ 赞助点：加载中...
+    </div>
     <div class="tabs">
       <button class="tab active" data-type="vehicles">载具</button><!-- 🚗  -->
+      <!-- <button class="tab" data-type="items">物品</button> 🎒  -->
+      <!-- <button class="tab" data-type="others">其他</button> 💎  -->
     </div>
 
     <div class="container" id="product-list">
       <!-- 商品元素将在 JS 中动态插入 -->
+    </div>
+
+    <div id="confirm-modal" style="display: none; position: fixed; top: 0; left: 0;
+      width: 100vw; height: 100vh; background: rgba(0,0,0,0.7);
+      align-items: center; justify-content: center; z-index: 999;">
+      <div style="background: #2a2a2a; padding: 20px 30px; border-radius: 12px; text-align: center; color: white; width: 300px;">
+        <p id="confirm-text">确认购买？</p>
+        <div style="margin-top: 20px;">
+          <button id="confirm-yes" style="padding: 8px 16px; margin-right: 10px;">✅ 确定</button>
+          <button id="confirm-no" style="padding: 8px 16px;">❌ 取消</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -142,6 +159,12 @@
           <div class="vehicle-name">${product.name}</div>
           <div class="vehicle-price">${product.price} 赞助点</div>
         `;
+
+        // ✅ 点击商品 → 弹出确认框
+        item.addEventListener("click", () => {
+          showConfirmModal(product, item.className);
+        });
+
         container.appendChild(item);
       });
     }
@@ -156,26 +179,74 @@
       });
     });
 
+    // 监听点击物品事件
+    function showConfirmModal(product, className) {
+      const modal = document.getElementById("confirm-modal");
+      const confirmText = document.getElementById("confirm-text");
+      const yesBtn = document.getElementById("confirm-yes");
+      const noBtn = document.getElementById("confirm-no");
+
+      confirmText.textContent = `是否花 ${product.price} 个赞助点购买 ${product.name}？`;
+      modal.style.display = "flex";
+
+      // 移除旧监听器（防止多次绑定）
+      const newYesBtn = yesBtn.cloneNode(true);
+      yesBtn.parentNode.replaceChild(newYesBtn, yesBtn);
+
+      newYesBtn.addEventListener("click", () => {
+        fetch(`https://${GetParentResourceName()}/rb-donator:purchaseProduct`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: product.name, className: className })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            // 成功则关闭整个界面
+            document.querySelector(".wrapper").style.display = "none";
+            document.body.style.background = "transparent";
+            modal.style.display = "none";
+
+            fetch(`https://${GetParentResourceName()}/rb-donator:focus`, {
+              method: "POST",
+              body: JSON.stringify({ focus: false })
+            });
+          } else {
+            modal.style.display = "none";
+          }
+        });
+      });
+
+      noBtn.onclick = () => {
+        modal.style.display = "none";
+      };
+    }
+
     // 监听后端消息
     window.addEventListener("message", function (event) {
+      // 商品数据消息
       if (event.data.type === "updateProducts") {
         allProducts = event.data.products;
         renderCategory("vehicles"); // 默认显示载具
       }
-
+      // 赞助点消息
+      if (event.data.type === "balanceUpdate") {
+        document.getElementById("coins").textContent = `⚡ 赞助点：${event.data.amount}`;
+      }
+      // 切换UI消息
       if (event.data.type === "toggleUI") {
         const wrapper = document.querySelector(".wrapper");
         if (event.data.show) {
           wrapper.style.display = "flex";
           document.body.style.background = "rgba(0,0,0,0.5)";
-          fetch(`https://${GetParentResourceName()}/focus`, {
+          fetch(`https://${GetParentResourceName()}/rb-donator:focus`, {
             method: "POST",
             body: JSON.stringify({ focus: true })
           });
         } else {
           wrapper.style.display = "none";
           document.body.style.background = "transparent";
-          fetch(`https://${GetParentResourceName()}/focus`, {
+          fetch(`https://${GetParentResourceName()}/rb-donator:focus`, {
             method: "POST",
             body: JSON.stringify({ focus: false })
           });
@@ -189,17 +260,12 @@
         document.querySelector(".wrapper").style.display = "none";
         document.body.style.background = "transparent";
 
-        fetch(`https://${GetParentResourceName()}/focus`, {
+        fetch(`https://${GetParentResourceName()}/rb-donator:focus`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ focus: false })
         });
 
-        fetch(`https://${GetParentResourceName()}/closedByUser`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({})
-        });
       }
     });
   </script>

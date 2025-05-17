@@ -1,5 +1,6 @@
 fx_version 'cerulean'
 game 'gta5'
+lua54 'yes'
 
 description 'Donator Shop UI'
 
@@ -9,17 +10,19 @@ files {
     'html/index.html',
     'html/style.css',
     'html/script.js',
-    'html/images/*.png'
+    'html/images/*.png',
 }
 
 client_scripts {
-    'client/*.lua'
+    'client/*.lua',
 }
 
 server_scripts {
-    'server/*.lua'
+    '@oxmysql/lib/MySQL.lua',
+    'server/*.lua',
 }
 
 shared_scripts {
+    '@ox_lib/init.lua',
     'config.lua',
 }
