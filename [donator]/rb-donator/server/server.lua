@@ -153,3 +153,25 @@ lib.addCommand('addcoins', {
         TriggerClientEvent("rb-donator:updateCoins", args.target, newCoins)  -- 更新客户端缓存的赞助点
     end
 end)
+
+local function isDonatorVeh(vehModName)  
+    for _, donatorModel in pairs(Config.vehicle_mod) do
+        if vehModName == donatorModel then
+            return true
+        end
+    end
+    return false
+end
+
+exports('IsDonatorVeh', isDonatorVeh)
+
+local function isCustomVeh(vehModName)
+    for _, customModel in pairs(Config.custom_vehicle_mod) do
+        if vehModName == customModel then
+            return true
+        end
+    end
+    return false
+end
+
+exports('IsCustomVeh', isCustomVeh)

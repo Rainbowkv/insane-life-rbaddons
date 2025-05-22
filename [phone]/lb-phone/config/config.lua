@@ -123,13 +123,13 @@ Config.Companies.DeleteConversations = true -- allow employees to delete convers
 Config.Companies.Services = {
     {
         job = "police",
-        name = "Police",
+        name = "警察局",
         icon = "https://cdn-icons-png.flaticon.com/512/7211/7211100.png",
         canCall = true, -- if true, players can call the company
         canMessage = true, -- if true, players can message the company
         bossRanks = { "boss" }, -- ranks that can manage the company
         location = {
-            name = "Mission Row",
+            name = "密申罗",
             coords = {
                 x = 428.9,
                 y = -984.5,
@@ -142,13 +142,13 @@ Config.Companies.Services = {
     },
     {
         job = "ambulance",
-        name = "Ambulance",
+        name = "医护",
         icon = "https://cdn-icons-png.flaticon.com/128/1032/1032989.png",
         canCall = true, -- if true, players can call the company
         canMessage = true, -- if true, players can message the company
         bossRanks = {"boss", "doctor"}, -- ranks that can manage the company
         location = {
-            name = "Pillbox",
+            name = "医院",
             coords = {
                 x = 304.2,
                 y = -587.0
@@ -157,13 +157,13 @@ Config.Companies.Services = {
     },
     {
         job = "mechanic",
-        name = "Mechanic",
+        name = "修车厂",
         icon = "https://cdn-icons-png.flaticon.com/128/10281/10281554.png",
         canCall = true, -- if true, players can call the company
         canMessage = true, -- if true, players can message the company
         bossRanks = {"boss", "worker"}, -- ranks that can manage the company
         location = {
-            name = "LS Customs",
+            name = "车辆",
             coords = {
                 x = -336.6,
                 y = -134.3
@@ -171,14 +171,29 @@ Config.Companies.Services = {
         }
     },
     {
+        job = "usedcardealer",
+        name = "二手车商",
+        icon = "assets/img/icons/services/usedcardealer.png",
+        canCall = true, -- if true, players can call the company
+        canMessage = true, -- if true, players can message the company
+        bossRanks = {"boss", "worker"}, -- ranks that can manage the company
+        location = {
+            name = "买/卖",
+            coords = {
+                x =1235.3,
+                y = 2734.85
+            }
+        }
+    },
+    {
         job = "taxi",
-        name = "Taxi",
+        name = "出租车",
         icon = "https://cdn-icons-png.flaticon.com/128/433/433449.png",
         canCall = true, -- if true, players can call the company
         canMessage = true, -- if true, players can message the company
         bossRanks = {"boss", "driver"}, -- ranks that can manage the company
         location = {
-            name = "Taxi HQ",
+            name = "出行",
             coords = {
                 x =984.2,
                 y = -219.0

@@ -97,3 +97,29 @@ RegisterNUICallback("rb-donator:purchaseProduct", function(data, cb)
     -- 返回成功或失败给前端
     cb({ success = result, message = msg })
 end)
+
+local function isDonatorVeh(vehicle)  
+    if not vehicle or vehicle == 0 then return false end
+    local model = GetEntityModel(vehicle)
+    for _, donatorModel in pairs(Config.vehicle_mod) do
+        if model == GetHashKey(donatorModel) then
+            return true
+        end
+    end
+    return false
+end
+
+exports('IsDonatorVeh', isDonatorVeh)
+
+local function isCustomVeh(vehicle)
+    if not vehicle or vehicle == 0 then return false end
+    local model = GetEntityModel(vehicle)
+    for _, customModel in pairs(Config.custom_vehicle_mod) do
+        if model == GetHashKey(customModel) then
+            return true
+        end
+    end
+    return false
+end
+
+exports('IsCustomVeh', isCustomVeh)

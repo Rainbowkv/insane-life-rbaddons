@@ -229,6 +229,7 @@ lib.callback.register('dream_policeimpound:server:parkOutVehicle', function(sour
             -- Check if the player has enough money
             if FineAmount <= DreamFramework.getPlayerMoney(source, 'money') then
                 DreamFramework.removePlayerMoney(source, 'money', FineAmount)
+                exports["qb-banking"]:AddMoney('police', FineAmount)  -- rb_code
 
                 MySQL.Sync.execute('UPDATE police_impound SET status = 1 WHERE id = @id', {
                     ['@id'] = ImpoundVehicleId
