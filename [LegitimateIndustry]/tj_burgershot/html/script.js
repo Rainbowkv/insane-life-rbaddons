@@ -133,6 +133,12 @@ function playNotificationSound(type) {
                 body: JSON.stringify({ type: type })
             });
             break;
+        case 'deepfried':
+            soundSrc = 'sounds/deepfried.ogg'
+            break;
+        case 'dingbbq':
+            soundSrc = 'sounds/dingbbq.mp3'
+            break;
         case 'success':
             soundSrc = 'sounds/ding.mp3';
             break;
@@ -190,6 +196,16 @@ function addToCart(itemId, itemName, itemPrice) {
 
 window.addEventListener('message', function(event) {
     var item = event.data;
+
+    if (event.data.action === 'playDeepFried') {
+        playNotificationSound('deepfried')
+    }
+    if (event.data.action === 'dingbbq') {
+        playNotificationSound('dingbbq')
+    }
+    if (event.data.action === 'success') {
+        playNotificationSound('success')
+    }
     if (item.type === "openMenu") {
         menuItems = item.items;
         displayItems();

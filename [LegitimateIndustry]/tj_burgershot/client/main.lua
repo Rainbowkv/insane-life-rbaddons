@@ -399,6 +399,9 @@ AddEventHandler('tj_restaurants:MakeDrink', function(data)
             clip = 'handshake_guy_a'
         },
     }) then
+        SendNUIMessage({
+            action = 'success'
+        })
         ClearPedTasks(PlayerPedId())
         lib.callback.await('tj_restaurants:giveItem', function() end, data)
     end
@@ -475,7 +478,7 @@ AddEventHandler('tj_restaurants:makeBBQ', function(data)
     end
 
     if lib.progressCircle({
-        duration = 15000,
+        duration = 10000,
         position = 'bottom',
         label = locale('cooking_bbq'),
         useWhileDead = false,
@@ -488,6 +491,9 @@ AddEventHandler('tj_restaurants:makeBBQ', function(data)
             clip = 'base'
         },
     }) then
+        SendNUIMessage({  -- 播放ding声音
+            action = 'dingbbq'
+        })
         lib.callback.await('tj_restaurants:giveItem', function() end, data)
     end
 end)
@@ -509,8 +515,12 @@ AddEventHandler('tj_restaurants:deepFryer', function(data)
         return
     end
 
+    SendNUIMessage({  -- 这里播放油炸声音
+        action = 'playDeepFried'
+    })
+
     if lib.progressCircle({
-        duration = 15000,
+        duration = 5000,
         position = 'bottom',
         label = locale('deep_fryer'),
         useWhileDead = false,
@@ -574,6 +584,9 @@ AddEventHandler('tj_restaurants:Cutting', function(data)
             move = true,
         },
     }) then
+        SendNUIMessage({  -- 成功音效
+            action = 'success'
+        })
         ClearPedTasks(PlayerPedId())
         lib.callback.await('tj_restaurants:giveItem', function() end, data)
     end

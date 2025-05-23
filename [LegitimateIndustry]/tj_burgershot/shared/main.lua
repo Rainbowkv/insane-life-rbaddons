@@ -127,7 +127,8 @@ Config = {
                         minZ = 11.85,
                         maxZ = 14.05,
                         icon = 'fa-solid fa-box',
-                        label = '制作好的食物',
+                        -- label = '制作好的食物',
+                        label = '今日收据留存',
                         action = function()
                             if Config.Inventory == 'ox' then
                                 exports.ox_inventory:openInventory('stash', { id = 'ReadyFood'})
@@ -138,7 +139,7 @@ Config = {
                             end
                         end
                     },
-                    label = '制作好的食物',
+                    label = '今日收据留存',
                     name = 'ReadyFood',
                     weight = 50000,
                     slots = 50,
@@ -631,6 +632,8 @@ Config.defaultOutfits = {
         { prop_id = 7, texture = -1, drawable = -1 }
     }
 }
+
+Config.burgershotAccout = 'burgershot'
 --
 
 -- Logs

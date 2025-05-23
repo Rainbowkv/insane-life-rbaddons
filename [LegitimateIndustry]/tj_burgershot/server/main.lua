@@ -212,8 +212,9 @@ AddEventHandler('tj_restaurants:createOrder', function(items, paymentMethod)
     else
         return
     end
-
     if success then
+        local src = source  -- 下面调用exports后，source会失效（上下文环境有变化
+        exports["qb-banking"]:AddMoney(Config.burgershotAccout, totalPrice, "堂食订单")  -- rb_code
         local orderId = generateOrderId()
         orders[orderId] = {
             id = orderId,
@@ -224,25 +225,26 @@ AddEventHandler('tj_restaurants:createOrder', function(items, paymentMethod)
 
         local formattedItems = ""
         for _, item in pairs(items) do
-            print(json.encode(item, { indent = true }))
             formattedItems = formattedItems .. Config.idToLabel[item.id] .. " - $" .. item.price .. "\n\n "
         end
 
         if Config.Inventory == 'ox' then
-            exports.ox_inventory:AddItem(source, "receipt", 1, {
-                description = "订单号: #" .. orderId .. " \n\n------------ \n\n" .. formattedItems .. '------------ \n\n' .." \n\n总计: $" .. orders[orderId].totalPrice 
+            local Name = QBCORE.Functions.GetPlayer(src).PlayerData.charinfo.firstname -- .. " " .. charInfo.lastname
+            exports.ox_inventory:AddItem(src, "receipt", 1, {
+                description = "订单号: #" .. orderId .. " \n\n------------ \n\n" .. formattedItems .. '------------ \n\n' .. 
+                " \n\n总计: $" .. orders[orderId].totalPrice .. "\n\n" .. Name .."  "..os.date("%Y-%m-%d %H:%M:%S", os.time())  -- 获取北京时间 
             })
         elseif Config.Inventory == 'qb' then
             xPlayer.Functions.AddItem("receipt", 1, false, { 
                 description = "Order number: #" .. orderId .. " \nItems: " .. formattedItems .. " Price: $" .. orders[orderId].totalPrice 
             })
         elseif Config.Inventory == 'qs' then
-            exports['qs-inventory']:AddItem(source, "receipt", 1, nil, { 
+            exports['qs-inventory']:AddItem(src, "receipt", 1, nil, { 
                 "Order number: #" .. orderId .. " \nItems: " .. formattedItems .. " Price: $" .. orders[orderId].totalPrice 
             })
         end
-        TriggerClientEvent('tj_restaurants:orderCreated', source, orderId)
-        SendDiscordLog("TJ Burgershot", "New order created. \nItems: " .. formattedItems .. "\n Player name: " .. GetPlayerName(source) .. "\n Total price: " .. totalPrice)
+        TriggerClientEvent('tj_restaurants:orderCreated', src, orderId)
+        SendDiscordLog("TJ Burgershot", "New order created. \nItems: " .. formattedItems .. "\n Player name: " .. GetPlayerName(src) .. "\n Total price: " .. totalPrice)
     else
     end
 end)
