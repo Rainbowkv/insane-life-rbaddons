@@ -23,6 +23,14 @@ Config.ReviewLocations = {
         pos = vector3(-323.74, -129.47, 39.01),
         label = "查看技工应聘信息"
     },
+    burgershot = {
+        pos = vector3(-1188.25, -897.62, 13.89),
+        label = "查看汉堡店应聘信息"
+    },
+    usedcardealer = {
+        pos = vector3(-1258.92, -641.72, 25.9),
+        label = "查看二手车商员工应聘信息"
+    },
 }
 
 -- Job Center Location
@@ -42,10 +50,12 @@ Config.Blip = {
 Config.JobOrder = {
     "police",
     "ambulance", 
-    -- "lawyer",
     "mechanic",
+    "burgershot",
+    "usedcardealer",
     "taxi",
-    "delivery"
+    "tow",
+    -- "lawyer",
 }
 
 -- Job Settings
@@ -97,27 +107,6 @@ Config.Jobs = {
         grade = 0,
         minReviewGrade = 4
     },
-    -- lawyer = {
-    --     label = "Lawyer",
-    --     department = "Legal Services",
-    --     salary = "$6,000/week",
-    --     location = "Los Santos Courthouse",
-    --     description = "Provide legal representation and advice to citizens of Los Santos.",
-    --     requirements = {"Legal knowledge", "Professional appearance"},
-    --     schedule = "10:00 AM - 6:00 PM",
-    --     benefits = {"Private office", "Professional network"},
-    --     type = "whitelisted",
-    --     icon = "⚖️",
-    --     questions = {
-    --         "Why did you choose to pursue a career in law?",
-    --         "What areas of law are you most interested in?",
-    --         "How would you handle an ethically challenging case?",
-    --         "Describe your experience with legal documentation.",
-    --         "How would you explain complex legal concepts to clients?"
-    --     },
-    --     grade = 0,
-    --     minReviewGrade = 4
-    -- },
     mechanic = {
         label = "车辆技工",
         department = "车辆维修",
@@ -141,14 +130,75 @@ Config.Jobs = {
         grade = 0,
         minReviewGrade = 4
     },
-
+    burgershot = {
+        label = "Burgershot汉堡店",
+        department = "餐饮服务",
+        salary = "$20,000/周",
+        location = "汉堡店",
+        description = "为市民提供快捷美味的汉堡、饮品和服务，营造温馨高效的用餐环境。",
+        requirements = {
+            "注重个人卫生，无不良嗜好",
+            "具备良好的沟通能力和团队协作能力",
+            "适应快节奏工作环境，能够在高峰时段保持高效"
+        },
+        schedule = "24小时待命，可灵活轮班",
+        benefits = {
+            "员工餐折扣与免费饮品",
+            "表现优异者享有额外小费及奖金",
+            "节假日双薪与内部晋升机会"
+        },
+        type = "申请制",
+        questions = {
+            "1个词（最多2个）形容你面对压力时的表现。",
+            "您为什么想加入Burgershot？您如何看待客户服务？",
+            "您是否有餐饮相关工作经验？分享一次您处理顾客投诉的经历。",
+            "您在快节奏环境下如何保持效率和质量？",
+            "如果遇到客户不满或争执，您会如何应对？",
+            "您能否接受晚班和节假日轮班？",
+            "IC号码和OOC联系方式:"
+        },
+        icon = "🍔",
+        grade = 0,
+        minReviewGrade = 4
+    },
+    usedcardealer = {
+        label = "二手车商销售员",
+        department = "汽车销售",
+        salary = "$15,000/周",
+        location = "二手车市场",
+        description = "为市民提供可靠的二手车辆信息与交易服务，促进车辆买卖的安全与透明。",
+        requirements = {
+            "具备良好的销售技巧与沟通能力",
+            "对车辆市场有一定了解，能辨别车辆状况",
+            "诚实守信，具备谈判与客户管理能力"
+        },
+        schedule = "不坐班，外出寻找收车",
+        benefits = {
+            "每车成交可得销售提成",
+            "每月销售冠军可获奖金",
+            "提供车辆检测工具及培训机会"
+        },
+        type = "申请制",
+        questions = {
+            "1个词（最多2个）形容你的销售风格或职业信念。",
+            "您为什么想成为二手车商？您对这个行业的了解如何？",
+            "您是否有销售经验或车辆相关经验？能否举一个您成功成交的例子？",
+            "如何建立客户信任并促成交易？",
+            "如果客户对车况有质疑，您会如何处理？",
+            "您是否具备独立完成一场车辆交易的能力？如何处理售后问题？",
+            "IC号码和OOC联系方式:"
+        },
+        icon = "🚗",
+        grade = 0,
+        minReviewGrade = 4
+    },
     -- Civilian Jobs
     taxi = {
         label = "出租司机",
         -- department = "Downtown Cab Co.",
         department = "出租车服务",
         salary = "多劳多得",
-        location = "Ravens市各大区域",
+        location = "市中心出租车",
         description = "为Ravens市的居民和游客提供便捷的交通服务，确保安全和舒适的出行体验。",
         requirements = {"对Ravens市路线熟悉，具备良好的服务态度"},
         schedule = "灵活工作时间，自由接单",
@@ -157,20 +207,41 @@ Config.Jobs = {
         icon = "🚕",
         grade = 0
     },
-    delivery = {
-        label = "邮政快递",
+    tow = {
+        label = "拖车司机",
         -- department = "GoPostal",
-        department = "邮政服务",
+        department = "保障服务",
         salary = "多劳多得",
-        location = "Ravens市各大区域",
-        description = "为Ravens市的居民和企业提供及时的邮政和快递服务，确保邮件和包裹的安全和准时送达。",
-        requirements = {"具备良好的身体素质，能承受搬运工作", "有较强的责任心，能有效管理时间"},
+        location = "邮编号:9054",
+        description = "为Ravens市的居民和企业提供及时的拖车服务，为市民们的车辆意外进行保障。",
+        requirements = {"具备良好的身体素质", "熟悉城市路线，能规划最优路线进行车辆急救"},
         schedule = "灵活工作时间，按需分配任务",
         benefits = {"零成本租车"},
         type = "兼职",
         icon = "📦",
         grade = 0
-    }
+    },
+        -- lawyer = {
+    --     label = "Lawyer",
+    --     department = "Legal Services",
+    --     salary = "$6,000/week",
+    --     location = "Los Santos Courthouse",
+    --     description = "Provide legal representation and advice to citizens of Los Santos.",
+    --     requirements = {"Legal knowledge", "Professional appearance"},
+    --     schedule = "10:00 AM - 6:00 PM",
+    --     benefits = {"Private office", "Professional network"},
+    --     type = "whitelisted",
+    --     icon = "⚖️",
+    --     questions = {
+    --         "Why did you choose to pursue a career in law?",
+    --         "What areas of law are you most interested in?",
+    --         "How would you handle an ethically challenging case?",
+    --         "Describe your experience with legal documentation.",
+    --         "How would you explain complex legal concepts to clients?"
+    --     },
+    --     grade = 0,
+    --     minReviewGrade = 4
+    -- },
 }
 
 Config.NotificationTypes = {

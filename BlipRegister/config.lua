@@ -114,4 +114,12 @@ Config.Locations = {
         ['blipscale'] = 0.7,
         ['blipcolor'] = 53,
     },
+    ['tj_burgershot'] = {
+        ['label'] = '汉堡店',
+        ['coords'] = vector3(-1192.94, -893.02, 13.89),
+        ['showblip'] = true,
+        ['blipsprite'] = 536,  -- blip的图标
+        ['blipscale'] = 1.0,
+        ['blipcolor'] = 60,
+    },
 }

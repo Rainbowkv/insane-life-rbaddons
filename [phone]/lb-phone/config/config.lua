@@ -186,6 +186,21 @@ Config.Companies.Services = {
         }
     },
     {
+        job = "burgershot",
+        name = "汉堡店",
+        icon = "assets/img/icons/services/burgershot.png",
+        canCall = true, -- if true, players can call the company
+        canMessage = true, -- if true, players can message the company
+        bossRanks = {"boss", "worker"}, -- ranks that can manage the company
+        location = {
+            name = "饮食",
+            coords = {
+                x = -1192.94,
+                y = -893.02
+            }
+        }
+    },
+    {
         job = "taxi",
         name = "出租车",
         icon = "https://cdn-icons-png.flaticon.com/128/433/433449.png",
@@ -509,12 +524,12 @@ Config.BirdyTrending = {}
 Config.BirdyTrending.Enabled = true -- show trending hashtags?
 Config.BirdyTrending.Reset = 7 * 24 -- How often should trending hashtags be reset on birdy? (in hours)
 
-Config.BirdyNotifications = false -- should everyone get a notification when someone posts? (if set to false, only followers will get a notification)
-Config.InstaPicLiveNotifications = false -- should everyone get a notification when someone goes live on InstaPic? (if set to false, only followers will get a notification)
+Config.BirdyNotifications = true -- should everyone get a notification when someone posts? (if set to false, only followers will get a notification)
+Config.InstaPicLiveNotifications = true -- should everyone get a notification when someone goes live on InstaPic? (if set to false, only followers will get a notification)
 
 Config.PromoteBirdy = {}
 Config.PromoteBirdy.Enabled = true -- should you be able to promote post?
-Config.PromoteBirdy.Cost = 2500 -- how much does it cost to promote a post?
+Config.PromoteBirdy.Cost = 1000 -- how much does it cost to promote a post?
 Config.PromoteBirdy.Views = 100 -- how many views does a promoted post get?
 
 Config.UsernameFilter = {
