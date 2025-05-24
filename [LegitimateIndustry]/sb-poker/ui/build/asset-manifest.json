@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/ui/build/static/css/main.c142e19f.css",
+    "main.js": "/ui/build/static/js/main.09038658.js",
+    "static/media/bg_placeholder.png": "/ui/build/static/media/bg_placeholder.c068cd9ca921768ac035.png",
+    "index.html": "/ui/build/index.html",
+    "main.c142e19f.css.map": "/ui/build/static/css/main.c142e19f.css.map",
+    "main.09038658.js.map": "/ui/build/static/js/main.09038658.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c142e19f.css",
+    "static/js/main.09038658.js"
+  ]
+}
