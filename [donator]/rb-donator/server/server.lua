@@ -19,6 +19,7 @@ local function GetCoins(license)
         return 0
     end
 end
+exports('GetCoins', GetCoins)
 
 local function SetCoins(license, amount)
     local affectedRows = MySQL.update.await('UPDATE donator SET coins = ? WHERE license = ?', { amount, license })
@@ -40,6 +41,7 @@ local function RemoveCoins(license, amount)
         return true, total
     end
 end
+exports('RemoveCoins', RemoveCoins)
 
 local function AddCoins(license, amount)
     local coins = GetCoins(license)
@@ -54,6 +56,7 @@ local function AddCoins(license, amount)
     end
     return coins
 end
+exports('AddCoins', AddCoins)
 
 lib.callback.register('rb-donator:GetCoins', function(source)
     local license = GetPlayerIdentifierByType(source, 'license')

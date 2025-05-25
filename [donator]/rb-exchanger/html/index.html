@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>交易所 - 赞助点</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: rgba(0, 0, 0, 0.6);
+      display: none; /* 默认隐藏 */
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .exchange-container {
+      background: #1e1e1e;
+      border-radius: 12px;
+      padding: 20px;
+      width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .item {
+      position: relative;
+      background: #2a2a2a;
+      border-radius: 10px;
+      padding: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .item img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .label {
+      position: absolute;
+      color: white;
+      font-size: 14px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .amount {
+      bottom: 8px;
+      left: 8px;
+    }
+    .price {
+      bottom: 8px;
+      right: 8px;
+    }
+    .add-button {
+      margin-top: 16px;
+      background-color: rgb(90, 90, 240);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #333;
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 999;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    .modal input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 6px;
+    }
+    .modal-buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+    .modal-buttons button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .confirm-btn {
+      background-color: #28a745;
+      color: white;
+    }
+    .cancel-btn {
+      background-color: #dc3545;
+      color: white;
+    }
+    #exchange-list {
+      min-height: 150px;
+      position: relative;
+    }
+    .empty-message {
+      color: #ccc;
+      font-size: 16px;
+      text-align: center;
+      margin-top: 40px;
+      grid-column: 1 / -1;
+    }
+  </style>
+</head>
+<body>
+  <div class="exchange-container">
+    <div class="grid" id="exchange-list">
+      <!-- 示例元素 -->
+      <!-- <div class="item">
+        <img src="donation.png" alt="赞助点">
+        <div class="label amount">x10</div>
+        <div class="label price">$5000</div>
+      </div> -->
+    </div>
+    <button class="add-button" onclick="openModal()">上架赞助点</button>
+  </div>
+
+  <!-- 上架赞助点的页面 -->
+  <div class="modal" id="sellModal">
+    <h3 style="color:white;margin-bottom:10px;">上架后, 不可撤回</h3>
+    <input type="number" id="sellAmount" placeholder="赞助点数量" step="1" min="1">
+    <input type="number" id="sellPrice" placeholder="售卖价格 (美金)" step="1" min="1">
+    <div class="modal-buttons">
+      <button class="confirm-btn" onclick="submitSell()">确定</button>
+      <button class="cancel-btn" onclick="closeModal()">取消</button>
+    </div>
+  </div>
+
+  <!-- 购买赞助点的页面 -->
+  <div class="modal" id="buyConfirmModal" style="display:none;">
+    <h3 style="color:white;margin-bottom:10px;">确认购买</h3>
+    <p id="confirmText" style="color:white;margin-bottom:20px;"></p>
+    <div class="modal-buttons">
+      <button class="confirm-btn" id="confirmBuyBtn">确定</button>
+      <button class="cancel-btn" id="cancelBuyBtn">取消</button>
+    </div>
+  </div>
+  <script>
+      let isVisible = false;
+
+      window.addEventListener('message', function (event) {
+          const data = event.data;
+
+          if (data.action === 'open') {
+              isVisible = true;
+              document.body.style.display = 'flex';
+              renderItems(data.items);
+          } else if (data.action === 'close') {
+              isVisible = false;
+              document.body.style.display = 'none';
+          }
+      });
+
+      document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && isVisible) {
+              isVisible = false;
+              document.body.style.display = 'none';
+              fetch(`https://${GetParentResourceName()}/closeUI`, { method: 'POST' });
+          }
+      });
+
+      function renderItems(items) {
+          const list = document.getElementById('exchange-list');
+          list.innerHTML = '';
+
+          if (items.length === 0) {
+            const emptyMsg = document.createElement('div');
+            emptyMsg.className = 'empty-message';
+            emptyMsg.textContent = '当前没有市民在出售赞助点';
+            list.appendChild(emptyMsg);
+            return;
+          }
+
+          items.forEach(item => {
+              const el = document.createElement('div');
+              el.className = 'item';
+
+              el.innerHTML = `
+                  <img src="images/coins.png" alt="赞助点">
+                  <div class="label amount">x${item.amount}</div>
+                  <div class="label price">$${item.price}</div>
+              `;
+
+              el.addEventListener('click', () => {
+                // 设置弹窗内容
+                currentBuyData = item;
+                document.getElementById('confirmText').textContent = `您确定要以 $${item.price} 购买 ${item.amount} 个赞助点吗？`;
+                document.getElementById('buyConfirmModal').style.display = 'block';
+              });
+
+              list.appendChild(el);
+          });
+      }
+
+      function openModal() {
+        document.getElementById('sellModal').style.display = 'block';
+      }
+
+      function closeModal() {
+        document.getElementById('sellModal').style.display = 'none';
+      }
+
+      function submitSell() {
+        const amountInput = document.getElementById('sellAmount');
+        const priceInput = document.getElementById('sellPrice');
+
+        const amount = amountInput.value.trim();
+        const price = priceInput.value.trim();
+
+        // 校验输入内容是否为空
+        if (!amount || !price || parseInt(amount) <= 0 || parseInt(price) <= 0) {
+          if (!amount || parseInt(amount) <= 0) {
+            amountInput.setCustomValidity("请输入大于 0 的赞助点数量");
+            amountInput.reportValidity();
+          } else {
+            amountInput.setCustomValidity("");
+          }
+
+          if (!price || parseInt(price) <= 0) {
+            priceInput.setCustomValidity("请输入大于 0 的价格");
+            priceInput.reportValidity();
+          } else {
+            priceInput.setCustomValidity("");
+          }
+
+          return;
+        }
+
+        // 清除校验提示
+        amountInput.setCustomValidity("");
+        priceInput.setCustomValidity("");
+
+        // 提交数据
+        fetch(`https://${GetParentResourceName()}/submitSell`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount, price })
+        }).then(response => response.json()).then(res => {
+          if (res === true) {
+            document.getElementById('sellModal').style.display = 'none';
+          } else {
+            document.getElementById('sellModal').style.display = 'none';
+            document.body.style.display = 'none';
+          }
+        });
+      }
+
+      document.getElementById('confirmBuyBtn').addEventListener('click', () => {
+        if (!currentBuyData) return;
+
+        fetch(`https://${GetParentResourceName()}/submitBuy`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            citizenid: currentBuyData.citizenid,
+            price: currentBuyData.price,
+            amount: currentBuyData.amount
+          })
+        })
+        .then(response => response.json())
+        .then(success => {
+          document.getElementById('buyConfirmModal').style.display = 'none';
+          if (success) {
+            fetch(`https://${GetParentResourceName()}/refreshListings`, { method: 'POST' });  // 该接口没有实现，永远只走false分支
+          } else {
+            document.body.style.display = 'none';
+          }
+        });
+      });
+
+      document.getElementById('cancelBuyBtn').addEventListener('click', () => {
+        currentBuyData = null;
+        document.getElementById('buyConfirmModal').style.display = 'none';
+      });
+  </script>
+</body>
+</html>
