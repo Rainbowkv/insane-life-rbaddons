@@ -105,7 +105,7 @@ Citizen.CreateThread(function()
     local wait
     while true do
         if Optimize() then
-            local Health = math.floor((GetEntityHealth(PlayerPed)/2))
+            local Health = GetEntityHealth(PlayerPed) - 100  -- rb_code
             if IsPedInAnyVehicle(PlayerPed) then wait = 250 else wait = 650 end
             if Health ~= LastHealth then
                 if GetEntityModel(PlayerPed) == `mp_f_freemode_01` and Health ~= 0 then Health = (Health+13) end
@@ -386,7 +386,7 @@ if Customize.Stress then
     CreateThread(function()
         while true do
             local effectInterval = GetEffectInterval(stress)
-            if stress >= 100 then
+            if stress >= 100 or (LastHealth ~= nil and LastHealth < 10) then
                 local BlurIntensity = GetBlurIntensity(stress)
                 local FallRepeat = math.random(2, 4)
                 local RagdollTimeout = FallRepeat * 1750
