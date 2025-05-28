@@ -76,7 +76,7 @@ Config.Locations = {
     },
     ['gigz_karting_v1.2'] = {
         ['label'] = '卡丁车场',
-        ['coords'] = vector3(-122.3947, -2031.589, 17.03368),
+        ['coords'] = vector3(-158.91, -2128.61, 16.71),
         ['showblip'] = true,
         ['blipsprite'] = 127,  -- blip的图标
         ['blipscale'] = 0.7,
@@ -121,5 +121,13 @@ Config.Locations = {
         ['blipsprite'] = 536,  -- blip的图标
         ['blipscale'] = 1.0,
         ['blipcolor'] = 60,
+    },
+    ['exchanger'] = {
+        ['label'] = '市民交易所',
+        ['coords'] = vector3(-286.2, -1058.24, 27.21),
+        ['showblip'] = true,
+        ['blipsprite'] = 102,  -- blip的图标
+        ['blipscale'] = 1.0,
+        ['blipcolor'] = 46,
     },
 }

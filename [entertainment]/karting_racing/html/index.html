@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>karting_racing</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="./style.css">
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
+        <script src="nui://shared/html/jquery-3.7.0.min.js"></script>
+    </head>
+    <body class="flex justify-center items-center w-screen h-screen">
+        <div id="board" class="hidden w-4/6 h-5/6 bg-gray-900 bg-opacity-75 p-4 rounded-lg shadow-lg">
+            <!-- Tabs -->
+            <div class="flex justify-center mb-4">
+                <button id="tab-alltime" class="px-4 py-2 bg-rose-700 text-white rounded-l">历史最快</button>
+                <!-- <button id="tab-weekly" class="px-4 py-2 bg-gray-700 text-white rounded-r">本周最快</button> -->
+            </div>
+
+            <!-- Leaderboard Tables -->
+            <div class="relative overflow-x-auto">
+                <table id="table-alltime" class="w-full text-sm text-left text-gray-400">
+                    <thead>
+                        <tr>
+                            <th class="px-6 py-3">#</th>
+                            <th class="px-6 py-3">玩家</th>
+                            <th class="px-6 py-3">最快圈速</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-alltime"></tbody>
+                </table>
+                <table id="table-weekly" class="hidden w-full text-sm text-left text-gray-400">
+                    <thead>
+                        <tr>
+                            <th class="px-6 py-3">#</th>
+                            <th class="px-6 py-3">玩家</th>
+                            <th class="px-6 py-3">最快圈速</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-weekly"></tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="script.js" async></script>
+</html>
