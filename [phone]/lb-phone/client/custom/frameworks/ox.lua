@@ -38,7 +38,7 @@ while not OxPlayer.data.charId do
     Wait(500)
 end
 
-loaded = true
+FrameworkLoaded = true
 
 ---@param itemName string
 ---@return boolean

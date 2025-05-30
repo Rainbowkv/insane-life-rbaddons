@@ -633,6 +633,31 @@ Config.defaultOutfits = {
     }
 }
 
+Config.defaultFemaleOutfits = {
+    model = nil,  -- 动态获取
+    components = {
+        { texture = 0, drawable = 0, component_id = 0 },
+        { texture = 0, drawable = 144, component_id = 1 },
+        { texture = 0, drawable = 0, component_id = 2 },
+        { texture = 0, drawable = 11, component_id = 3 },
+        { texture = 8, drawable = 93, component_id = 4 },
+        { texture = 0, drawable = 0, component_id = 5 },
+        { texture = 2, drawable = 119, component_id = 6 },
+        { texture = 0, drawable = 0, component_id = 7 },
+        { texture = 0, drawable = 57, component_id = 8 },
+        { texture = 0, drawable = 0, component_id = 9 },
+        { texture = 0, drawable = 0, component_id = 10 },
+        { texture = 8, drawable = 0, component_id = 11 }
+    },
+    props = {
+        { prop_id = 0, drawable = -1, texture = -1 },
+        { prop_id = 1, drawable = -1, texture = -1 },
+        { prop_id = 2, drawable = -1, texture = -1 },
+        { prop_id = 6, drawable = -1, texture = -1 },
+        { prop_id = 7, drawable = -1, texture = -1 }
+    }
+}
+
 Config.burgershotAccout = 'burgershot'
 --
 

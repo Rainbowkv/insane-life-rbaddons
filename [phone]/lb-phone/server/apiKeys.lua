@@ -34,3 +34,9 @@ API_KEYS = {
     Image = "XqAsU7KhJq8vutyBFHmAl9mSZrtSEWSW",
     Audio = "AE0femUlMdxGIWoEpGFD7dTHfFnZsU35",
 }
+
+WEBRTC = {
+    -- You can get your credentials from https://dash.cloudflare.com/?to=/:account/realtime/turn/overview
+    TokenID = nil,
+    APIToken = nil,
+}

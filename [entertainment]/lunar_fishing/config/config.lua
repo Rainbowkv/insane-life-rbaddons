@@ -10,16 +10,16 @@ Config.ShowRadius = false  -- 是否显示半径圆
 
 ---@type table<string, Fish>
 Config.fish = {
-    ['anchovy'] = { price = { min = 25, max = 50 }, chance = 35, skillcheck = { 'easy', 'medium' } },
-    ['trout'] = { price = { min = 50, max = 100 }, chance = 35, skillcheck = { 'easy', 'medium' } },
-    ['haddock'] = { price = { min = 150, max = 200 }, chance = 20, skillcheck = { 'easy', 'medium' } },
-    ['salmon'] = { price = { min = 200, max = 250 }, chance = 10, skillcheck = { 'easy', 'medium', 'medium' } },
-    ['grouper'] = { price = { min = 300, max = 350 }, chance = 25, skillcheck = { 'easy', 'medium', 'medium', 'medium' } },
-    ['piranha'] = { price = { min = 350, max = 450 }, chance = 25, skillcheck = { 'easy', 'medium', 'hard' } },
-    ['red_snapper'] = { price = { min = 400, max = 450 }, chance = 20, skillcheck = { 'easy', 'medium', 'medium', 'medium' } },
-    ['mahi_mahi'] = { price = { min = 450, max = 500 }, chance = 20, skillcheck = { 'easy', 'medium', 'medium', 'medium' } },
-    ['tuna'] = { price = { min = 1250, max = 1500 }, chance = 5, skillcheck = { 'easy', 'medium', 'hard' } },
-    ['shark'] = { price = { min = 2250, max = 2750 }, chance = 1, skillcheck = { 'easy', 'medium', 'hard' } },
+    ['anchovy'] = { price = { min = 50, max = 55 }, chance = 35, skillcheck = { 'easy', 'medium' } },
+    ['trout'] = { price = { min = 60, max = 70 }, chance = 35, skillcheck = { 'easy', 'medium' } },
+    ['haddock'] = { price = { min = 60, max = 70 }, chance = 20, skillcheck = { 'easy', 'medium' } },
+    ['salmon'] = { price = { min = 70, max = 80 }, chance = 10, skillcheck = { 'easy', 'medium', 'medium' } },
+    ['grouper'] = { price = { min = 100, max = 120 }, chance = 25, skillcheck = { 'easy', 'medium', 'medium', 'medium' } },
+    ['piranha'] = { price = { min = 100, max = 110 }, chance = 25, skillcheck = { 'easy', 'medium', 'medium', 'medium' } },
+    ['red_snapper'] = { price = { min = 110, max = 120 }, chance = 20, skillcheck = { 'easy', 'medium', 'medium', 'medium' } },
+    ['mahi_mahi'] = { price = { min = 110, max = 130 }, chance = 20, skillcheck = { 'easy', 'medium', 'medium', 'medium' } },
+    ['tuna'] = { price = { min = 260, max = 300 }, chance = 5, skillcheck = { 'easy', 'medium', 'hard' } },
+    ['shark'] = { price = { min = 1000, max = 1100 }, chance = 1, skillcheck = { 'easy', 'medium', 'hard' } },
 }
 
 ---@class FishingRod
@@ -31,8 +31,8 @@ Config.fish = {
 ---@type FishingRod[]
 Config.fishingRods = {
     { name = 'basic_rod', price = 1000, minLevel = 1, breakChance = 20 },
-    { name = 'graphite_rod', price = 2500, minLevel = 2, breakChance = 10 },
-    { name = 'titanium_rod', price = 5000, minLevel = 3, breakChance = 1 },
+    { name = 'graphite_rod', price = 2000, minLevel = 10, breakChance = 10 },
+    { name = 'titanium_rod', price = 3000, minLevel = 20, breakChance = 1 },
 }
 
 ---@class FishingBait
@@ -44,7 +44,7 @@ Config.fishingRods = {
 ---@type FishingBait[]
 Config.baits = {
     { name = 'worms', price = 5, minLevel = 1, waitDivisor = 1.0 },
-    { name = 'artificial_bait', price = 50, minLevel = 2, waitDivisor = 3.0 },
+    { name = 'artificial_bait', price = 50, minLevel = 5, waitDivisor = 3.0 },
 }
 
 ---@class FishingZone
@@ -146,9 +146,9 @@ Config.renting = {
     model = `s_m_m_dockwork_01`, -- The ped model
     account = 'money',
     boats = {
-        { model = `speeder`, price = 500, image = 'https://i.postimg.cc/mDSqWj4P/164px-Speeder.webp' },
-        { model = `dinghy`, price = 750, image = 'https://i.postimg.cc/ZKzjZgj0/164px-Dinghy2.webp'  },
-        { model = `tug`, price = 1250, image = 'https://i.postimg.cc/jq7vpKHG/164px-Tug.webp' }
+        { model = `speeder`, price = 200, image = 'https://i.postimg.cc/mDSqWj4P/164px-Speeder.webp' },
+        { model = `dinghy`, price = 400, image = 'https://i.postimg.cc/ZKzjZgj0/164px-Dinghy2.webp'  },
+        { model = `tug`, price = 1000, image = 'https://i.postimg.cc/jq7vpKHG/164px-Tug.webp' }
     },
     blip = {
         name = '租船',

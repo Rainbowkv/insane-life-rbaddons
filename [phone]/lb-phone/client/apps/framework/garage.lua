@@ -77,6 +77,10 @@ local function BringCar(data, cb)
 
             SetModelAsNoLongerNeeded(model)
         end
+
+        if vehicle then
+            Entity(vehicle).state.plate = plate
+        end
     end
 
     if not vehicle or not DoesEntityExist(vehicle) then
@@ -90,6 +94,7 @@ local function BringCar(data, cb)
 
     SetEntityHeading(vehicle, heading)
 
+    GiveVehicleKey(vehicle, plate)
     SetVehicleNeedsToBeHotwired(vehicle, false)
     SetVehRadioStation(vehicle, "OFF")
     SetVehicleDirtLevel(vehicle, 0.0)
@@ -181,6 +186,7 @@ end
 
 RegisterNUICallback("Garage", function(data, cb)
     local action = data.action
+
     debugprint("Garage:" .. (action or ""))
 
     if action == "getVehicles" then
@@ -188,7 +194,7 @@ RegisterNUICallback("Garage", function(data, cb)
 
         for i = 1, #cars do
             cars[i].model = GetVehicleLabel(cars[i].model)
-            --If you're implementing your own lock system, you can use this to set the locked state
+            -- If you're implementing your own lock system, you can use this to set the locked state
             -- cars[i].locked = true
         end
 

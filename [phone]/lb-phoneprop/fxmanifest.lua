@@ -7,10 +7,6 @@ description "Phone prop for lb-phone"
 
 this_is_a_map "yes"
 
-files {
-    "stream/lbphone_props.ytyp"
-}
-
 data_file "DLC_ITYP_REQUEST" "lbphone_props.ytyp"
 
 dependency '/assetpacks'

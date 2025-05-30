@@ -6,6 +6,8 @@ for _, v in pairs(Config.AllowExternal) do
     end
 end
 
+---@param link string
+---@return boolean allowed
 function IsMediaLinkAllowed(link)
     if not Config.UploadWhitelistedDomains or #Config.UploadWhitelistedDomains == 0 then
         return true
@@ -44,4 +46,19 @@ function IsUsernameValid(username)
     end
 
     return true
+end
+
+---@param source number
+---@param uploadType "Audio" | "Image" | "Video"
+---@return string? presignedUrl
+function GetPresignedUrl(source, uploadType)
+    local apiKey = API_KEYS[uploadType]
+
+    infoprint("warning", "GetPresignedUrl has not been set up. Set it up in lb-phone/server/custom/functions/functions.lua, or change your upload method to Fivemanage.")
+end
+
+---@param source number
+---@param plate string
+---@param vehicle? number # The vehicle handle, if Config.ServerSideSpawn is enabled
+function GiveVehicleKey(source, plate, vehicle)
 end

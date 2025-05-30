@@ -617,10 +617,17 @@ AddEventHandler('tj_burgershot:duty', function()
             props = exports['fivem-appearance']:getPedProps(PlayerPedId())
         }
         -- rb_code，换装
-        if Config.defaultOutfits.model == nil then
-            Config.defaultOutfits.model = savedOutfit.model
+        if savedOutfit.model == 'mp_m_freemode_01' then 
+            if Config.defaultOutfits.model == nil then
+                Config.defaultOutfits.model = savedOutfit.model
+            end
+            TriggerEvent('fivem-appearance:client:changeOutfit', Config.defaultOutfits)
+        else
+            if Config.defaultFemaleOutfits.model == nil then
+                Config.defaultFemaleOutfits.model = savedOutfit.model
+            end
+            TriggerEvent('fivem-appearance:client:changeOutfit', Config.defaultFemaleOutfits)
         end
-        TriggerEvent('fivem-appearance:client:changeOutfit', Config.defaultOutfits)
         --
         lib.notify({
             title = locale('notify_title'),

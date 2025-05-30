@@ -176,13 +176,14 @@ BaseCallback("services:getEmployees", function(source, phoneNumber, company)
         return false
     end
 
-    ---@type { firstname: string, lastname: string, grade: string, number?: string, online: boolean }[]
+    ---@type { firstname: string, lastname: string, grade: string, number?: string, online: boolean, duty?: boolean }[]
     local employees = GetAllEmployees(company)
 
     for i = 1, #employees do
         local employee = employees[i]
+        local onDuty = employee.duty == true or employee.duty == nil
 
-        employee.online = employee.number and GetSourceFromNumber(employee.number) ~= false or false
+        employee.online = (employee.number and onDuty and GetSourceFromNumber(employee.number) ~= false) or false
     end
 
     return employees

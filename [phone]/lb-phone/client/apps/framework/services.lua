@@ -1,3 +1,16 @@
+---@class CompanyData
+---@field job string
+---@field jobLabel string
+---@field isBoss boolean
+---@field duty? boolean
+---@field balance? number
+---@field employees? { id: any, name: string, gradeLabel: string, grade: number, canInteract: boolean }[]
+---@field grades? { label: string, grade: number }[]
+---@field recieveCalls? boolean
+
+---@class ExtendedCompanyData : CompanyData
+---@field receiveCalls boolean
+
 local callsDisabled = Config.Companies.DefaultCallsDisabled == true
 
 if Config.Companies.DefaultCallsDisabled then
@@ -63,13 +76,18 @@ RegisterNUICallback("Services", function(data, cb)
     if action == "getCompanies" then
         TriggerCallback("services:getOnline", cb)
     elseif action == "getCompany" then
-        local companyData = GetCompanyData(function(data)
-            data.receiveCalls = not callsDisabled
-            cb(data)
+        local companyData = GetCompanyData(function(companyData)
+            ---@cast companyData ExtendedCompanyData
+            companyData.receiveCalls = not callsDisabled
+
+            cb(companyData)
         end)
+
+        ---@cast companyData ExtendedCompanyData
 
         if companyData ~= nil then
             companyData.receiveCalls = not callsDisabled
+
             cb(companyData)
         end
     elseif action == "depositMoney" and Config.Companies.Management.Deposit then
@@ -103,7 +121,7 @@ RegisterNUICallback("Services", function(data, cb)
             cb(success)
         end
     elseif action == "toggleDuty" and ToggleDuty and Config.Companies.Management.Duty then
-        ToggleDuty()
+        ToggleDuty(data.duty)
         cb(true)
     elseif action == "toggleCalls" then
         callsDisabled = not callsDisabled

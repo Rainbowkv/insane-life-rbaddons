@@ -2,7 +2,7 @@ if Config.HouseScript ~= "qb-houses" then
     return
 end
 
-while not loaded do
+while not FrameworkLoaded do
     Wait(500)
 end
 

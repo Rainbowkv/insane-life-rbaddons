@@ -46,6 +46,8 @@ function AddTransaction(phoneNumber, amount, company, logo)
     TriggerEvent("lb-phone:onAddTransaction", amount > 0 and "received" or "paid", phoneNumber, amount, company, logo)
 end
 
+exports("AddTransaction", AddTransaction)
+
 ---@param phoneNumber string
 ---@param page? number
 ---@param perPage? number
@@ -119,14 +121,23 @@ BaseCallback("wallet:sendPayment", function(source, phoneNumber, data)
     end
 
     local sendToSource = GetSourceFromNumber(data.phoneNumber)
-    local added
+    local added = false
 
     if sendToSource then
-        added = AddMoney(sendToSource, amount)
+        if sendToSource ~= source then
+            added = AddMoney(sendToSource, amount)
+        else
+            debugprint("Can't send money to yourself (source).", source, sendToSource)
+        end
     elseif Config.TransferOffline then
+        local identifier = GetIdentifier(source)
         local sendToIdentifier = MySQL.scalar.await("SELECT owner_id FROM phone_phones WHERE phone_number = ?", { data.phoneNumber })
 
-        added = AddMoneyOffline and AddMoneyOffline(sendToIdentifier, amount)
+        if sendToIdentifier and sendToIdentifier ~= identifier then
+            added = AddMoneyOffline and AddMoneyOffline(sendToIdentifier, amount)
+        elseif sendToIdentifier == identifier then
+            debugprint("Can't send money to yourself (identifier).", identifier, sendToIdentifier)
+        end
     end
 
     if not added then

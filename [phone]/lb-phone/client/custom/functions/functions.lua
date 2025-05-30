@@ -104,40 +104,6 @@ function CanInteract()
     return true
 end
 
-local staticService = false
-
----@return 0 | 1 | 2 | 3 | 4
-function GetServiceBars()
-    if staticService then
-        return staticService
-    end
-
-    local coords = GetEntityCoords(PlayerPedId())
-    local currentZone = GetZoneAtCoords(coords.x, coords.y, coords.z)
-    local service = GetZoneScumminess(currentZone) - 1
-
-    service = service < 0 and 0 or service
-
-    if service < 2 and #(coords - vector3(0, 0, 0)) < 3000 then
-        service = 2
-    end
-
-    return service
-end
-
-exports("SetServiceBars", function(bars)
-    if not bars then
-        staticService = false
-        return
-    end
-
-    if type(bars) ~= "number" or bars < 0 or bars > 4 then
-        error("Invalid service bars value, expected number between 0 and 4 or false")
-    end
-
-    staticService = bars
-end)
-
 function ReloadPhone()
     local wasOpen = phoneOpen
 
@@ -153,56 +119,6 @@ function ReloadPhone()
 end
 
 exports("ReloadPhone", ReloadPhone)
-
-local phoneVariation
-
----Check if the player has a phone
----@return boolean
-function HasPhoneItem(number)
-    if not Config.Item.Require then
-        return true
-    end
-
-    if Config.Item.Unique then
-        return HasPhoneNumber(number)
-    end
-
-    if Config.Item.Name then
-        return HasItem(Config.Item.Name)
-    end
-
-    if phoneVariation and HasItem(Config.Item.Names[phoneVariation].name) then
-        return true
-    end
-
-    if not phoneVariation then
-        local storedVariation = GetResourceKvpInt("phone_variation")
-
-        if storedVariation and Config.Item.Names[storedVariation] and HasItem(Config.Item.Names[storedVariation].name) then
-            phoneVariation = storedVariation
-
-            SetPhoneVariation(storedVariation)
-
-            return true
-        end
-    end
-
-    for i = 1, #Config.Item.Names do
-        local item = Config.Item.Names[i]
-
-        if HasItem(item.name) then
-            phoneVariation = i
-
-            SetPhoneVariation(i)
-
-            return true
-        end
-    end
-
-    return false
-end
-
-exports("HasPhoneItem", HasPhoneItem)
 
 ---@param appIdentifier string
 ---@param jobName? string
@@ -263,3 +179,30 @@ function HasAccessToApp(appIdentifier, jobName, jobGrade)
 
     return true
 end
+
+---@param vehicle number
+---@param plate string
+function GiveVehicleKey(vehicle, plate)
+    TriggerEvent("vehiclekeys:client:SetOwner", plate)
+end
+
+-- ---@param uploadType "Video" | "Image" | "Audio"
+-- ---@return UploadMethod?
+-- function CustomGetUploadMethod(uploadType)
+--     local methods = UploadMethods[Config.UploadMethod[uploadType]]
+
+--     if not methods then
+--         infoprint("error", "Upload methods not found for ", uploadType)
+--         return
+--     end
+
+--     ---@type UploadMethod?
+--     local method = methods[uploadType] or methods.Default
+
+--     if not method then
+--         infoprint("error", "Upload method not found for ", uploadType)
+--         return
+--     end
+
+--     return method
+-- end

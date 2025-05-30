@@ -31,8 +31,18 @@ CREATE TABLE IF NOT EXISTS `phone_photo_albums` (
     `phone_number` VARCHAR(15) NOT NULL,
 
     `title` VARCHAR(100) NOT NULL,
+    `shared` BOOLEAN NOT NULL DEFAULT FALSE,
 
     PRIMARY KEY (`id`),
+    FOREIGN KEY (`phone_number`) REFERENCES `phone_phones`(`phone_number`) ON DELETE CASCADE ON UPDATE CASCADE
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `phone_photo_album_members` (
+    `album_id` INT NOT NULL,
+    `phone_number` VARCHAR(15) NOT NULL,
+
+    PRIMARY KEY (`album_id`, `phone_number`),
+    FOREIGN KEY (`album_id`) REFERENCES `phone_photo_albums`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`phone_number`) REFERENCES `phone_phones`(`phone_number`) ON DELETE CASCADE ON UPDATE CASCADE
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -389,8 +399,10 @@ CREATE TABLE IF NOT EXISTS `phone_instagram_notifications` (
 
 CREATE TABLE IF NOT EXISTS `phone_instagram_stories` (
     `id` VARCHAR(10) NOT NULL,
+
     `username` VARCHAR(20) NOT NULL,
     `image` VARCHAR(500) NOT NULL,
+    `metadata` LONGTEXT DEFAULT NULL,
 
     `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -448,6 +460,8 @@ CREATE TABLE IF NOT EXISTS `phone_tinder_accounts` (
     `interested_men` BOOLEAN NOT NULL,
     `interested_women` BOOLEAN NOT NULL,
     `active` BOOLEAN NOT NULL DEFAULT TRUE,
+
+    `last_seen` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     PRIMARY KEY (`phone_number`),
     FOREIGN KEY (`phone_number`) REFERENCES `phone_phones`(`phone_number`) ON DELETE CASCADE ON UPDATE CASCADE

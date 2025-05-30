@@ -2,7 +2,7 @@ fx_version "cerulean"
 game "gta5"
 lua54 "yes"
 
-version "2.1.17"
+version "2.3.1"
 
 shared_script {
     "config/*.lua",
@@ -28,7 +28,7 @@ files {
 
 ui_page "ui/dist/index.html"
 
--- dependency "oxmysql"
+dependency "oxmysql"
 
 escrow_ignore {
     "config/**/*",
@@ -55,10 +55,4 @@ escrow_ignore {
     "lib/**/*",
 }
 
--- dependency '/assetpacks'
-
-dependencies {
-    'oxmysql',
-    'ox_inventory',
-    'qb-core'
-}
+dependency '/assetpacks'

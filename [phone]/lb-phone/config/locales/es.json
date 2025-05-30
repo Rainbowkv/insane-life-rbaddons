@@ -81,6 +81,7 @@
             "RINGTONE": "Tono de llamada",
             "TEXT_TONE": "Tono de texto",
             "RINGTONE_VOLUME": "Volumen del tono de llamada y de las alertas",
+            "CALL_VOLUME": "Volumen de llamadas",
             "DEFAULT": "Por defecto",
             "PHONE_STORAGE": "Almacenamiento teléfono",
             "STORAGE": "Almacenamiento",
@@ -1099,6 +1100,7 @@
             "SEEN_BY": "Visto por {count}",
             "ADD_ACCOUNT": "Añadir cuenta",
             "INVITE": "Invitar",
+            "INVITED": "Invitado",
             "REMOVE": "Quitar",
             "IN_THIS_ROOM": "En esta sala",
             "WHOS_WATCHING": "Quién está mirando",
@@ -1743,9 +1745,9 @@
         },
         "MAIL": {
             "AUTOMATIC_PASSWORD": {
-				"SENDER": "Sistema",
-				"SUBJECT": "Contraseña",
-				"MESSAGE": "Hola!,\n\nTu casilla de correo es {address} y tu contraseña es {password}"
+                "SENDER": "Sistema",
+                "SUBJECT": "Contraseña",
+                "MESSAGE": "Hola!,\n\nTu casilla de correo es {address} y tu contraseña es {password}"
             }
         },
         "LOGS": {
@@ -1795,9 +1797,9 @@
             "TRENDY_DELETE_DESCRIPTION": "{username} eliminó un video con id {id}",
 
             "UPLOADED_MEDIA": "Medios cargados",
-			"UPLOADED_MEDIA_DESCRIPTION": "Tomó un(a) {type} con el id {id}\n{link}",
-			"VIDEO": "video",
-			"PHOTO": "foto",
+            "UPLOADED_MEDIA_DESCRIPTION": "Tomó un(a) {type} con el id {id}\n{link}",
+            "VIDEO": "video",
+            "PHOTO": "foto",
 
             "CHANGED_PASSWORD": {
                 "TITLE": "Contraseña cambiada",

@@ -20,13 +20,13 @@ local function updateKartPedTarget(ped)
         options[#options + 1] = {
             label = '取出卡丁车',
             icon = 'fas fa-flag-checkered',
-            event = 'karting:client:selectKart',
+            event = 'karting:client:selectPracticeKart',
             distance = 1.5
         }
         options[#options + 1] = {
             label = '参加比赛',
             icon = 'fas fa-flag-checkered',
-            event = 'karting:client:joinRace',
+            event = 'karting:client:selectRacingKart',
             distance = 1.5
         }
         options[#options + 1] = {
@@ -244,7 +244,7 @@ RegisterNetEvent('karting:client:returnKart', function()
     lib.notify({ type = 'success', description = '已归还卡丁车' })
 end)
 
-RegisterNetEvent('karting:client:selectKart', function()
+RegisterNetEvent('karting:client:selectPracticeKart', function()
     lib.callback('karting:server:checkLicense', false, function(result)
         if not result.basic and not result.advanced then
             lib.notify({ type = 'error', description = '你没有赛车驾照' })
@@ -279,6 +279,41 @@ RegisterNetEvent('karting:client:selectKart', function()
     end)
 end)
 
+RegisterNetEvent('karting:client:selectRacingKart', function()
+    lib.callback('karting:server:checkLicense', false, function(result)
+        if not result.basic and not result.advanced then
+            lib.notify({ type = 'error', description = '你没有赛车驾照' })
+            return
+        end
+
+        local options = {
+            {
+                title = '基础卡丁车',
+                description = '适合练习的车辆',
+                icon = 'car',
+                event = 'karting:client:joinRace',
+                args = { model = Config.basicKartingCar },
+            },
+            {
+                title = '竞速卡丁车',
+                description = '更快的卡丁车',
+                icon = 'car-side',
+                event = 'karting:client:joinRace',
+                args = { model = Config.advancedKartingCar },
+                disabled = not result.advanced
+            }
+        }
+
+        lib.registerContext({
+            id = 'kart_select_menu',
+            title = '选择参赛卡丁车',
+            options = options,
+        })
+
+        lib.showContext('kart_select_menu')
+    end)
+end)
+
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     if currentKart and DoesEntityExist(currentKart) then
             DeleteVehicle(currentKart)
@@ -288,18 +323,11 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     end
 end)
 
-RegisterNetEvent('karting:client:joinRace', function()
-    lib.callback('karting:server:checkLicense', false, function(result)
-        if not result.basic and not result.advanced then
-            lib.notify({ type = 'error', description = '你没有赛车驾照' })
-        else 
-            TriggerServerEvent('karting:server:joinQueue')
-        end
-    end)
+RegisterNetEvent('karting:client:joinRace', function(data)
+    TriggerServerEvent('karting:server:joinQueue', data.model)
 end)
 
-RegisterNetEvent('karting:client:preparePlayerForRace', function(startVec, remainingCountdownTime)
-    local vehMod = Config.advancedKartingCar
+RegisterNetEvent('karting:client:preparePlayerForRace', function(vehMod, startVec, remainingCountdownTime)
     RequestModel(vehMod)
     while not HasModelLoaded(vehMod) do Wait(0) end
 

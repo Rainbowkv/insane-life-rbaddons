@@ -1,5 +1,19 @@
-    local MumbleIsPlayerTalking = MumbleIsPlayerTalking
+local MumbleIsPlayerTalking = MumbleIsPlayerTalking
 local NetworkIsPlayerTalking = NetworkIsPlayerTalking
+
+---@param volume? number # The call volume, 0.0 - 1.0
+function SetCallVolume(volume)
+    volume = volume or (settings?.sound?.callVolume or 0.5)
+
+    debugprint("Volume", volume)
+
+    local volumePercent = math.clamp(math.floor(volume * 100 + 0.5), 0, 100)
+
+    if Config.Voice.System == "pma" then
+        debugprint("Setting call volume to", volumePercent)
+        exports["pma-voice"]:setCallVolume(volumePercent)
+    end
+end
 
 function AddToCall(callId)
     debugprint("Joining call", callId)
@@ -19,6 +33,8 @@ function AddToCall(callId)
     if not success then
         infoprint("error", "Failed to join call (unsupported voice script)")
     end
+
+    SetCallVolume()
 end
 
 function RemoveFromCall(callId)
@@ -65,6 +81,20 @@ function GetVoiceMaxDistance()
     return ConvertProximityToUnits(proximity)
 end
 
+function GetVoiceVolume(distance)
+    local maxDistance = GetVoiceMaxDistance()
+
+    if distance <= 0 then
+        return 1.0
+    elseif distance >= maxDistance then
+        return 0.0
+    end
+
+    local volume = (1 - (distance / maxDistance)) ^ 2
+
+    return math.floor(volume * 100) / 100
+end
+
 -- This thread is used to send the talking state to the frontend, used to record audio only when talking in-game
 CreateThread(function()
     local talking = false
@@ -87,6 +117,7 @@ CreateThread(function()
 end)
 
 -- proximity
+
 local speakerEffect, callEffect
 local data = {
     [`default`] = 0,
@@ -134,20 +165,27 @@ CreateThread(function()
     AddAudioSubmixOutput(callEffect, 0)
 end)
 
+---A lookup table of sources that we are listening to since they are close to the InstaPic live host we are watching
+---@type table<number, boolean>
+local instapicProximityListeningTo = {}
 local voiceTargets = {}
 
 CreateThread(function()
     while true do
         local currentTargets = table.clone(voiceTargets)
+        local volume = settings?.sound?.volume or 0.5
 
         for source, audio in pairs(currentTargets) do
             MumbleAddVoiceTargetPlayerByServerId(1, source)
 
             if table.contains(watchingSources, source) then
-                MumbleSetVolumeOverrideByServerId(source, 1.0)
+                debugprint("Watching", source, "on InstaPic, volume:", volume)
+                MumbleSetVolumeOverrideByServerId(source, volume)
             else
-                debugprint("volume:", audio and 0.7 or -1.0)
-                MumbleSetVolumeOverrideByServerId(source, audio and 0.7 or -1.0)
+                local targetVolume = audio and (instapicProximityListeningTo[source] and volume * 0.7 or 0.7) or -1.0
+
+                debugprint("volume:", targetVolume)
+                MumbleSetVolumeOverrideByServerId(source, targetVolume)
             end
         end
 
@@ -212,7 +250,7 @@ RegisterNetEvent("phone:phone:removeVoiceTarget", function(sources, phoneCall)
     end
 end)
 
--- instagram proximity
+---This event is triggered when "source" enters the proximity of "liveHost"
 RegisterNetEvent("phone:instagram:enteredProximity", function(source, liveHost)
     if not table.contains(watchingSources, liveHost) then -- if we're not watching "liveHost", don't listen to "source"
         return
@@ -226,14 +264,17 @@ RegisterNetEvent("phone:instagram:enteredProximity", function(source, liveHost)
 
     debugprint("Adding live target", source)
     voiceTargets[source] = true
+    instapicProximityListeningTo[source] = true
 end)
 
+---This event is triggered when "source" leaves the proximity of "liveHost"
 RegisterNetEvent("phone:instagram:leftProximity", function(source, liveHost)
-    if not table.contains(watchingSources, liveHost) then -- if we're not watching "liveHost", don't listen to "source"
-        return
-    end
+    -- if not table.contains(watchingSources, liveHost) then -- if we're not watching "liveHost", don't listen to "source"
+    --     return
+    -- end
 
     voiceTargets[source] = nil
+    instapicProximityListeningTo[source] = nil
 
     MumbleRemoveVoiceTargetPlayerByServerId(1, source)
     MumbleSetVolumeOverrideByServerId(source, -1.0)

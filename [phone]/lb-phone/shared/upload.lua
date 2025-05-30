@@ -3,6 +3,17 @@
 --                                         WE WILL NOT HELP YOU, OR ANSWER ANY QUESTIONS                                         --
 -----------------------------------------------------------------------------------------------------------------------------------
 
+---@class UploadMethod
+---@field url string # The url to upload to. Can use BASE_URL & PRESIGNED_URL as well.
+---@field field string # The field name (formData)
+---@field headers? table<string, any>
+---@field error? { path: string, value: any } # The path to the error value and the value to check for
+---@field success { path: string } # The path to the video file
+---@field suffix? string # Add a suffix to the url? Needed if the url doesn't return the correct file name
+---@field sendPlayer? string # The formData field name to send player's metadata to, as json
+---@field sendResource? boolean # Send the resource name in the formData?
+
+---@type table<string, { Default: UploadMethod?, Video?: UploadMethod, Image?: UploadMethod, Audio?: UploadMethod }>
 UploadMethods = {
     Custom = {
         Video = {
@@ -51,146 +62,63 @@ UploadMethods = {
             suffix = "mp3", -- Add a suffix to the url (not needed if you return the correct name)
         },
     },
-    Discord = {
-        Video = {
-            url = "API_KEY",
-            field = "files[]",
-            error = {
-                path = "code",
-                value = 0
-            },
+    Fivemanage = {
+        Default = {
+            url = "PRESIGNED_URL",
+            field = "file",
             success = {
-                path = "attachments.0.url"
+                path = "data.url"
             },
-        },
-        Image = {
-            url = "API_KEY",
-            field = "files[]",
-            error = {
-                path = "code",
-                value = 0
-            },
-            success = {
-                path = "attachments.0.url"
-            }
-        },
-        Audio = {
-            url = "API_KEY",
-            field = "files[]",
-            error = {
-                path = "code",
-                value = 0
-            },
-            success = {
-                path = "attachments.0.url"
-            }
+            sendPlayer = "metadata"
         },
     },
-    Imgur = {
-        Video = {
-            url = "https://api.imgur.com/3/upload",
-            field = "image",
+    LBUpload = {
+        Default = {
+            url = "https://BASE_URL/lb-upload/",
+            field = "file",
             headers = {
-                ["Authorization"] = "Client-ID API_KEY"
+                ["Authorization"] = "API_KEY"
             },
             error = {
                 path = "success",
                 value = false
             },
             success = {
-                path = "data.link"
+                path = "link"
             },
-            suffix = "mp4",
-        },
-        Image = {
-            url = "https://api.imgur.com/3/upload",
-            field = "image",
-            headers = {
-                ["Authorization"] = "Client-ID API_KEY"
-            },
-            error = {
-                path = "success",
-                value = false
-            },
-            success = {
-                path = "data.link"
-            },
+            sendPlayer = "metadata"
         },
     },
     OldFivemanage = {
         Video = {
-            url = "https://api.fivemanage.com/api/video",
-            field = "video",
+            url = "https://fmapi.net/api/v2/video",
+            field = "file",
             headers = {
                 ["Authorization"] = "API_KEY"
             },
             success = {
-                path = "url"
+                path = "data.url"
             },
         },
         Image = {
-            url = "https://api.fivemanage.com/api/image",
-            field = "image",
+            url = "https://fmapi.net/api/v2/image",
+            field = "file",
             headers = {
                 ["Authorization"] = "API_KEY"
             },
             success = {
-                path = "url"
+                path = "data.url"
             }
         },
         Audio = {
-            url = "https://api.fivemanage.com/api/audio",
-            field = "recording",
+            url = "https://fmapi.net/api/v2/audio",
+            field = "file",
             headers = {
                 ["Authorization"] = "API_KEY"
             },
             success = {
-                path = "url"
+                path = "data.url"
             }
-        },
-    },
-    LBUpload = {
-        Video = {
-            url = "https://BASE_URL/lb-upload/",
-            field = "file",
-            headers = {
-                ["Authorization"] = "API_KEY"
-            },
-            error = {
-                path = "success",
-                value = false
-            },
-            success = {
-                path = "link"
-            },
-        },
-        Image = {
-            url = "https://BASE_URL/lb-upload/",
-            field = "file",
-            headers = {
-                ["Authorization"] = "API_KEY"
-            },
-            error = {
-                path = "success",
-                value = false
-            },
-            success = {
-                path = "link"
-            },
-        },
-        Audio = {
-            url = "https://BASE_URL/lb-upload/",
-            field = "file",
-            headers = {
-                ["Authorization"] = "API_KEY"
-            },
-            error = {
-                path = "success",
-                value = false
-            },
-            success = {
-                path = "link"
-            },
         },
     },
 }

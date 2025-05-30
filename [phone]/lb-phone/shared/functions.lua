@@ -175,6 +175,22 @@ function math.clamp(value, min, max)
     return value
 end
 
+---@param value number
+---@param decimals number
+function math.round(value, decimals)
+    if not value or type(value) ~= "number" then
+        return 0
+    end
+
+    if not decimals or type(decimals) ~= "number" then
+        return math.floor(value + 0.5)
+    end
+
+    local mult = 10 ^ (decimals or 0)
+
+    return math.floor(value * mult + 0.5) / mult
+end
+
 local function GenerateLocales(localesFile)
     local tempLocals = {}
 

@@ -4,6 +4,8 @@ Config.Debug = false -- Set to true to enable debug mode
 Config.Logs = {}
 Config.Logs.Enabled = false
 Config.Logs.Service = "fivemanage" -- fivemanage, discord or ox_lib. if discord, set your webhook in server/apiKeys.lua
+Config.Logs.Avatar = false -- attempt to get the player's avatar for discord logging?
+Config.Logs.Dataset = "default" -- fivemanage dataset
 Config.Logs.Actions = {
     Calls = true,
     Messages = true,
@@ -44,8 +46,33 @@ Config.Item = {}
 -- If you want to set up multiple items & frame colours, see https://docs.lbscripts.com/phone/configuration/#multiple-items--colored-phones
 Config.Item.Require = true -- require a phone item to use the phone
 Config.Item.Name = "phone" -- name of the phone item
+-- Config.Item.Names = {
+--     {
+--         name = "phone",
+--         model = `lb_phone_prop`,
+--         textureVariation = 0,
+--         rotation = vector3(0.0, 0.0, 180.0),
+--         offset = vector3(0.0, -0.005, 0.0)
+--     },
+--     {
+--         name = "phone_green",
+--         model = `prop_phone_cs_frank`,
+--         frameColor = "#3cff00",
+--         textureVariation = 0,
+--         rotation = vector3(0.0, 0.0, 0.0),
+--         offset = vector3(0.0, -0.005, 0.0)
+--     },
+--     {
+--         name = "phone_orange",
+--         model = `prop_phone_cs_frank`,
+--         frameColor = "#ffa142",
+--         textureVariation = 2,
+--         rotation = vector3(0.0, 0.0, 0.0),
+--         offset = vector3(0.0, -0.005, 0.0)
+--     }
+-- }
 
-Config.Item.Unique = false -- should each phone be unique? https://docs.lbscripts.com/phone/configuration/#unique-phones
+Config.Item.Unique = true -- should each phone be unique? https://docs.lbscripts.com/phone/configuration/#unique-phones
 Config.Item.Inventory = "ox_inventory" --[[
     The inventory you use, IGNORE IF YOU HAVE Config.Item.Unique DISABLED.
     Supported:
@@ -70,6 +97,7 @@ Config.DisableOpenNUI = true -- disable the phone from opening if another script
 Config.DynamicIsland = true -- if enabled, the phone will have a Iphone 14 Pro inspired Dynamic Island.
 Config.SetupScreen = true -- if enabled, the phone will have a setup screen when the player first uses the phone.
 
+Config.AutoDisableSparkAccounts = true -- automatically disable inactive spark accounts? This can be set to the amount of days the account needs to be inactive to disable it, or true to disable after 7 days.
 Config.AutoDeleteNotifications = true -- notifications that are more than X hours old, will be deleted. set to false to disable. if set to true, it will delete 1 week old notifications.
 Config.MaxNotifications = 50 -- the maximum amount of notifications a player can have. if they have more than this, the oldest notifications will be deleted. set to false to disable
 Config.DisabledNotifications = { -- an array of apps that should not send notifications, note that you should use the app identifier, found in config.json
@@ -120,6 +148,7 @@ Config.Companies.DefaultCallsDisabled = false -- should receiving company calls 
 Config.Companies.AllowAnonymous = false -- allow players to call companies with "hide caller id" enabled?
 Config.Companies.SeeEmployees = "employees" -- who should be able to see employees? they will see name, online status & phone number. options are: "everyone", "employees" or "none"
 Config.Companies.DeleteConversations = true -- allow employees to delete conversations?
+Config.Companies.AllowNoService = false -- allow players to call & message companies even if they have no phone service (reception)?
 Config.Companies.Services = {
     {
         job = "police",
@@ -240,7 +269,8 @@ Config.CustomApps = {} -- https://docs.lbscripts.com/phone/custom-apps/
 
 Config.Valet = {}
 Config.Valet.Enabled = false -- allow players to get their vehicles from the phone
-Config.Valet.Price = 1000 -- price to get your vehicle
+Config.Valet.VehicleTypes = { "car", "vehicle" }
+Config.Valet.Price = 100 -- price to get your vehicle
 Config.Valet.Model = `S_M_Y_XMech_01`
 Config.Valet.Drive = true -- should a ped bring the car, or should it just spawn in front of the player?
 Config.Valet.DisableDamages = false -- disable vehicle damages (engine & body health) on esx
@@ -283,6 +313,17 @@ Config.Voice.RecordNearby = true --[[
 ]]
 
 --[[ PHONE OPTIONS ]] --
+Config.CellTowers = {}
+Config.CellTowers.Enabled = false
+Config.CellTowers.Debug = false -- show the cell towers on the map?
+Config.CellTowers.MinService = 0 -- you will always have at least this many bars
+Config.CellTowers.Range = {
+    [4] = 250.0, -- You have to be within 250 meters of a cell tower to get 4 bars
+    [3] = 500.0,
+    [2] = 750.0,
+    [1] = 1500.0,
+}
+
 Config.Locations = { -- Locations that'll appear in the maps app.
     {
         position = vector2(428.9, -984.5),
@@ -387,6 +428,10 @@ Config.Locales = { -- If your desired language isn't here, you may contribute at
         locale = "ro",
         name = "Romana"
     },
+    {
+        locale = "ja",
+        name = "日本語",
+    },
 }
 
 Config.DefaultLocale = "zh-cn"
@@ -431,7 +476,7 @@ Config.RealTime = false -- if true, the time will use real life time depending o
 Config.CustomTime = false -- NOTE: disable Config.RealTime if using this. you can set this to a function that returns custom time, as a table: { hour = 0-24, minute = 0-60 }
 
 Config.EmailDomain = "ravens.com"
-Config.AutoCreateEmail = false -- should the phone automatically create an email for the player when they set up the phone?
+Config.AutoCreateEmail = true -- should the phone automatically create an email for the player when they set up the phone?
 Config.DeleteMail = true -- allow players to delete mails in the mail app?
 Config.ConvertMailToMarkdown = false -- convert mails from html to markdown?
 
@@ -441,16 +486,16 @@ Config.SyncFlash = true -- should flashlights be synced across all players? May 
 Config.EndLiveClose = false -- should InstaPic live end when you close the phone?
 
 Config.AllowExternal = { -- allow people to upload external images? (note: this means they can upload nsfw / gore etc)
-    Gallery = false, -- allow importing external links to the gallery?
-    Birdy = false, -- set to true to enable external images on that specific app, set to false to disable it.
-    InstaPic = false,
-    Spark = false,
-    Trendy = false,
-    Pages = false,
-    MarketPlace = false,
-    Mail = false,
-    Messages = false,
-    Other = false, -- other apps that don't have a specific setting (ex: setting a profile picture for a contact, backgrounds for the phone etc)
+    Gallery = true, -- allow importing external links to the gallery?
+    Birdy = true, -- set to true to enable external images on that specific app, set to false to disable it.
+    InstaPic = true,
+    Spark = true,
+    Trendy = true,
+    Pages = true,
+    MarketPlace = true,
+    Mail = true,
+    Messages = true,
+    Other = true, -- other apps that don't have a specific setting (ex: setting a profile picture for a contact, backgrounds for the phone etc)
 }
 
 -- Blacklisted domains for external images. You will not be able to upload from these domains.
@@ -468,6 +513,7 @@ Config.ExternalWhitelistedDomains = {
 -- Set to false/empty to disable
 Config.UploadWhitelistedDomains = { -- domains that are allowed to upload images to the phone (prevent using devtools to upload images)
     "fivemanage.com",
+    "fmfile.com",
     "cfx.re" -- lb-upload
 }
 
@@ -529,7 +575,7 @@ Config.InstaPicLiveNotifications = true -- should everyone get a notification wh
 
 Config.PromoteBirdy = {}
 Config.PromoteBirdy.Enabled = true -- should you be able to promote post?
-Config.PromoteBirdy.Cost = 1000 -- how much does it cost to promote a post?
+Config.PromoteBirdy.Cost = 2500 -- how much does it cost to promote a post?
 Config.PromoteBirdy.Views = 100 -- how many views does a promoted post get?
 
 Config.UsernameFilter = {
@@ -591,6 +637,13 @@ Config.TrendyTTS = {
     {"Singing - Chipmunk", "en_male_m2_xhxs_m03_silly"},
     {"Singing - Dramatic", "en_female_ht_f08_wonderful_world"}
 }
+
+-- You can customize the function in lb-phone/server/custom/functions/webrtc.lua
+-- You can set your api key in lb-phone/server/apiKeys.lua
+Config.DynamicWebRTC = {}
+Config.DynamicWebRTC.Enabled = false -- enable dynamic WebRTC? (this will allow you to generate new WebRTC credentials for each user)
+Config.DynamicWebRTC.Service = "cloudflare" -- supported by default: cloudflare
+Config.DynamicWebRTC.RemoveStun = false -- remove the stun servers?
 
 -- ICE Servers for WebRTC (ig live, live video). If you don't know what you're doing, leave this as it is.
 -- see https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/RTCPeerConnection
@@ -687,13 +740,16 @@ Config.KeyBinds = {
 }
 
 Config.KeepInput = true -- keep input when nui is focused (meaning you can walk around etc)
+Config.DisableFocusTalking = true -- disable the focus key (default ALT) when talking in-game? Potentially fixes issues with PTT getting stuck (open mic)
 
 --[[ PHOTO / VIDEO OPTIONS ]] --
 Config.Camera = {}
+Config.Camera.ShowTip = true -- show a tip in the top-left of key binds for the camera?
 Config.Camera.Enabled = true -- use a custom camera that allows you to walk around while taking photos?
 Config.Camera.Roll = true -- allow rolling the camera to the left & right?
 Config.Camera.AllowRunning = true
-Config.Camera.MaxFOV = 60.0 -- higher = zoomed out
+Config.Camera.MaxFOV = 70.0 -- higher = zoomed out
+Config.Camera.DefaultFOV = 60.0
 Config.Camera.MinFOV = 10.0 -- lower = zoomed in
 Config.Camera.MaxLookUp = 80.0
 Config.Camera.MaxLookDown = -80.0
@@ -701,6 +757,7 @@ Config.Camera.MaxLookDown = -80.0
 Config.Camera.Vehicle = {}
 Config.Camera.Vehicle.Zoom = true -- allow zooming in vehicles?
 Config.Camera.Vehicle.MaxFOV = 80.0
+Config.Camera.Vehicle.DefaultFOV = 60.0
 Config.Camera.Vehicle.MinFOV = 10.0
 Config.Camera.Vehicle.MaxLookUp = 50.0
 Config.Camera.Vehicle.MaxLookDown = -30.0
@@ -711,6 +768,7 @@ Config.Camera.Selfie = {}
 Config.Camera.Selfie.Offset = vector3(0.05, 0.55, 0.6)
 Config.Camera.Selfie.Rotation = vector3(10.0, 0.0, -180.0)
 Config.Camera.Selfie.MaxFov = 90.0
+Config.Camera.Selfie.DefaultFov = 60.0
 Config.Camera.Selfie.MinFov = 50.0
 
 Config.Camera.Freeze = {}

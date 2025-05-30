@@ -754,6 +754,28 @@ local function ValidateAutoIncrementUpdate()
     end
 end
 
+local function AddSharedAlbums()
+    if not tables.phone_photo_albums or tables.phone_photo_albums.shared then
+        return
+    end
+
+    MySQL.rawExecute.await("ALTER TABLE `phone_photo_albums` ADD COLUMN `shared` BOOLEAN NOT NULL DEFAULT FALSE")
+    MySQL.rawExecute.await([[
+        CREATE TABLE IF NOT EXISTS `phone_photo_album_members` (
+            `album_id` INT NOT NULL,
+            `phone_number` VARCHAR(15) NOT NULL,
+
+            PRIMARY KEY (`album_id`, `phone_number`),
+            FOREIGN KEY (`album_id`) REFERENCES `phone_photo_albums`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+            FOREIGN KEY (`phone_number`) REFERENCES `phone_phones`(`phone_number`) ON DELETE CASCADE ON UPDATE CASCADE
+        ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+    ]])
+
+    infoprint("info", "Added shared albums to phone_photo_albums.")
+
+    updateChanges = true
+end
+
 if Config.DatabaseChecker.AutoFix then
     ValidatePhotoAlbums()
     ValidateNotificationsId()
@@ -762,6 +784,7 @@ if Config.DatabaseChecker.AutoFix then
     ValidateMessageForeignKeyNumbers()
     ValidateV2()
     ValidateAutoIncrementUpdate()
+    AddSharedAlbums()
 end
 
 if updateChanges then
@@ -802,12 +825,12 @@ for tableName, columns in pairs(defaultTables) do
         local column = checkTable[defaultColumn.column]
 
         if not checkTable[defaultColumn.column] then
-            infoprint("error", ("Missing column ^5%s^7 in the table ^5%s^7."):format(defaultColumn.column, tableName))
+            infoprint("warning", ("Missing column ^5%s^7 in the table ^5%s^7. (The database checker should fix this)"):format(defaultColumn.column, tableName))
 
             if not defaultColumn.isKey then
                 fixQueries[#fixQueries+1] = ("ALTER TABLE `%s` ADD COLUMN `%s` %s"):format(tableName, defaultColumn.column, GetLastArg(defaultColumn))
             else
-                infoprint("warning", ("Column ^5%s^7 in the table ^5%s^7 is a key and cannot be added automatically. Check the #updates channel for a query to run, or ask in #customer-support"):format(defaultColumn.column, tableName))
+                infoprint("error", ("Column ^5%s^7 in the table ^5%s^7 is a key and cannot be added automatically. Check the #updates channel for a query to run, or ask in #customer-support"):format(defaultColumn.column, tableName))
             end
 
             goto continueColumns

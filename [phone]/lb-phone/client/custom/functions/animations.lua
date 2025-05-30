@@ -299,11 +299,14 @@ function TogglePhoneAnimation(enabled, action)
     end
 end
 
+local oldFrameColor
+
 ---@param variation number
 function SetPhoneVariation(variation)
     local itemData = Config.Item.Names[variation]
 
     if not itemData then
+        infoprint("error", "SetPhoneVariation", "Invalid phone variation: " .. tostring(variation))
         return
     end
 
@@ -315,9 +318,19 @@ function SetPhoneVariation(variation)
     SetResourceKvpInt("phone_variation", variation)
 
     if itemData.frameColor then
+        if settings and settings?.display?.frameColor then
+            oldFrameColor = settings.display.frameColor
+        end
+
         SendReactMessage("setFrameColor", itemData.frameColor)
+    else
+        if oldFrameColor then
+            SendReactMessage("setFrameColor", oldFrameColor)
+        end
     end
 end
+
+exports("SetPhoneVariation", SetPhoneVariation)
 
 AddEventHandler("onResourceStop", function(resource)
     if resource == GetCurrentResourceName() then

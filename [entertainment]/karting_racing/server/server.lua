@@ -110,7 +110,7 @@ RegisterNetEvent('karting:server:updateCheckpoint', function(lap, checkpoint)
     UpdateAndBroadcastRankings()
 end)
 
-RegisterNetEvent('karting:server:joinQueue', function()
+RegisterNetEvent('karting:server:joinQueue', function(vehMod)
     local src = source
     if raceStarted or (countdownActive and GetRemainingCountdownTime() < Config.deadlineSeconds) then
         TriggerClientEvent('ox_lib:notify', src, { description = '比赛已开始或即将开始, 已无法报名！', type = 'error' })
@@ -130,7 +130,7 @@ RegisterNetEvent('karting:server:joinQueue', function()
         end
         waitingPlayers[src] = true
         racingPlayerCnt = racingPlayerCnt + 1
-        TriggerClientEvent('karting:client:preparePlayerForRace', src, startPos, GetRemainingCountdownTime())  -- 分配起点和准备载具
+        TriggerClientEvent('karting:client:preparePlayerForRace', src, vehMod, startPos, GetRemainingCountdownTime())  -- 分配起点和准备载具
         TriggerClientEvent('ox_lib:notify', src, { description = '已成功报名比赛！', type = 'success' })
     else
         TriggerClientEvent('ox_lib:notify', src, { description = '你当前正在比赛中...', type = 'error' })
