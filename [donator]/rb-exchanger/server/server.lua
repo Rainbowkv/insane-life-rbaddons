@@ -38,6 +38,17 @@ RegisterNetEvent("exchange:trySell", function(pAmount, pPrice)
     local result, newCoins = exports['rb-donator']:RemoveCoins(license, amount)  -- 单线程环境这里必然成功，前面已经验证了
     -- 新售卖插入交易所
     if result then
+        -- 日志
+        local charinfo = QBCore.Functions.GetPlayer(src).PlayerData.charinfo
+        MySQL.Async.insert('INSERT INTO donator_transactions (license, player_name, description, amount, operator, timestamp) VALUES (?, ?, ?, ?, ?, ?)', {
+            license,
+            charinfo.firstname .. " " .. charinfo.lastname,
+            '交易所',
+            -tonumber(amount),
+            '系统',
+            os.date("%Y-%m-%d %H:%M:%S", os.time())
+        })
+        --
         TriggerClientEvent("rb-donator:updateCoins", src, newCoins)  -- 更新客户端缓存的赞助点
         local cid = QBCore.Functions.GetPlayer(src).PlayerData.citizenid
         exports.oxmysql:insert([[
@@ -101,6 +112,17 @@ RegisterNetEvent("exchange:tryBuy", function(pCitizenid, pAmount, pPrice)
                 local license = GetPlayerIdentifierByType(src, 'license')
                 local newCoins = exports['rb-donator']:AddCoins(license, amount)
                 TriggerClientEvent("rb-donator:updateCoins", src, newCoins)  -- 更新客户端缓存的赞助点
+                -- 日志
+                local charinfo = QBCore.Functions.GetPlayer(src).PlayerData.charinfo
+                MySQL.Async.insert('INSERT INTO donator_transactions (license, player_name, description, amount, operator, timestamp) VALUES (?, ?, ?, ?, ?, ?)', {
+                    license,
+                    charinfo.firstname .. " " .. charinfo.lastname,
+                    '交易所',
+                    tonumber(amount),
+                    '系统',
+                    os.date("%Y-%m-%d %H:%M:%S", os.time())
+                })
+                --
                 -- 给买家发通知
                 TriggerClientEvent("QBCore:Notify", src, "您获得赞助点: " .. amount .. ", 现在拥有: " .. newCoins)
                 -- 给卖家发邮件

@@ -34,10 +34,10 @@ Customize = {
 
 
     Stress = true, -- true | false
-    StressChance = 0.5, -- Default: 10% -- Percentage Stress Chance When Shooting (0-1)
+    StressChance = 0.3, -- Default: 10% -- Percentage Stress Chance When Shooting (0-1)
     MinimumStress = 80, -- Minimum Stress Level For Screen Shaking
-    MinimumSpeed = 80, -- Going Over This Speed Will Cause Stress
-    MinimumSpeedUnbuckled = 30, -- Going Over This Speed Will Cause Stress
+    MinimumSpeed = 120, -- Going Over This Speed Will Cause Stress
+    MinimumSpeedUnbuckled = 80, -- Going Over This Speed Will Cause Stress
     DisableJobsStress = { 'ambulance' }, -- Add here jobs you want to disable stress - OLD: -- DisablePoliceStress = true, -- If true will disable stress for people with the police job
 
     WhitelistedWeaponStress = {

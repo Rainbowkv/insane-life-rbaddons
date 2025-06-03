@@ -449,7 +449,7 @@ function BanModule:setupEventHandlers()
 
                 deferrals.done()
             else
-                local timeLeft = unbanDate and self:formatTimeLeft(unbanDate - currentTime) or "Permanent"
+                local timeLeft = unbanDate and self:formatTimeLeft(unbanDate - currentTime) or "永久"
 
                 local actions = ""
                 if config.UI and config.UI.appealInfo and config.UI.appealInfo.enabled and config.UI.appealInfo.showAppealButton then
@@ -1070,7 +1070,9 @@ function BanModule:banPlayer(adminSource, targetId, reason, duration)
     targetId = tonumber(self:sanitizeInput(targetId))
     reason = self:sanitizeInput(reason)
     duration = self:sanitizeInput(duration)
-
+    if duration == '5475d' then
+        duration = nil    
+    end
     -- 使用QBcore来获取市民名字
     local player = QBCore.Functions.GetPlayer(targetId)
     local targetName = player.PlayerData.charinfo.firstname .. " " .. player.PlayerData.charinfo.lastname
@@ -1117,7 +1119,6 @@ function BanModule:banPlayer(adminSource, targetId, reason, duration)
     if duration then
         unbanDate = self:calculateUnbanDate(duration)
     end
-
     self:executeSafeQuery(
         'INSERT INTO ban_system (ban_id, identifiers, target_name, reason, admin_name, admin_identifier, unban_date, duration) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
         { banID, allIdentifiersJson, targetName, reason, adminName, adminIdentifier, unbanDate, duration },
@@ -1141,7 +1142,7 @@ function BanModule:banPlayer(adminSource, targetId, reason, duration)
         reason,
         "Ravens联邦-"..adminName,-- adminName,
         os.date("%Y-%m-%d %H:%M:%S"),
-        duration and self:formatTimeLeft(self:parseDuration(duration)) or "permanent")
+        duration and self:formatTimeLeft(self:parseDuration(duration)) or "永久")
 
     DropPlayer(targetId, banMessage)
 
@@ -1155,6 +1156,18 @@ function BanModule:banPlayer(adminSource, targetId, reason, duration)
         })
     end
 end
+
+-- rb_code
+function BanModule:banPlayerSystem(targetId, reason, duration)
+    -- 系统封禁，adminSource 设置为 0（表示 Console）
+    local adminSource = 0
+    self:banPlayer(adminSource, targetId, reason, duration)
+end
+
+exports('SystemBanPlayer', function(targetId, reason, duration)
+    BanModule:banPlayerSystem(targetId, reason, duration)
+end)
+--
 
 function BanModule:banOfflinePlayer(adminSource, data)
     data = self:sanitizeInput(data)
