@@ -9,17 +9,13 @@
 local isDead = false
 local givenWeapons = {}
 
-local function revivePlayer()
+local function revivePlayer()  -- rb_code
     local playerPed = PlayerPedId()
-
-    SetEntityHealth(playerPed, GetEntityMaxHealth(playerPed))
-    ClearPedBloodDamage(playerPed)
-    SetPlayerSprint(PlayerId(), true)
-    ResetPedMovementClipset(playerPed, 0.0)
-    ClearPedTasksImmediately(playerPed)
+    local dataToSend = {}
+    dataToSend.revive = true
+    TriggerEvent('ars_ambulancejob:healPlayer', dataToSend)
 
     if isDead then
-        StopScreenEffect("DeathFailOut")
         isDead = false
     end
 end

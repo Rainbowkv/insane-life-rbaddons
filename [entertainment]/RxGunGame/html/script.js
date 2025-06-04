@@ -5,7 +5,7 @@ window.addEventListener('message', (event) => {
             if (event.data.board == "scoreboard") {
                 var personalStats = JSON.parse(event.data.personalStats);
 
-                $('#boardtitle').text("GUNGAME SCOREBOARD")
+                $('#boardtitle').text("枪战计分板")
                 $('#currentmap').text(event.data.currentMap)
                 $('#personalkills').html(personalStats['kills'])
                 $('#personaldeaths').text(personalStats['deaths'])

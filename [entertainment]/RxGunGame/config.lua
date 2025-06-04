@@ -11,7 +11,7 @@ Config = {}
 Config.Locale = "zh"
 
 Config.Keybinds = {
-    OpenScoreboardInGame = nil, -- Z by default
+    OpenScoreboardInGame = 38, -- E
 }
 
 Config.Commands = {
@@ -48,28 +48,48 @@ Config.JoinLobby = {
 
 Config.Levels = {
     [1] = {
-        Label = "One",
-        Weapon = "WEAPON_SNSPISTOL",
-        WeaponLabel = "SNS Pistol",
+        Label = "1",
+        Weapon = "WEAPON_VINTAGEPISTOL",
+        WeaponLabel = "经典格洛克",
     },
     [2] = {
-        Label = "Two",
-        Weapon = "WEAPON_VINTAGEPISTOL",
-        WeaponLabel = "Vintage Pistol",
+        Label = "2",
+        Weapon = "WEAPON_SMG",
+        WeaponLabel = "SMG冲锋枪",
     },
     [3] = {
-        Label = "Final",
-        Weapon = "WEAPON_MACHETE",
-        WeaponLabel = "Machete",
-    }
+        Label = "3",
+        Weapon = "WEAPON_PUMPSHOTGUN",
+        WeaponLabel = "霰弹枪",
+    },
+    [4] = {
+        Label = "4",
+        Weapon = "WEAPON_MILITARYRIFLE",
+        WeaponLabel = "突击步枪",
+    },
+    [5] = {
+        Label = "5",
+        Weapon = "WEAPON_SNIPERRIFLE",
+        WeaponLabel = "狙击枪",
+    },
+    [6] = {
+        Label = "6",
+        Weapon = "WEAPON_CERAMICPISTOL",
+        WeaponLabel = "格洛克 43",
+    },
+    -- [7] = {
+    --     Label = "7",
+    --     Weapon = "WEAPON_MACHETE",
+    --     WeaponLabel = "砍刀",
+    -- }
 }
 
 Config.Maps = {
     [1] = {
-        Label = "Cayo Perico",
+        Label = "佩岛",
         Prize = 1000,
         RespawnTime = 3, -- In Seconds
-        RoundTime = 120, -- In Seconds
+        RoundTime = 600, -- In Seconds
         InvincibleOnSpawnTime = 3, -- In Seconds
         MaximumOutOfZoneTime = 5, -- In Seconds
         MaximumPlayers = 16,

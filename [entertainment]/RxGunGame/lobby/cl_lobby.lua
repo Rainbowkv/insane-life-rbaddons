@@ -40,6 +40,28 @@ CreateThread(function()
             GiveWeaponToPed(joinNPC, RequestWeapon("WEAPON_ASSAULTRIFLE"), 999, false, false)
             SetCurrentPedWeapon(joinNPC, "WEAPON_ASSAULTRIFLE", true)
             SetPedDropsWeaponsWhenDead(joinNPC, false)
+            -- ✅ 添加 ox_target 交互
+            local QBCore = exports['qb-core']:GetCoreObject()  -- rb_code
+            exports['ox_target']:addLocalEntity(joinNPC, {
+                {
+                    label = '历史排行榜',
+                    icon = 'fa-solid fa-list',
+                    distance = 2.5,
+                    onSelect = function()
+                        QBCore.Functions.Progressbar("open_exchange", "正在打开历史排行榜...", 2000, false, true, {
+                            disableMovement = true,
+                            disableCarMovement = true,
+                            disableMouse = false,
+                            disableCombat = true,
+                        }, {}, {}, {}, function() -- 成功回调
+                            ExecuteCommand(Config.Commands.ShowLeaderboard.Command)
+                        end, function() -- 失败回调
+                            -- 可选：玩家取消进度条后的操作
+                            TriggerEvent('QBCore:Notify', '操作已取消', 'error')
+                        end)
+                    end
+                }
+            })
         end
     end
 

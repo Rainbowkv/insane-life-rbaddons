@@ -7,6 +7,7 @@
 --]]
 
 Server = {}
+local QBCore = exports['qb-core']:GetCoreObject()  -- rb_code
 
 function GetLicense(src)
     local identifiers = GetPlayerIdentifiers(src)
@@ -16,6 +17,15 @@ function GetLicense(src)
             return v
         end
     end
+end
+
+local function GetQBCoreName(src)
+    local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return "玩家不存在" end
+    local firstName = Player.PlayerData.charinfo.firstname or "未知"
+    local lastName = Player.PlayerData.charinfo.lastname or ""
+    local playerName = firstName .. " " .. lastName
+    return playerName
 end
 
 -- Setters & Getters (Player)
@@ -77,7 +87,7 @@ function Server.GetCurrentTop20PlayerStats()
         local stats = Server.GetStats(k)
 
         top20PlayerStats[#top20PlayerStats+1] = {
-            name = GetPlayerName(k),
+            name = GetQBCoreName(k),
             kills = stats.kills,
             deaths = stats.deaths,
             kd = stats.kd,
@@ -124,12 +134,11 @@ Database = {}
 
 function Database.UpdatePlayerStats(src)
     local license = GetLicense(src)
-    local playerName = GetPlayerName(src)
     local stats = Server.GetStats(src)
 
     MySQL.Async.execute('INSERT INTO `gungame_stats` (`identifier`, `playername`, `kills`, `deaths`) VALUES (@identifier, @playername, @kills, @deaths) ON DUPLICATE KEY UPDATE `playername` = @playername, `kills` = `kills` + @kills, `deaths` = `deaths` + @deaths', {
         ['@identifier'] = license,
-        ['@playername'] = playerName,
+        ['@playername'] = GetQBCoreName(src),
         ['@kills'] = stats.kills,
         ['@deaths'] = stats.deaths
     })
