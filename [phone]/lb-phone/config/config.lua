@@ -669,73 +669,73 @@ Config.KeyBinds = {
         Command = "phone",
         -- Bind = "F1",
         Bind = "M",
-        Description = "Open your phone"
+        Description = "使用手机"
     },
     Focus = { -- keybind to toggle the mouse cursor.
         Command = "togglePhoneFocus",
         Bind = "LMENU",
-        Description = "Toggle cursor on your phone"
+        Description = "切出鼠标"
     },
     StopSounds = { -- in case the sound would bug out, you can use this command to stop all sounds.
         Command = "stopSounds",
         Bind = false,
-        Description = "Stop all phone sounds"
+        Description = "强行停止手机声音"
     },
 
     FlipCamera = {
         Command = "flipCam",
         Bind = "UP",
-        Description = "Flip phone camera"
+        Description = "翻转相机"
     },
     TakePhoto = {
         Command = "takePhoto",
         Bind = "RETURN",
-        Description = "Take a photo / video"
+        Description = "照相/摄像"
     },
     ToggleFlash = {
         Command = "toggleCameraFlash",
         Bind = "E",
-        Description = "Toggle flash"
+        Description = "切换闪光灯"
     },
     LeftMode = {
         Command = "leftMode",
         Bind = "LEFT",
-        Description = "Change mode"
+        Description = "左翻动"
     },
     RightMode = {
         Command = "rightMode",
         Bind = "RIGHT",
-        Description = "Change mode"
+        Description = "右翻动"
     },
     RollLeft = {
         Command = "cameraRollLeft",
         Bind = "Z",
-        Description = "Roll camera to the left"
+        Description = "相机左旋转"
     },
     RollRight = {
         Command = "cameraRollRight",
         Bind = "C",
-        Description = "Roll camera to the right"
+        Description = "相机右旋转"
     },
     FreezeCamera = {
         Command = "cameraFreeze",
         Bind = "X",
-        Description = "Freeze camera"
+        Description = "相机锁定"
     },
 
     AnswerCall = {
         Command = "answerCall",
         Bind = "RETURN",
-        Description = "Answer incoming call"
+        Description = "接电话"
     },
     DeclineCall = {
         Command = "declineCall",
         Bind = "BACK",
-        Description = "Decline incoming call"
+        Description = "挂电话"
     },
     UnlockPhone = {
         Bind = "SPACE",
-        Description = "Open your phone",
+        Description = "解锁手机",
     },
 }
 

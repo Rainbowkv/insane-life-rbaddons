@@ -14,7 +14,7 @@ Config.ReturnNozzleRefund = true -- The user gets refunded when returning nozzle
 Config.FuelConsumptionChart = {
     enabled = true,             -- Enable/disable this dialog
     command = "fuel_chart",     -- Command to open the dialog
-    focusShortcut = "F3",       -- Shortcut to set the UI focus to the dialog
+    focusShortcut = "F4",       -- Shortcut to set the UI focus to the dialog
     position = "left",          -- Positions to initially open the dialog [left|rigth]
 }
 

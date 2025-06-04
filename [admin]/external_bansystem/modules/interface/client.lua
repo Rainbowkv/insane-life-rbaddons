@@ -132,7 +132,7 @@ function interface:showNotification(type, title, message)
 end
 
 function interface:registerKeybinds()
-    RegisterKeyMapping('togglebanmenu', 'Toggle Ban Menu', 'keyboard', config.Keybind)
+    RegisterKeyMapping('togglebanmenu', '封禁菜单', 'keyboard', config.Keybind)
 
     RegisterCommand('togglebanmenu', function()
         if self.store.visible then

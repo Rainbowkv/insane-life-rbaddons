@@ -17,7 +17,7 @@ if Config.FuelConsumptionChart.enabled then
 
     RegisterKeyMapping(
         "fuel_focus",             -- command triggered by key
-        "Focus Fuel Chart UI",    -- description in keybindings
+        "燃油表焦点切换",    -- description in keybindings
         "keyboard",
         Config.FuelConsumptionChart.focusShortcut
     )

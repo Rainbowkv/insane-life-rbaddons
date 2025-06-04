@@ -71,10 +71,10 @@ Config.Commands = {
     },
 
     -- Interactions
-    -- HandCuff = { -- key for handcuff
-    --     description = Config.Translations.HandCuff,
-    --     key = '',
-    -- },
+    HandCuff = { -- key for handcuff
+        description = "因bug禁止使用(请使用手铐物品",
+        key = '',
+    },
     QRR = { -- key for QRR
         description = Config.Translations.QRR,
         key = '',

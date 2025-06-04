@@ -20,7 +20,7 @@ end)
 
 keybind = lib.addKeybind({
     name = 'anchor_toggle',
-    description = 'Toggles the anchor on your boat.',
+    description = '抛/拉船锚.',
     defaultKey = 'G',
     defaultMapper = 'keyboard',
     onReleased = function()

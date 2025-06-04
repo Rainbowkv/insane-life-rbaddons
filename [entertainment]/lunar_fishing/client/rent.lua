@@ -87,7 +87,7 @@ end
 
 local bind = lib.addKeybind({
     name = 'fishing_interaction',
-    description = 'The main interaction keybind.',
+    description = '归还租船.',
     defaultKey = 'E',
     defaultMapper = 'keyboard',
     onReleased = function()
