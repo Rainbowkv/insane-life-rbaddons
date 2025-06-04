@@ -74,7 +74,7 @@ RegisterCommand('ui_info', function()
     end
     SendReactMessage('setUpdateStress', math.ceil(stress))
 end)
-RegisterKeyMapping('ui_info', 'open ui_info', 'keyboard', 'Z')
+RegisterKeyMapping('ui_info', '打开国家信息', 'keyboard', 'Z')
 -- 
 
 Citizen.CreateThread(function() -- Online Players

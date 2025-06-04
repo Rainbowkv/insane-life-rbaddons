@@ -225,12 +225,12 @@ local CHAT_HIDE_STATES = {
 }
 
 local kvpEntry = GetResourceKvpString('hideState')
-local chatHideState = kvpEntry and tonumber(kvpEntry) or CHAT_HIDE_STATES.SHOW_WHEN_ACTIVE
+local chatHideState = kvpEntry and tonumber(kvpEntry) or CHAT_HIDE_STATES.ALWAYS_SHOW
 local isFirstHide = true
 
 if not isRDR then
   if RegisterKeyMapping then
-    RegisterKeyMapping('toggleChat', 'Toggle chat', 'keyboard', 'l')
+    RegisterKeyMapping('toggleChat', '切换聊天框显示模式', 'keyboard', 'l')
   end
 
   RegisterCommand('toggleChat', function()
