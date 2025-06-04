@@ -2,7 +2,7 @@ Config = { }
 
 Config.Open = {
     command = 'clothing',
-    label = 'Open clothing menu',
+    label = '打开衣着菜单',
     key = 'I'
 }
 

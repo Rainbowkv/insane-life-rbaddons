@@ -110,7 +110,7 @@ RegisterCommand('hazardLights', function()
     ToggleHazardLights()
 end, false)
 
-RegisterKeyMapping('leftSignal', 'Left turn signal', 'keyboard', 'LEFT')
-RegisterKeyMapping('rightSignal', 'Right turn signal ', 'keyboard', 'RIGHT')
-RegisterKeyMapping('hazardLights', 'Emergency alarm', 'keyboard', 'DOWN')
+RegisterKeyMapping('leftSignal', '左转弯灯', 'keyboard', 'LEFT')
+RegisterKeyMapping('rightSignal', '右转弯灯 ', 'keyboard', 'RIGHT')
+RegisterKeyMapping('hazardLights', '应急灯', 'keyboard', 'DOWN')
 
