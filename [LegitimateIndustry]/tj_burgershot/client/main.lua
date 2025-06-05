@@ -478,7 +478,7 @@ AddEventHandler('tj_restaurants:makeBBQ', function(data)
     end
 
     if lib.progressCircle({
-        duration = 10000,
+        duration = 4000,
         position = 'bottom',
         label = locale('cooking_bbq'),
         useWhileDead = false,
@@ -575,7 +575,7 @@ AddEventHandler('tj_restaurants:Cutting', function(data)
     end
 
     if lib.progressCircle({
-        duration = 10000,
+        duration = 2000,
         position = 'bottom',
         label = locale('cutting'),
         useWhileDead = false,
