@@ -62,8 +62,8 @@
       gap: 20px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     }
-
-    .vehicle {
+    
+    .vehicles {
       position: relative;
       background-color: #2a2a2a;
       border-radius: 12px;
@@ -72,11 +72,11 @@
       transition: transform 0.2s ease;
     }
 
-    .vehicle:hover {
+    .vehicles:hover {
       transform: scale(1.03);
     }
 
-    .vehicle img {
+    .vehicles img {
       width: 100%;
       height: 150px;
       object-fit: cover;
@@ -105,6 +105,50 @@
       font-size: 14px;
       font-weight: bold;
     }
+
+    .items {
+      position: relative;
+      background-color: #2a2a2a;
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease;
+    }
+
+    .items:hover {
+      transform: scale(1.03);
+    }
+
+    .items img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+
+    .item-name {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .item-price {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -114,7 +158,7 @@
     </div>
     <div class="tabs">
       <button class="tab active" data-type="vehicles">载具</button><!-- 🚗  -->
-      <!-- <button class="tab" data-type="items">物品</button> 🎒  -->
+      <button class="tab" data-type="items">物品</button>  <!-- 🎒  -->
       <!-- <button class="tab" data-type="others">其他</button> 💎  -->
     </div>
 
@@ -153,12 +197,8 @@
 
       allProducts[type].forEach(product => {
         const item = document.createElement("div");
-        item.className = "vehicle";
-        item.innerHTML = `
-          <img src="${product.image}" alt="图片">
-          <div class="vehicle-name">${product.name}</div>
-          <div class="vehicle-price">${product.price} 赞助点</div>
-        `;
+        item.className = type;
+        item.innerHTML = renderProductHTML(type, product);
 
         // ✅ 点击商品 → 弹出确认框
         item.addEventListener("click", () => {
@@ -167,6 +207,22 @@
 
         container.appendChild(item);
       });
+    }
+    function renderProductHTML(type, product) {
+      if (type === "vehicles") {
+        return `
+          <img src="${product.image}" alt="图片">
+          <div class="vehicle-name">${product.name}</div>
+          <div class="vehicle-price">${product.price} 赞助点</div>
+        `;
+      } else if (type === "items") {
+        return `
+          <img src="${product.image}" alt="物品图片">
+          <div class="item-name">${product.name}</div>
+          <div class="item-price">${product.price} 赞助点</div>
+        `;
+      }
+      return "";
     }
 
     // 监听 tab 点击事件
@@ -226,8 +282,8 @@
     window.addEventListener("message", function (event) {
       // 商品数据消息
       if (event.data.type === "updateProducts") {
-        allProducts = event.data.products;
-        renderCategory("vehicles"); // 默认显示载具
+          allProducts = event.data.products;
+          renderCategory("vehicles"); // 默认显示载具
       }
       // 赞助点消息
       if (event.data.type === "balanceUpdate") {
@@ -237,6 +293,12 @@
       if (event.data.type === "toggleUI") {
         const wrapper = document.querySelector(".wrapper");
         if (event.data.show) {
+          document.querySelectorAll(".tab").forEach(tab => {  // ✅ 切换载具 tab 高亮
+            tab.classList.remove("active");
+            if (tab.dataset.type === "vehicles") {
+              tab.classList.add("active");
+            }
+          });
           wrapper.style.display = "flex";
           document.body.style.background = "rgba(0,0,0,0.5)";
           fetch(`https://${GetParentResourceName()}/rb-donator:focus`, {

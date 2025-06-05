@@ -150,6 +150,18 @@ local function addTargetSkateEntity()
 			icon = string.format('fas fa-%s', config.icons.usageSkateBoard),
 			label = config.lang.usageSkateBoard,
 		},
+		{
+			action = function(data) TriggerEvent('um-skateboard:client:holdBoard') end,
+			icon = string.format('fas fa-%s', config.icons.pickupSkateBoard),
+			label = config.lang.holdBoard,
+			board = skateboard.Skate
+		},
+		-- {
+		-- 	action = function(data) TriggerEvent('um-skateboard:client:showoff') end,
+		-- 	icon = string.format('fas fa-%s', config.icons.pickupSkateBoard),
+		-- 	label = config.lang.showoff,
+		-- 	board = skateboard.Skate
+		-- },
 	}
 
 	AddLocalCreateEntityTarget(skateboard.Skate, options, config.targetDistance)
@@ -333,3 +345,104 @@ AddEventHandler('onResourceStop', function(resource)
 		ClearAll(skateboard)
 	end
 end)
+
+----------------------------------------------------------------------------------------------------------------------------------------
+-- rb-code
+local holdingSkateboard = false
+local heldProp = nil
+
+RegisterNetEvent('um-skateboard:client:holdBoard', function()
+    if holdingSkateboard then return end
+    if not DoesEntityExist(skateboard.Skate) then return end
+
+    -- 创建一个新的滑板实体并挂背上
+    local propModel = GetEntityModel(skateboard.Skate)
+    local ped = cache.ped
+
+    -- 复制模型为持有状态
+    heldProp = CreateObject(propModel, 0.0, 0.0, 0.0, true, true, true)
+	heldPropInfo = config.holdBoard[GetEntityArchetypeName(skateboard.Skate)]
+    AttachEntityToEntity(heldProp, ped, GetPedBoneIndex(ped, 24816), 
+	heldPropInfo.pos.x, heldPropInfo.pos.y, heldPropInfo.pos.z, 
+	heldPropInfo.rot.x, heldPropInfo.rot.y, heldPropInfo.rot.z, true, true, false, true, 1, true)
+
+    -- 删除原滑板对象但不还给背包
+    if DoesEntityExist(skateboard.Skate) then DeleteEntity(skateboard.Skate) end
+    if DoesEntityExist(skateboard.Bike) then DeleteEntity(skateboard.Bike) end
+    if DoesEntityExist(skateboard.Driver) then DeleteEntity(skateboard.Driver) end
+
+    skateboard = {}
+    holdingSkateboard = true
+
+    -- 开启监听线程
+    CreateThread(function()
+        while holdingSkateboard do
+            -- 检测 G 键
+            if IsControlJustPressed(0, 47) then -- G 键
+                TriggerEvent('um-skateboard:client:placeFromBack')
+            end
+
+            Wait(0)
+        end
+    end)
+end)
+
+RegisterNetEvent('um-skateboard:client:placeFromBack', function()
+    if not holdingSkateboard then return end
+    local ped = cache.ped
+	if IsPedSittingInAnyVehicle(ped) then return end
+    local pProp = GetEntityArchetypeName(heldProp)
+
+    if DoesEntityExist(heldProp) then
+        DeleteEntity(heldProp)
+    end
+
+    holdingSkateboard = false
+    heldProp = nil
+
+    local pedCoords = GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.5, -40.5)
+    skateboard.Bike = CreateBike(config.baseVehicle, vec4(pedCoords.x, pedCoords.y, pedCoords.z, 0.0))
+    skateboard.Skate = CreateSkateProp({ prop = pProp, coords = vec4(pedCoords.x, pedCoords.y, pedCoords.z, 0.0) },
+        true,
+        true)
+
+    while not DoesEntityExist(skateboard.Bike) or not DoesEntityExist(skateboard.Skate) do Wait(5) end
+    SetEntityNoCollisionEntity(skateboard.Bike, ped, false)
+    SetEntityNoCollisionEntity(skateboard.Skate, ped, false)
+
+    configureSkateboard(skateboard.Bike)
+
+    SetEntityVisible(skateboard.Bike, config.debug, false)
+
+    AttachEntityToEntity(skateboard.Skate, skateboard.Bike, GetPedBoneIndex(ped, 28422), 0.0, 0.0, config.coordZ[GetEntityArchetypeName(skateboard.Skate)], 0.0,
+        10.0, 90.0, false, true, true, true, 1, true)
+
+    skateboard.Driver = ClonePed(ped, true, false, true)
+    SetEntityCoords(skateboard.Driver, pedCoords.x, pedCoords.y, pedCoords.z, true, false, false, false)
+    while not DoesEntityExist(skateboard.Driver) do Wait(0) end
+
+    SetEntityNoCollisionEntity(skateboard.Driver, ped, false)
+
+    SetEnableHandcuffs(skateboard.Driver, true)
+    FreezeEntityPosition(skateboard.Driver, true)
+
+    while not IsPedSittingInAnyVehicle(skateboard.Driver) do
+        SetEntityVisible(skateboard.Driver, config.debug, false)
+        TaskWarpPedIntoVehicle(skateboard.Driver, skateboard.Bike, -1)
+        Wait(10)
+    end
+
+    addTargetSkateEntity()
+    DisableCamCollisionForEntity(skateboard.Bike)
+    DisableCamCollisionForEntity(skateboard.Skate)
+    DisableCamCollisionForEntity(skateboard.Driver)
+    SetVehicleDoorsLocked(skateboard.Bike, 10)
+
+    local offsetCoords = GetOffsetFromEntityInWorldCoords(ped, 0.0, 0.5, 1.5)
+    SetEntityCoords(skateboard.Bike, offsetCoords.x, offsetCoords.y, offsetCoords.z, false, false, false, false)
+    SetEntityHeading(skateboard.Bike, GetEntityHeading(cache.ped) + 90)
+
+    Dir = {}
+    spawned = true
+end)
+----------------------------------------------------------------------------------------------------------------------------------------

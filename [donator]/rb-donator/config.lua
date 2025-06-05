@@ -88,3 +88,18 @@ Config.vehicle_defaultmods = {
 Config.custom_vehicle_mod = {
     ["IE 特供版 阿波罗"] = "ieocen",
 }
+
+Config.donator_items = {
+    { name = "滑板", image = "nui://ox_inventory/web/images/v_res_skateboard.png", price = 30 },
+    { name = "涂装滑板", image = "nui://ox_inventory/web/images/hp3d_skateboard1.png", price = 50 },
+}
+
+Config.items_price = {
+    ["滑板"] = 30,
+    ["涂装滑板"] = 50,
+}
+
+Config.items_name = {
+    ["滑板"] = "v_res_skateboard",
+    ["涂装滑板"] = "hp3d_skateboard1",
+}

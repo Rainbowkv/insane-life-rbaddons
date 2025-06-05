@@ -43,19 +43,3 @@ function ClearAll(skateboard)
     ClearPedTasks(cache.ped)
 
 end
-
-function CreateSkateDriver(ped)  -- rb_code
-    local model = GetEntityModel(ped)
-    lib.requestModel(model)
-
-    local coords = GetEntityCoords(ped)
-    local heading = GetEntityHeading(ped)
-
-    local driver = CreatePed(4, model, coords.x, coords.y, coords.z, heading, true, true)
-    SetEntityAsMissionEntity(driver, true, true)
-    SetPedCanBeTargetted(driver, false)
-    SetEntityInvincible(driver, true)
-    FreezeEntityPosition(driver, true)
-
-    return driver
-end

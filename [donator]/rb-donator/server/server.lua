@@ -65,11 +65,14 @@ lib.callback.register('rb-donator:GetCoins', function(source)
 end)
 
 lib.callback.register('rb-donator:purchaseItem', function(source, itemName, className)
-    local license = GetPlayerIdentifierByType(source, 'license')
+    local src = source
+    local license = GetPlayerIdentifierByType(src, 'license')
     local coins = GetCoins(license)
     local cost = nil
-    if className == 'vehicle' then
+    if className == 'vehicles' then
         cost = Config.vehicle_price[itemName]
+    elseif className == 'items' then
+        cost = Config.items_price[itemName]
     end
     if cost == nil then
         return false, "购买的物品种类不存在"
@@ -77,8 +80,8 @@ lib.callback.register('rb-donator:purchaseItem', function(source, itemName, clas
 
     if coins >= cost then
         local result, newCoins = RemoveCoins(license, cost)  -- 这里必然成功，前面已经验证了
-        TriggerClientEvent("rb-donator:updateCoins", source, newCoins)  -- 更新客户端缓存的赞助点
-        local player = QBCore.Functions.GetPlayer(source)
+        TriggerClientEvent("rb-donator:updateCoins", src, newCoins)  -- 更新客户端缓存的赞助点
+        local player = QBCore.Functions.GetPlayer(src)
         local cid = player.PlayerData.citizenid
         local charinfo = player.PlayerData.charinfo
         -- 日志
@@ -91,7 +94,7 @@ lib.callback.register('rb-donator:purchaseItem', function(source, itemName, clas
             os.date("%Y-%m-%d %H:%M:%S", os.time())
         })
         --
-        if className == 'vehicle' then
+        if className == 'vehicles' then
             local vehMod = Config.vehicle_mod[itemName]
             MySQL.Async.insert('INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state, garage) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', {
                 license,
@@ -103,6 +106,8 @@ lib.callback.register('rb-donator:purchaseItem', function(source, itemName, clas
                 1,
                 Config.defaultGarage,
             })
+        elseif className == 'items' then
+            exports.ox_inventory:AddItem(src, Config.items_name[itemName], 1)
         end
         return true, "购买成功"
     else

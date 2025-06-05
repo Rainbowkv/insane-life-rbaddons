@@ -1,18 +1,21 @@
 local showing = false
 local coins = nil
 
-function sendVehPhoneMsg(VehName)
+function sendPhoneMsg(text)
 	exports["lb-phone"]:SendNotification({
         title = "瑞文斯运营团队感谢您对社区的赞助",
-        content = VehName.." 已送至新手公寓停车场",
+        content = text,
     })
 end
 
 function clientCheckCoins(itemName, className)
     local cost = nil
-    if className == 'vehicle' then
+    if className == 'vehicles' then
         cost = Config.vehicle_price[itemName]
+    elseif className == 'items' then
+        cost = Config.items_price[itemName]
     end
+
     if cost == nil then
         return false, "购买的物品种类不存在呀"
     end
@@ -43,10 +46,7 @@ RegisterCommand("togglesponsor", function()
             type = "updateProducts",
             products = {
                 vehicles = Config.donator_vehicles,
-                -- items = {
-                --     { name = "超级急救包", image = "https://via.placeholder.com/300x150", points = 50 },
-                --     { name = "高效能护甲", image = "https://via.placeholder.com/300x150", points = 75 },
-                -- },
+                items = Config.donator_items,
                 -- others = {
                 --     { name = "VIP 尊享一周", image = "https://via.placeholder.com/300x150", points = 500 },
                 -- }
@@ -86,8 +86,10 @@ RegisterNUICallback("rb-donator:purchaseProduct", function(data, cb)
     -- 服务端再检查赞助点是否足够
     local result, msg = lib.callback.await("rb-donator:purchaseItem", false, itemName, className)
     if result then
-        if className == 'vehicle' then
-            sendVehPhoneMsg(itemName)
+        if className == 'vehicles' then
+            sendPhoneMsg(itemName..'已送至新手公寓停车场')
+        elseif className == 'items' then
+            sendPhoneMsg(itemName..'已添加至您的背包')
         end
         lib.notify({ description = msg, type = 'success', position = 'top', icon = 'fas fa-store' })
     else
