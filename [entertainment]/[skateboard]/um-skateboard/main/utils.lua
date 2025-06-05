@@ -2,8 +2,8 @@ local debugStatus = require('shared.config').debug
 
 function CreateSkateProp(data, freeze, synced)
     lib.requestModel(data.prop)
-    local prop = CreateObject(data.prop, data.coords.x, data.coords.y, data.coords.z - 1.03, synced or false,
-        synced or false, false)
+    local prop = CreateObject(data.prop, data.coords.x, data.coords.y, data.coords.z - 1.03, true,
+        true, true)
     SetEntityHeading(prop, data.coords.w + 180.0)
     FreezeEntityPosition(prop, freeze or 0)
     SetModelAsNoLongerNeeded(data.prop)
@@ -22,6 +22,7 @@ end
 function CreateBike(model, coords)
     lib.requestModel(model)
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, false)
+    SetEntityVisible(veh, false, false)
     SetVehicleHasBeenOwnedByPlayer(veh, true)
     SetNetworkIdCanMigrate(NetworkGetNetworkIdFromEntity(veh), true)
     Wait(100)

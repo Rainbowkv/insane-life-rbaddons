@@ -2,6 +2,7 @@ local skateboard = {}
 local Dir = {}
 local Attached = nil
 local spawned = false
+local skateBlip = nil  -- rb_code
 
 local config = require 'shared.config'
 local controls = require 'shared.controls'
@@ -10,6 +11,25 @@ local function configureSkateboard(entity)
 	local handling = require 'shared.handling'
 	for k, v in pairs(handling) do
 		SetVehicleHandlingFloat(entity, "CHandlingData", k, v)
+	end
+end
+
+local function toggleSkateBlip()
+	if skateboard.Skate ~= nil and DoesEntityExist(skateboard.Skate) then
+		skateBlip = AddBlipForEntity(skateboard.Skate)
+		SetBlipSprite(skateBlip, 226) -- 图标：自行车样式
+		SetBlipColour(skateBlip, 7)   -- 紫色
+		SetBlipScale(skateBlip, 0.8)
+		SetBlipDisplay(skateBlip, 4)
+		SetBlipAsShortRange(skateBlip, false)
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString("滑板")
+		EndTextCommandSetBlipName(skateBlip)
+	else
+		if skateBlip ~= nil and DoesBlipExist(skateBlip) then
+			RemoveBlip(skateBlip)
+			skateBlip = nil
+		end
 	end
 end
 
@@ -31,6 +51,7 @@ local function makeFakeSkateboard(ped, pProp, remove) -- The animation for picki
 		Wait(900)
 		DestroyProp(prop)
 	end
+	toggleSkateBlip()  -- rb_code
 end
 
 local function pickupSkateboard(entity)
@@ -82,9 +103,6 @@ local function enterSkateboard()
 			local zVelocity = GetEntityVelocity(skateboard.Bike).z
 			-- 碰撞检测
 			if HasEntityCollidedWithAnything(skateboard.Bike) or speed >= config.ragdollSpeed or zVelocity < config.fallSpeed then  -- 在这里加跌落检测
-				print(HasEntityCollidedWithAnything(skateboard.Bike))
-				print(speed)
-				print(zVelocity)
 				DetachEntity(cache.ped, false, false)
 				TaskVehicleTempAction(skateboard.Driver, skateboard.Bike, 1, 1)
 				Attached = false
@@ -92,7 +110,6 @@ local function enterSkateboard()
 				StopAnimTask(cache.ped, "move_strafe@stealth", "idle", 0.5)
 				SetPedToRagdoll(cache.ped, 5000, 4000, 0, true, true, false)
 			end
-
 			if not DoesEntityExist(skateboard.Bike) or GetPedInVehicleSeat(skateboard.Bike, -1) ~= skateboard.Driver then
 				RemoveLocalEntityTarget(skateboard.Skate)
 				RemoveLocalEntityTarget(skateboard.Bike)
@@ -193,7 +210,7 @@ RegisterNetEvent("um-skateboard:spawn:skateboard", function(pProp)
 	-- SetEntityCompletelyDisableCollision(skateboard.Bike, true, true)
 	-- SetEntityCompletelyDisableCollision(skateboard.Skate, true, true)
 
-	SetEntityVisible(skateboard.Bike, config.debug, false)
+	-- SetEntityVisible(skateboard.Bike, config.debug, false)
 
 	AttachEntityToEntity(skateboard.Skate, skateboard.Bike, GetPedBoneIndex(ped, 28422), 0.0, 0.0, config.coordZ[GetEntityArchetypeName(skateboard.Skate)], 0.0,  -- 骑行时滑板陷入地下的原因
 		10.0, 90.0, false, true, true, true, 1, true)
@@ -367,6 +384,7 @@ RegisterNetEvent('um-skateboard:client:holdBoard', function()
 	heldPropInfo.rot.x, heldPropInfo.rot.y, heldPropInfo.rot.z, true, true, false, true, 1, true)
 
     -- 删除原滑板对象但不还给背包
+	toggleSkateBlip()  -- rb_code
     if DoesEntityExist(skateboard.Skate) then DeleteEntity(skateboard.Skate) end
     if DoesEntityExist(skateboard.Bike) then DeleteEntity(skateboard.Bike) end
     if DoesEntityExist(skateboard.Driver) then DeleteEntity(skateboard.Driver) end
@@ -412,7 +430,7 @@ RegisterNetEvent('um-skateboard:client:placeFromBack', function()
 
     configureSkateboard(skateboard.Bike)
 
-    SetEntityVisible(skateboard.Bike, config.debug, false)
+    -- SetEntityVisible(skateboard.Bike, config.debug, false)
 
     AttachEntityToEntity(skateboard.Skate, skateboard.Bike, GetPedBoneIndex(ped, 28422), 0.0, 0.0, config.coordZ[GetEntityArchetypeName(skateboard.Skate)], 0.0,
         10.0, 90.0, false, true, true, true, 1, true)
@@ -444,5 +462,6 @@ RegisterNetEvent('um-skateboard:client:placeFromBack', function()
 
     Dir = {}
     spawned = true
+	toggleSkateBlip()  -- rb_code
 end)
 ----------------------------------------------------------------------------------------------------------------------------------------
