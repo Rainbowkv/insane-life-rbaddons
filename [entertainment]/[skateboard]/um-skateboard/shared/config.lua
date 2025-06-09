@@ -9,6 +9,7 @@ return {
     ragdollSpeed = 90,         -- ragdoll speed
     fallSpeed = -15, -- 速度单位 m/s，约等于从 1.5 层楼自由落体
     jumpBoost = 6.0,           -- jump boost
+    maxAwayDistance = 20.0,
     lang = {                   -- language
         enterSkateBoard = 'Drive',
         backoffSkateBoard = 'Back off',

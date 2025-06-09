@@ -14,25 +14,6 @@ local function configureSkateboard(entity)
 	end
 end
 
-local function toggleSkateBlip()
-	if skateboard.Skate ~= nil and DoesEntityExist(skateboard.Skate) then
-		skateBlip = AddBlipForEntity(skateboard.Skate)
-		SetBlipSprite(skateBlip, 226) -- 图标：自行车样式
-		SetBlipColour(skateBlip, 7)   -- 紫色
-		SetBlipScale(skateBlip, 0.8)
-		SetBlipDisplay(skateBlip, 4)
-		SetBlipAsShortRange(skateBlip, false)
-		BeginTextCommandSetBlipName("STRING")
-		AddTextComponentString("滑板")
-		EndTextCommandSetBlipName(skateBlip)
-	else
-		if skateBlip ~= nil and DoesBlipExist(skateBlip) then
-			RemoveBlip(skateBlip)
-			skateBlip = nil
-		end
-	end
-end
-
 local function makeFakeSkateboard(ped, pProp, remove) -- The animation for picking up and placing the board
 	if remove then
 		-- 删除 Driver，客户端自己处理
@@ -43,6 +24,7 @@ local function makeFakeSkateboard(ped, pProp, remove) -- The animation for picki
 		skateboard.Bike = NetworkGetNetworkIdFromEntity(skateboard.Bike)
 		TriggerServerEvent('um-skateboard:server:pickupSkateboard', skateboard, pProp)
 		ClearPedTasks(cache.ped)
+		spawned = false
 	else
 		local prop = CreateSkateProp({ prop = pProp, coords = vec4(0, 0, 0, 0), false, true })
 		AttachEntityToEntity(prop, ped, GetPedBoneIndex(ped, 57005), 0.3, 0.08, 0.0, -86.0, -60.0, 50.0, true, true,
@@ -51,10 +33,9 @@ local function makeFakeSkateboard(ped, pProp, remove) -- The animation for picki
 		Wait(900)
 		DestroyProp(prop)
 	end
-	toggleSkateBlip()  -- rb_code
 end
 
-local function pickupSkateboard(entity)
+local function pickupSkateboard()
 	if not DoesEntityExist(skateboard.Bike) and not Attached then return end
 
 	RemoveLocalEntityTarget(skateboard.Skate)
@@ -65,6 +46,18 @@ local function pickupSkateboard(entity)
 	makeFakeSkateboard(cache.ped, GetEntityArchetypeName(skateboard.Skate), true) -- pick up animation
 	skateboard = {}
 	Dir = {}
+end
+
+local function autoPickUpSkate()
+	CreateThread(function()
+		while spawned do
+			Wait(1000)
+			if DoesEntityExist(skateboard.Skate) and #(GetEntityCoords(cache.ped)-GetEntityCoords(skateboard.Skate)) > config.maxAwayDistance then
+				pickupSkateboard()
+				break
+			end
+		end
+	end)
 end
 
 local function enterSkateboard()
@@ -150,7 +143,7 @@ local function addTargetSkateEntity()
 			board = skateboard.Skate
 		},
 		{
-			action = function(data) pickupSkateboard(data.entity) end,
+			action = function() pickupSkateboard() end,
 			icon = string.format('fas fa-%s', config.icons.pickupSkateBoard),
 			label = config.lang.pickupSkateBoard,
 			board = skateboard.Skate
@@ -168,7 +161,7 @@ local function addTargetSkateEntity()
 			label = config.lang.usageSkateBoard,
 		},
 		{
-			action = function(data) TriggerEvent('um-skateboard:client:holdBoard') end,
+			action = function() TriggerEvent('um-skateboard:client:holdBoard') end,
 			icon = string.format('fas fa-%s', config.icons.pickupSkateBoard),
 			label = config.lang.holdBoard,
 			board = skateboard.Skate
@@ -188,7 +181,7 @@ local function addTargetSkateEntity()
 end
 
 RegisterNetEvent("um-skateboard:spawn:skateboard", function(pProp)
-	if GetInvokingResource() ~= nil then return end
+	if spawned or GetInvokingResource() ~= nil then return end
 
 	local ped = cache.ped
 
@@ -247,6 +240,7 @@ RegisterNetEvent("um-skateboard:spawn:skateboard", function(pProp)
 
 	Dir = {}
 	spawned = true
+	autoPickUpSkate()
 end)
 
 
@@ -384,7 +378,6 @@ RegisterNetEvent('um-skateboard:client:holdBoard', function()
 	heldPropInfo.rot.x, heldPropInfo.rot.y, heldPropInfo.rot.z, true, true, false, true, 1, true)
 
     -- 删除原滑板对象但不还给背包
-	toggleSkateBlip()  -- rb_code
     if DoesEntityExist(skateboard.Skate) then DeleteEntity(skateboard.Skate) end
     if DoesEntityExist(skateboard.Bike) then DeleteEntity(skateboard.Bike) end
     if DoesEntityExist(skateboard.Driver) then DeleteEntity(skateboard.Driver) end
@@ -462,6 +455,6 @@ RegisterNetEvent('um-skateboard:client:placeFromBack', function()
 
     Dir = {}
     spawned = true
-	toggleSkateBlip()  -- rb_code
+	autoPickUpSkate()
 end)
 ----------------------------------------------------------------------------------------------------------------------------------------
