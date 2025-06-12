@@ -25,6 +25,7 @@ Config.donator_vehicles = {
     { name = "SVJ 纪念款 兰博基尼", price = 1198, image = "images/svj.png" },
     { name = "Victor 阿斯顿马丁", price = 1198, image = "images/victor.png" },
     { name = "SF90 法拉利", price = 1198, image = "images/sf90.png" },
+    { name = "765LT 迈凯伦", price = 1198, image = "images/765lt.png" },
     { name = "幻影Ⅷ 劳斯莱斯", price = 1198, image = "images/phantom8.png" },
 }
 
@@ -49,6 +50,7 @@ Config.vehicle_price = {
     ["SVJ 纪念款 兰博基尼"] = 1198,         
     ["Victor 阿斯顿马丁"] = 1198,
     ["SF90 法拉利"] = 1198,
+    ["765LT 迈凯伦"] = 1198,
     ["幻影Ⅷ 劳斯莱斯"] = 1198,
 }
 
@@ -73,6 +75,7 @@ Config.vehicle_mod = {
     ["SVJ 纪念款 兰博基尼"] = "svj63",        
     ["Victor 阿斯顿马丁"] = "Victor",
     ["SF90 法拉利"] = "ikx3sf90custom",
+    ["765LT 迈凯伦"] = "765lt",
     ["幻影Ⅷ 劳斯莱斯"] = "p8tempus",
 }
 
