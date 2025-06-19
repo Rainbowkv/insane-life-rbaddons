@@ -265,7 +265,19 @@ Config.Companies.Management = {
     Promote = true, -- if true, the boss can promote employees
 }
 
-Config.CustomApps = {} -- https://docs.lbscripts.com/phone/custom-apps/
+Config.CustomApps = {
+    ["billing_launcher"] = {
+        name = "账单",
+        description = "快速打开账单",
+        developer = "Ravens",
+        defaultApp = true,
+        icon = "assets/img/icons/apps/billing.png", -- 可选替换成你的图标
+        keepOpen = true,
+        onUse = function()
+            ExecuteCommand("billing")
+        end
+    }
+} -- https://docs.lbscripts.com/phone/custom-apps/
 
 Config.Valet = {}
 Config.Valet.Enabled = false -- allow players to get their vehicles from the phone
