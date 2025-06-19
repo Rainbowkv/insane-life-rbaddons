@@ -1,6 +1,12 @@
 -- Table to store players who have seen the welcome screen
 local playersSeenWelcome = {}
 
+local function insertSessionLog(citizenid, name, src, loginTime, dropTime)
+    MySQL.Async.execute('INSERT INTO player_sessions (citizenid, name, src, login_time, drop_time) VALUES (?, ?, ?, ?, ?)', {
+        citizenid, name, src, os.date("%Y-%m-%d %H:%M:%S", loginTime), os.date("%Y-%m-%d %H:%M:%S", dropTime)
+    })
+end
+
 -- Register server event to kick player
 RegisterNetEvent('fivem_welcome:kickPlayer')
 AddEventHandler('fivem_welcome:kickPlayer', function(reason)
@@ -56,13 +62,18 @@ end)
 -- rb_code 统计玩家在线时间
 local QBCore = exports['qb-core']:GetCoreObject()
 local onlineTimes = {}
+local sessionInfo = {}
 
 -- 玩家上线：记录登录时间戳
 -- AddEventHandler('QBCore:Server:PlayerLoaded', function(player)
 AddEventHandler('QBCore:Server:PlayerLoaded', function(player)
     if Player then
         local citizenid = player.PlayerData.citizenid
-        onlineTimes[citizenid] = os.time()
+        onlineTimes[citizenid] = os.time()  -- for在线时长
+        local src = player.PlayerData.source
+        sessionInfo[citizenid] = {  -- for管理员查某个时间段某个id是哪个玩家
+            login_time = os.time(),
+        }
     end
 end)
 
@@ -78,6 +89,12 @@ AddEventHandler('playerDropped', function(reason)
             local sessionTime = os.time() - loginTime
             updatePlayTime(citizenid, name, math.ceil(sessionTime / 60))  -- 分钟为单位
             onlineTimes[citizenid] = nil
+            -- 插入 session 记录
+            local info = sessionInfo[citizenid]
+            if info then
+                insertSessionLog(citizenid, name, src, info.login_time, os.time())
+                sessionInfo[citizenid] = nil
+            end
         end
     end
 end)

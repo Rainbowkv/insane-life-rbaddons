@@ -5,6 +5,8 @@ function isAdmin(source)  -- 此资源全局函数
     return result[1]["COUNT(*)"] > 0
 end
 
+exports('isAdmin', isAdmin)
+
 lib.addCommand('ad', {
     help = 'Open the admin menu',
     -- restricted = 'qbcore.mod'
