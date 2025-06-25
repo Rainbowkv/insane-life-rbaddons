@@ -34,8 +34,73 @@ local function RefreshForbesRanking()
     print("[排行榜] 福布斯排行榜已刷新")
 end
 
+local function RefreshFishingRanking()
+    local results = MySQL.query.await([[
+        SELECT f.user_identifier, f.xp, p.charinfo
+        FROM lunar_fishing f
+        JOIN players p ON p.citizenid = f.user_identifier
+    ]])
+
+    local parsed = {}
+
+    for _, row in pairs(results) do
+        local charinfo = json.decode(row.charinfo)
+        local name = charinfo.firstname .. ' ' .. charinfo.lastname
+        local level = row.xp  
+        table.insert(parsed, { name = name, level = level })
+    end
+
+    table.sort(parsed, function(a, b) return a.level > b.level end)
+
+    local topTen = {}
+    for i = 1, math.min(10, #parsed) do
+        parsed[i].rank = i -- 可以留作扩展，尽管当前表不显示 rank
+        table.insert(topTen, parsed[i])
+    end
+
+    CachedLeaderboards.fishing = {
+        data = topTen
+    }
+
+    print("[排行榜] 海钓佬排行榜已刷新")
+end
+
+local function RefreshPlaytimeRanking()
+    local results = MySQL.query.await([[
+        SELECT s.citizenid, s.play_time, p.charinfo
+        FROM player_statistics s
+        JOIN players p ON p.citizenid = s.citizenid
+    ]])
+
+    local parsed = {}
+
+    for _, row in pairs(results) do
+        local charinfo = json.decode(row.charinfo)
+        local name = charinfo.firstname .. ' ' .. charinfo.lastname
+        local duration = row.play_time -- 已是分钟数
+
+        table.insert(parsed, { name = name, duration = duration })
+    end
+
+    table.sort(parsed, function(a, b) return a.duration > b.duration end)
+
+    local topTen = {}
+    for i = 1, math.min(10, #parsed) do
+        parsed[i].rank = i
+        table.insert(topTen, parsed[i])
+    end
+
+    CachedLeaderboards.playtime = {
+        data = topTen
+    }
+
+    print("[排行榜] 国内时长排行榜已刷新")
+end
+
 local function RefreshAllRanking()
     RefreshForbesRanking()
+    RefreshFishingRanking()
+    RefreshPlaytimeRanking()
 end
 
 local function refreshAndScheduleNext()

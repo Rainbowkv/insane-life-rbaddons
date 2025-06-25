@@ -61,14 +61,16 @@ CreateThread(function()
                 local options = {}
 
                 for id, board in pairs(Config.Leaderboards) do
-                    table.insert(options, {
-                        title = board.label,
-                        description = "报名该排行榜",
-                        icon = "fa-trophy",
-                        onSelect = function()
-                            TriggerServerEvent("rb-ranking:server:optInLeaderboard", id)
-                        end
-                    })
+                    if board.needSignUp then
+                        table.insert(options, {
+                            title = board.label,
+                            description = "报名该排行榜",
+                            icon = "fa-trophy",
+                            onSelect = function()
+                                TriggerServerEvent("rb-ranking:server:optInLeaderboard", id)
+                            end
+                        })
+                    end
                 end
 
                 lib.registerContext({
