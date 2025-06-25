@@ -130,4 +130,12 @@ Config.Locations = {
         ['blipscale'] = 1.0,
         ['blipcolor'] = 46,
     },
+    ['celebritylist'] = {
+        ['label'] = '瑞文斯名人榜',
+        ['coords'] = vector3(-258.83, -966.16, 31.23),
+        ['showblip'] = true,
+        ['blipsprite'] = 546,  -- blip的图标
+        ['blipscale'] = 1.0,
+        ['blipcolor'] = 46,
+    },
 }
