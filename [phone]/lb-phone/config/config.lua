@@ -72,7 +72,7 @@ Config.Item.Name = "phone" -- name of the phone item
 --     }
 -- }
 
-Config.Item.Unique = true -- should each phone be unique? https://docs.lbscripts.com/phone/configuration/#unique-phones
+Config.Item.Unique = false -- should each phone be unique? https://docs.lbscripts.com/phone/configuration/#unique-phones
 Config.Item.Inventory = "ox_inventory" --[[
     The inventory you use, IGNORE IF YOU HAVE Config.Item.Unique DISABLED.
     Supported:
