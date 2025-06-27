@@ -274,7 +274,7 @@ Config.CustomApps = {
         icon = "assets/img/icons/apps/billing.png", -- 可选替换成你的图标
         keepOpen = true,
         onUse = function()
-            ExecuteCommand("billing")
+            ExecuteCommand("openInvoices")
         end
     }
 } -- https://docs.lbscripts.com/phone/custom-apps/

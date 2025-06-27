@@ -31,7 +31,7 @@ Config.PlayerBalance = "cash" -- or "bank" or "cash"
 Config.UseSkillbars = true -- set to false to use progress bars instead of skill bars for installations
 Config.ProgressBarDuration = 10000 -- if not using skill bars, this is the progress bar duration in ms (10000 = 10 seconds)
 Config.MaximumSkillCheckAttempts = 3 -- How many times the player can attempt a skill check before the skill check fails
-Config.SkillCheckDifficulty = { "easy", "easy", "easy", "easy", "easy" } -- for ox only
+Config.SkillCheckDifficulty = { "easy", "easy", "easy", "easy", "easy", "easy", "easy" } -- for ox only
 Config.SkillCheckInputs = { "w", "a", "s", "d" } -- for ox only
 
 -- Servicing
@@ -158,17 +158,18 @@ Config.MechanicLocations = {
       scale = 0.7
     },
     mods = {
-      repair           = { enabled = true, price = 500, percentVehVal = 0.01 },
-      performance      = { enabled = false, price = 500, percentVehVal = 0.01, priceMult = 0.1 },
-      cosmetics        = { enabled = true, price = 500, percentVehVal = 0.01, priceMult = 0.1 },
-      stance           = { enabled = true, price = 500, percentVehVal = 0.01 },
-      respray          = { enabled = true, price = 500, percentVehVal = 0.01 },
-      wheels           = { enabled = true, price = 500, percentVehVal = 0.01, priceMult = 0.1 },
-      neonLights       = { enabled = false, price = 500, percentVehVal = 0.01 },
-      headlights       = { enabled = false, price = 500, percentVehVal = 0.01 },
-      tyreSmoke        = { enabled = true, price = 500, percentVehVal = 0.01 },
-      bulletproofTyres = { enabled = false, price = 500, percentVehVal = 0.01 },
-      extras           = { enabled = true, price = 500, percentVehVal = 0.01 }
+      repair           = { enabled = true, price = 0, percentVehVal = 0 },
+      performance      = { enabled = false, price = 0, percentVehVal = 0, priceMult = 0.0 },
+      cosmetics        = { enabled = true, price = 0, percentVehVal = 0, priceMult = 0.0 },
+      stance           = { enabled = true, price = 0, percentVehVal = 0 },
+      respray          = { enabled = true, price = 0, percentVehVal = 0 },
+      -- wheels           = { enabled = true, price = 0, percentVehVal = 0, priceMult = 0.1 },
+      wheels           = { enabled = true, price = 0, percentVehVal = 0, priceMult = 0.0 },
+      neonLights       = { enabled = false, price = 0, percentVehVal = 0 },
+      headlights       = { enabled = false, price = 0, percentVehVal = 0 },
+      tyreSmoke        = { enabled = true, price = 0, percentVehVal = 0 },
+      bulletproofTyres = { enabled = false, price = 0, percentVehVal = 0 },
+      extras           = { enabled = true, price = 0, percentVehVal = 0 }
     },
     tuning = {
       engineSwaps      = { enabled = true, requiresItem = true },
