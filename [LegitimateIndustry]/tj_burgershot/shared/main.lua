@@ -168,21 +168,21 @@ Config = {
                         {
                             label = '可乐',
                             item = 'bscoke',
-                            price = 50,
+                            price = 300,
                             image = 'https://items.bit-scripts.com/images/drinks/burger-softdrink2.png',
                             description = '汉堡王的可乐，美味！',
                         },
                         {
                             label = '咖啡',
                             item = 'bscoffee',
-                            price = 60,
+                            price = 300,
                             image = 'https://items.bit-scripts.com/images/food/burger-coffee.png',
                             description = '汉堡王做的咖啡，还不错.',
                         },
                         {
                             label = '奶昔',
                             item = 'milkshake',
-                            price = 55,
+                            price = 300,
                             image = 'https://items.bit-scripts.com/images/food/burger-milkshake.png',
                             description = '汉堡王做的奶昔，冰冰腻腻~',
                         }
@@ -210,7 +210,7 @@ Config = {
                         {
                             label = '渗血汉堡',
                             item = 'bleeder',
-                            price = 120,
+                            price = 600,
                             image = 'https://items.bit-scripts.com/images/food/burger-bleeder.png',
                             description = '番茄酱罢了, 别吓唬到了',
                             recipe = { -- recipe for making items
@@ -244,7 +244,7 @@ Config = {
                         {
                             label = '心脏杀手汉堡',
                             item = 'heartstopper',
-                            price = 199,
+                            price = 1300,
                             image = 'https://items.bit-scripts.com/images/food/burger-heartstopper.png',
                             description = '爽到心跳加速的美味汉堡',
                             recipe = {
@@ -278,7 +278,7 @@ Config = {
                         {
                             label = '素食汉堡',
                             item = 'meatfree',
-                            price = 110,
+                            price = 500,
                             image = 'https://items.bit-scripts.com/images/food/dbl_hornburger.png',
                             description = '素食主义者喜欢的汉堡',
                             recipe = {
@@ -307,7 +307,7 @@ Config = {
                         {
                             label = '鱼雷三明治',
                             item = 'torpedo',
-                            price = 125,
+                            price = 500,
                             image = 'https://items.bit-scripts.com/images/food/burger-torpedo.png',
                             description = '胃爽到炸飞',
                             recipe = {
@@ -336,7 +336,7 @@ Config = {
                         {
                             label = '金钱射击汉堡',
                             item = 'moneyshot',
-                            price = 160,
+                            price = 550,
                             image = 'https://items.bit-scripts.com/images/food/burger-moneyshot.png',
                             description = '来财',
                             recipe = {
@@ -504,7 +504,7 @@ Config = {
                         {
                             label = '薯条',
                             item = 'fries',
-                            price = 99,
+                            price = 210,
                             image = 'https://items.bit-scripts.com/images/food/burger-fries.png',
                             description = '有机土豆做成的薯条',
                             recipe = {
@@ -518,7 +518,7 @@ Config = {
                         {
                             label = '鸡块',
                             item = 'cookednuggets',
-                            price = 99,
+                            price = 210,
                             image = 'https://items.bit-scripts.com/images/food/burger-shotnuggets.png',
                             description = '美味的鸡块',
                             recipe = {
