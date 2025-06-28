@@ -86,6 +86,20 @@ function callTakeHostage(targetPed)
 end 
 
 -- rb_code
+
+local function searchPlayer(targetPed)
+	local targetSrc = GetPlayerServerId(NetworkGetPlayerIndexFromPed(targetPed))
+	TriggerServerEvent('TakeHostage:server:searchPlayer', targetSrc)
+end
+
+RegisterNetEvent("TakeHostage:client:beSearched", function(searchPlayerSrc)
+	if exports['qb-smallresources']:getHandsup() or exports['ars_ambulancejob']:isDead() or exports['origen_police']:isHandcuffed() then
+		TriggerServerEvent('TakeHostage:server:beSearched', searchPlayerSrc, true)
+	else
+		TriggerServerEvent('TakeHostage:server:beSearched', searchPlayerSrc, false)
+	end
+end)
+
 RegisterNetEvent("TakeHostage:targetAvailable", function(targetSrc)
 	local canTakeHostage = false
 	local weapon = nil
@@ -242,6 +256,18 @@ exports.ox_target:addGlobalPlayer({
         end,
         onSelect = function(data)
             callTakeHostage(data.entity)
+        end
+    },
+	{
+        name = 'searchplayer',
+        icon = 'fas fa-user-lock', -- 可换成你喜欢的 FontAwesome 图标
+        label = '搜身',
+		distance = 1.0, -- ox_target 内部控制交互距离
+		canInteract = function(entity, coords, name)
+            return not (exports['ars_ambulancejob']:isDead() or exports['origen_police']:isHandcuffed() or exports['ars_ambulancejob']:isEscorted())
+        end,
+        onSelect = function(data)
+            searchPlayer(data.entity)
         end
     }
 })

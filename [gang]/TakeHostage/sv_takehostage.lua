@@ -20,6 +20,40 @@ AddEventHandler("TakeHostage:checkTargetStatus", function(targetSrc)
 		TriggerClientEvent("TakeHostage:targetAvailable", src, targetSrc)
 	end
 end)
+
+RegisterServerEvent("TakeHostage:server:searchPlayer", function(targetSrc)
+	TriggerClientEvent('TakeHostage:client:beSearched', targetSrc, source)
+end)
+
+RegisterServerEvent("TakeHostage:server:beSearched", function(searchPlayerSrc, canBeSearched)
+	local src = source
+	if not canBeSearched then 
+		TriggerClientEvent('ox_lib:notify', searchPlayerSrc, {
+			title = '搜身失败',
+			description = '对面未处于投降或虚弱状态',
+			type = 'error'
+		})
+        return 
+	end
+	local searchPlayerPed = GetPlayerPed(searchPlayerSrc)
+    local targetPed = GetPlayerPed(src)
+    local searchPlayerCoords = GetEntityCoords(searchPlayerPed)
+    local targetCoords = GetEntityCoords(targetPed)
+	if #(searchPlayerCoords - targetCoords) > 1.5 then 
+		TriggerClientEvent('ox_lib:notify', searchPlayerSrc, {
+			title = '搜身失败',
+			description = '距离太远了',
+			type = 'error'
+		})
+        return 
+    end
+	TriggerClientEvent('ox_lib:notify', src, {
+		title = '警告',
+		description = '您正在被搜身',
+		type = 'error'
+	})
+	exports['qb-inventory']:OpenInventoryById(searchPlayerSrc, src)
+end)
 --
 
 RegisterServerEvent("TakeHostage:sync")
