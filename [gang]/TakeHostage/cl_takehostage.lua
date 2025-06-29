@@ -1,6 +1,7 @@
 -----------------------------------------------------------------
 --TakeHostage by Robbster, do not redistrbute without permission--
 ------------------------------------------------------------------
+local QBCore = exports['qb-core']:GetCoreObject()
 
 local takeHostage = {
 	allowedWeapons = {
@@ -267,7 +268,19 @@ exports.ox_target:addGlobalPlayer({
             return not (exports['ars_ambulancejob']:isDead() or exports['origen_police']:isHandcuffed() or exports['ars_ambulancejob']:isEscorted())
         end,
         onSelect = function(data)
-            searchPlayer(data.entity)
+			QBCore.Functions.Progressbar("search_player", "准备搜身...", 3000, false, true, {
+				disableMovement = false,
+				disableCarMovement = false,
+				disableMouse = false,
+				disableCombat = true,
+			}, {
+				animDict = "anim@gangops@facility@servers@bodysearch@",
+				anim = "player_search",
+				flags = 49,
+			}, {}, {}, function()
+				StopAnimTask(ped, "anim@gangops@facility@servers@bodysearch@", "player_search", 1.0)
+            	searchPlayer(data.entity)
+			end)
         end
     }
 })
